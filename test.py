@@ -21,17 +21,17 @@ crafting = [['furnace', 'cobblestone', 8, 1],
 ['stick', 'wood_plank', 2, 4],
 ['fishing_rod', 'stick', 3, 'string', 2, 1],
 ['bucket', 'iron', 3, 1],
-['torch', 'coal', 1,'stick', 1, 2],
-['torch', 'charcoal', 1,'stick', 1, 2]]
+['torch', 'coal', 1,'stick', 1, 2]]
+
 
 
 cook_output = [['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
-['gold_ore', 'gold'], ['cobblestone', 'stone'], ['log', 'charcoal'], ['raw_fish', 'cooked_fish'],
+['gold_ore', 'gold'], ['cobblestone', 'stone'], ['log', 'coal'], ['raw_fish', 'cooked_fish'],
 ['raw_lambchop', 'cooked_lambchop'], ['raw_chicken', 'cooked_chicken']]
 
 inventory = [['torch', 1]]
 
-fuel = [['charcoal', 8], ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]]
+fuel = [['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]]
 
 edible = [['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
 ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
@@ -111,7 +111,7 @@ def eat():
     food_list = []
     for i in inventory:
         for x in edible:
-            if x[0] == i[0]:
+            if x[0] == i[0] and i[1] >= 1:
                 food_list.append(x[0])
 
     print("What are you hungry for?")
@@ -321,16 +321,12 @@ def river():
         select = input("> ")
         if select == 'y':
             fill_bucket()
-        else:
-            river()
 
     elif rod == True:
         print("would you like to fish?(y/n) ")
         select = input("> ")
         if select == 'y':
             fish()
-        else:
-            river()
 
     else:
         print("Sorry there's nothing for you here.")
@@ -348,7 +344,7 @@ def fill_bucket():
         z += 1
     
     for i in inventory:
-        if i[0] == 'bucket':
+        if i[0] == 'bucket' and i[1] >= 1:
             store('bucket', -1)
             store('water_bucket', 1)
 
@@ -806,7 +802,7 @@ def tame():
     bone = 0
     global damage
     for i in inventory:
-        if i[0] == 'bone':
+        if i[0] == 'bone' and i[1] >= 1:
             bone = True
     if bone == True:
         print("Use bone? (y/n)")
@@ -835,6 +831,8 @@ def furnace():
     ape = 0
     quantity_unit = 0
     quantity_fuel = 0
+    select_unit = 0
+    select_fuel = 0
     can_cook = False
     have_fuel = False
     cook_list = []
@@ -843,11 +841,11 @@ def furnace():
         cook_list.append(i[0])
 
     for i in inventory:
-        if i[0] in cook_list and i[1] != 0:
+        if i[0] in cook_list and i[1] >= 1:
             can_cook = True
     for i in inventory:
         for x in fuel:
-            if x[0] == i[0] and i[0] != 0:
+            if x[0] == i[0] and i[1] >= 1:
                 have_fuel = True
                 fuel_list.append(x[0])
 
