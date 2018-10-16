@@ -946,10 +946,6 @@ def furnace():
             print("No fuel!")
         input("> ")
 
-###TEST
-store('furnace', 1)
-store('iron_ore', 3)
-store('log', 10)
 
 
 a4()
