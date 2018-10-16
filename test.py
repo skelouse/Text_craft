@@ -101,7 +101,7 @@ def craft():
         
     
 def a2():
-    print("@@@@@ Skelouse @@@@@")
+    print("@@@@@      Skelouse      @@@@@")
 
 def eat():
     global health
@@ -586,7 +586,7 @@ def kill(mob):
     
 
 def a1():
-    print("@@@@@    TEXTCRAFT       @@@@@")
+    print("@@@@@      TEXTCRAFT     @@@@@")
 #['zombie', 'skeleton','spider', 'witch', 'slime', 'creeper']
 def fight(mob):
     global health
