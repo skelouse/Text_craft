@@ -427,7 +427,7 @@ def deep_cave():
     select = input("> ")
 
     for i in inventory:
-        if i[0] == 'torch':
+        if i[0] == 'torch' and i[1] > 0:
             have_torch = True
 
     if select == 'y' and have_torch == True:
