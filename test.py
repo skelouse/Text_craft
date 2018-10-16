@@ -101,7 +101,7 @@ def craft():
         
     
 def a2():
-    print("@@@@@ Skelous @@@@@")
+    print("@@@@@ Skelouse @@@@@")
 
 def eat():
     global health
