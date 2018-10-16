@@ -449,6 +449,7 @@ def deep_cave():
             deep_cave()
     elif select == 'y' and have_torch == False:
         print("You're out of torches, returning to surface")
+        input("> ")
         height = 64
 
     elif select == 'n':
