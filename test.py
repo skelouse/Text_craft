@@ -21,8 +21,8 @@ crafting = [['furnace', 'cobblestone', 8, 1],
 ['stick', 'wood_plank', 2, 4],
 ['fishing_rod', 'stick', 3, 'string', 2, 1],
 ['bucket', 'iron', 3, 1],
-['torch', 'coal', 1,'stick', 1, 4],
-['torch', 'charcoal', 1,'stick', 1, 4]]
+['torch', 'coal', 1,'stick', 1, 2],
+['torch', 'charcoal', 1,'stick', 1, 2]]
 
 
 cook_output = [['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
@@ -349,7 +349,7 @@ def fill_bucket():
     
     for i in inventory:
         if i[0] == 'bucket':
-            store(i[0], -1)
+            store('bucket', -1)
             store('water_bucket', 1)
 
 
@@ -792,7 +792,7 @@ def view_inventory():
     z = 0
     for i in inventory:
         if i != None and i[1] != 0:
-            print(f"#{x}", i[0], " - " ,i[1], end = "   ")
+            print(f"#{x}", i[0], " - " ,i[1], end = " ")
             z += 1
             if z == 4:
                 print("")
@@ -1018,7 +1018,6 @@ while select != 'q':
     
     else:
         print("Try again")
-
 
 
 
