@@ -1180,14 +1180,14 @@ def view_equipment():
     percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
     equipment_fresh = [[]]
 
+    print(f"Current - {current_pickaxe[0]} {percentage2}%")
     #[['wooden_pickaxe', 4, 1, 59], []]
+
     for i in equipment:
         equipment_fresh[x] = i
         equipment_fresh[x].append(x + 1)
         x += 1
-
-    print(f"Current - {current_pickaxe[0]} {percentage2}%")
-
+    
     for i in equipment_fresh:
         if i != None and len(equipment_fresh[0]) > 0:
             if i[1] != 0:
@@ -1219,15 +1219,19 @@ def view_equipment():
             store(x, -1)
 
             for i in picks:
-                if select == i:
-                    print(current_pickaxe)
-                    
-                    equipment.append(current_pickaxe)
-                    print(equipment)
+                if select == i:                    
+                    old_equipment(current_pickaxe)                    
                     current_pickaxe = x
                     print(f"{x[0]} equipped!")
                     input("Exit")
 
+def old_equipment(x):
+    if x[0] != 'fist':
+        if len(x) == 4:
+            equipment.append(x)
+        else:
+            x.pop(4)
+            equipment.append(x)
 
 def tame():
 
