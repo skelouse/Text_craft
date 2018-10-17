@@ -11,34 +11,114 @@ damage = 1
 clock = 0
 
 
-
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
 # for 1 material [item to craft, material, quantity of material, quantity received]
 # for 2 material [item to creaft, material, quantity of material, material2, quantity of material2, quantity received]
-crafting = [['furnace', 'cobblestone', 8, 1], 
+crafting = [
+['furnace', 'cobblestone', 8, 1], 
 ['bed', 'wool', 3, 'wood_plank', 3, 1],
 ['wood_plank', 'log', 1, 4], 
 ['stick', 'wood_plank', 2, 4],
 ['fishing_rod', 'stick', 3, 'string', 2, 1],
 ['bucket', 'iron', 3, 1],
 ['torch', 'coal', 1,'stick', 1, 4],
-['crafting_table', 'wood_plank', 4, 1]]
-####MUST MOVE THE BRACKET AND ADD COMMA FOR NEW ITEM
+['crafting_table', 'wood_plank', 4, 1]
+]
 
 
-cook_output = [['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
+
+cook_output = [
+['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
 ['gold_ore', 'gold'], ['cobblestone', 'stone'], ['log', 'coal'], ['raw_fish', 'cooked_fish'],
-['raw_lambchop', 'cooked_lambchop'], ['raw_chicken', 'cooked_chicken']]
+['raw_lambchop', 'cooked_lambchop'], ['raw_chicken', 'cooked_chicken']
+]
 
-inventory = [['torch', 1]]
+inventory = [
+['torch', 1]
+]
 
-fuel = [['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]]
+fuel = [
+['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]
+]
 
-edible = [['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
+edible = [
+['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
 ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
-['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]]
+['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]
+]
+
+# To set an achievement up to something achievements_list[list number][0] += 1 
+# [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
+achievements_list = [
+# 0
+[0, 0, 'Dirt miner',100 , 'mining 100 dirt'],
+# 1
+[0, 0, 'x',13 , 'asd'],
+# 2
+[0, 0, 'x',13 , 'asd'],
+# 3
+[0, 0, 'x',13 , 'asd'],
+# 4
+[0, 0, 'x',13 , 'asd'],
+# 5
+[0, 0, 'x',13 , 'asd'],
+# 6
+[0, 0, 'x',13 , 'asd'],
+# 7
+[0, 0, 'x',13 , 'asd'],
+# 8
+[0, 0, 'x',13 , 'asd'],
+# 9
+[0, 0, 'x',13 , 'asd'],
+# 10
+[0, 0, 'x',13 , 'asd']
+]
+achieved = []
+
+
+# x is whether to show all achievements or check for gained and notify(0 or 1)
+def achievements(x):
+    has = False
+    if x == 0:
+        for i in achievements_list:
+            if i[1] == 1:
+                print(i[2],'*')
+                print("")
+                has = True
+
+        if has == False:
+            print("You don't have any, lol.")   
+
+    else:
+        for i in achievements_list:
+            if i[1] == 0 and i[0] >= i[3]:
+                achieved.append(i[2])
+                i[1] = 1
+                print("=========================")
+                print("=========================")
+                print(f"You got {i[2]} achievement for {i[4]}!")
+                print("=========================")
+                print("=========================")
+
+
+
+def menu():
+    print("(a)chievements")
+    print("(q)uit")
+    select = input("> ")
+    if select == 'a':
+        achievements(0)
+        input("> ")
+    elif select == 'q':
+        choice = input("Are you sure you want to quit and lose your progress? (y/n)")
+        if choice == 'y':
+            print("BYEEEE")
+            time.sleep(3)
+            exit(0)
+    else:
+        start()
 
 
 def craft():
@@ -228,11 +308,8 @@ def eat():
             health = 100
         input("> ")
         
-
-        
     else:
-        print("Not valid")
-        input("> ")
+        start()
 
 
 
@@ -264,6 +341,8 @@ def ore(height):
     if height < 61:
         return mineable[random.randint(0, (len(mineable)-1))]
     else:
+        if achievements_list[0][1] == 0:
+            achievements_list[0][0] += 1 
         return 'dirt'
 
 def cave_ore(height):
@@ -934,6 +1013,7 @@ def furnace():
     select_fuel = 0
     can_cook = False
     have_fuel = False
+    furnace_have = False
     cook_list = []
     fuel_list = []
 
@@ -1072,7 +1152,8 @@ def start():
 (d)ig down
 (e)at
 (f)urnace
-(i)nventory""")
+(i)nventory
+(m)enu""")
 
 
     cls()
@@ -1080,16 +1161,21 @@ def start():
     clock += 1
     if clock == 40:
         night = True
-        print("")
-        print("The sun has fallen")
-        print("")
+        print("=========================")
+        print("=========================")
+        print("The sun has FALLEN!")
+        print("=========================")
+        print("=========================")
     if clock == 80:
         night = False
-        print("")
-        print("The sun has risen")
-        print("")
+        print("=========================")
+        print("=========================")
+        print("The sun has RISEN!")
+        print("=========================")
+        print("=========================")
         clock = 0
 
+    achievements(1)
 
 
 
@@ -1097,8 +1183,7 @@ def start():
     print('health ('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
 
     print(question)
-    
-    print("(q)uit")
+
 
     select = input("> ")
 
@@ -1121,24 +1206,16 @@ def start():
     
     elif select == 'e':# eat
         eat()
-
-    elif select == 'q':
-        choice = input("Are you sure you want to quit and lose your progress? (y/n)")
-        if choice == 'y':
-            print("BYEEEE")
-            time.sleep(3)
-            exit(0)
-        else:
-            select = ''
-
+    
+    elif select == 'm':# menu
+        menu()
     
     else:
         cls()
         print("Try again")
 
-while select != 'q':
+while True:
     start()
-
 
 
 
