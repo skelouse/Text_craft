@@ -48,9 +48,9 @@ inventory = [
 
 # type, current durability
 equipment = [
-    ['wooden_pickaxe', 4, 1, 59]
+    []
 ]
-current_pickaxe = ['wooden_pickaxe', 4, 1, 59]
+current_pickaxe = []
 
 #type, current durability, power, total durability
 tools = [
@@ -1177,53 +1177,60 @@ def view_equipment():
     y = 1
     old_pick = 0
     percentage1 = 0
-    percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
+    if len(current_pickaxe) > 1:
+        percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
+        print(f"Current - {current_pickaxe[0]} {percentage2}%")
     equipment_fresh = [[]]
 
-    print(f"Current - {current_pickaxe[0]} {percentage2}%")
+    
     #[['wooden_pickaxe', 4, 1, 59], []]
 
-    for i in equipment:
-        equipment_fresh[x] = i
-        equipment_fresh[x].append(x + 1)
-        x += 1
-    
-    for i in equipment_fresh:
-        if i != None and len(equipment_fresh[0]) > 0:
-            if i[1] != 0:
-                percentage1 = math.ceil( 100* (i[1]) / i[3])
-                print(f"#{y} {i[0]} {percentage1}%", end = " ")
-                z += 1
-                if z == 2:
-                    print("")
-                    z = 0
-                y += 1
-        else:
-            print("You don't have any other equipment.")
-            input("Exit")
+    if len(equipment[0]) > 1:
+        for i in equipment:
+            equipment_fresh[x] = i
+            equipment_fresh[x].append(x + 1)
+            x += 1
+        
+        for i in equipment_fresh:
+            if i != None and len(equipment_fresh[0]) > 0:
+                if i[1] != 0:
+                    percentage1 = math.ceil( 100* (i[1]) / i[3])
+                    print(f"#{y} {i[0]} {percentage1}%", end = " ")
+                    z += 1
+                    if z == 2:
+                        print("")
+                        z = 0
+                    y += 1
+            else:
+                print("You don't have any other equipment.")
+                input("Exit")
 
-    print("")
-    print("Equip a #?")
-    try:
-        select = input("# ")
-        select = int(select)
-    except (TypeError, ValueError):
-        print("Type a number")
-        input("(Exit)")
-    for x in equipment_fresh:
-        if select == x[4]:
-            select = x[0]
+        print("")
+        print("Equip a #?")
+        try:
+            select = input("# ")
+            select = int(select)
+        except (TypeError, ValueError):
+            print("Type a number")
+            input("(Exit)")
+        for x in equipment_fresh:
+            if select == x[4]:
+                select = x[0]
 
-    for x in equipment:
-        if select == x[0]:
-            store(x, -1)
+        for x in equipment:
+            if select == x[0]:
+                store(x, -1)
 
-            for i in picks:
-                if select == i:                    
-                    old_equipment(current_pickaxe)                    
-                    current_pickaxe = x
-                    print(f"{x[0]} equipped!")
-                    input("Exit")
+                for i in picks:
+                    if select == i:                    
+                        old_equipment(current_pickaxe)                    
+                        current_pickaxe = x
+                        print(f"{x[0]} equipped!")
+                        input("Exit")
+    else:
+        print("You don't have any equipment")
+        input("Exit")    
+
 
 def old_equipment(x):
     if x[0] != 'fist':
@@ -1232,6 +1239,7 @@ def old_equipment(x):
         else:
             x.pop(4)
             equipment.append(x)
+
 
 def tame():
 
@@ -1261,6 +1269,7 @@ def tame():
     else:
         print("Sorry you don't have any more bones")
         input("> ")
+
 
 # cook_output
 def furnace():
@@ -1389,6 +1398,7 @@ def furnace():
             print("No fuel!")
         input("> ")
 
+
 # tick(0) checks the clock
 # tick(x) checks clock and moves time forward by x
 def tick(x):
@@ -1427,7 +1437,8 @@ def tick(x):
             print("=========================")
             print("=========================")
             clock = 0
-        
+
+
 a4()
 select = 0
 def start():
@@ -1494,6 +1505,7 @@ def start():
 
 while True:
     start()
+
 
 
 
