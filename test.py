@@ -15,7 +15,7 @@ clock = 0
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
-
+cls()
 # for 1 material [item to craft, material, quantity of material, quantity received]
 # for 2 material [item to creaft, material, quantity of material, material2, quantity of material2, quantity received]
 crafting = [
@@ -28,7 +28,6 @@ crafting = [
 ['torch', 'coal', 1,'stick', 1, 4],
 ['crafting_table', 'wood_plank', 4, 1]
 ]
-
 
 
 cook_output = [
@@ -54,6 +53,18 @@ semi_edible = [
 'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
 'raw_lambchop', 'rotten_flesh'
 ]
+
+animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
+'cow', 'cow', 'sheep', 'sheep', 'sheep']
+
+animal_night = [
+'wolf', 'chicken', 'pig', 'cow','sheep',
+'zombie', 'zombie', 'skeleton', 'skeleton',
+'witch', 'slime', 'creeper', 'spider'
+]
+
+friend = ['chicken', 'pig', 'cow', 'sheep']
+foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
 
 # To set an achievement up to something achievements_list[list number][0] += 1 
 # [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
@@ -107,7 +118,6 @@ def achievements(x):
                 print(f"You got {i[2]} achievement for {i[4]}!")
                 print("=========================")
                 print("=========================")
-
 
 
 def menu():
@@ -268,17 +278,16 @@ def craft():
                         select2 = select2 * e[3]
 
             print(f"Crafting {select}")
+            tick(1)
             while z != 3:
                 print(".")
                 time.sleep(.5)
                 z += 1
             print(msg)
             input("> ")
-
     
 def a2():
     print("@@@@@      Skelouse      @@@@@")
-
 def eat():
     global health
     health_added = 0
@@ -306,6 +315,7 @@ def eat():
             print("Ehh")
             for x in edible:
                 if x[0] == select:
+                    tick(1)
                     health_added = x[1]
                     food_selected = x[0]
                     store(food_selected, -1)
@@ -322,6 +332,7 @@ def eat():
             print("Yuck")
             for x in edible:
                 if x[0] == select:
+                    tick(1)
                     health_added = -(x[1])
                     food_selected = x[0]
                     store(food_selected, -1)
@@ -338,6 +349,7 @@ def eat():
         print("Yummy")
         for x in edible:
             if x[0] == select:
+                tick(1)
                 health_added = x[1]
                 food_selected = x[0]
         
@@ -351,14 +363,15 @@ def eat():
 
 
 
-
 # ['stick', 'wood_plank', 2, 4]
-# ['fishing_rod', 'stick', 3, 'string', 2, 1]]
-# x is the item to add
-# y is the quanity
-# This is how all items are stored into the inventory
+    # ['fishing_rod', 'stick', 3, 'string', 2, 1]]
+    # x is the item to add
+    # y is the quanity
+    # This is how all items are stored into the inventory
 def store(x,y):
+
     added = False
+
     for i in inventory:
         if i[0] == x:
             i[1] = i[1] + y
@@ -367,31 +380,37 @@ def store(x,y):
     if added != True:
         inventory.append([x, y])
 
+
 # Takes current height and returns the available ores
 def ore(height):
 
     ores = [['bedrock', 5], ['diamond', 14], ['redstone', 14],
     ['gold_ore', 30], ['lapis', 30], ['lava', 30], ['iron_ore', 61], ['coal', 61], ['gravel', 61],
-    ['cobblestone', 61]]
+    ['cobblestone', 61]]   
     mineable = []
+
     for i in ores:
         if i[1] >= height:
             mineable.append(i[0])
+
     if height < 61:
         return mineable[random.randint(0, (len(mineable)-1))]
     else:
         if achievements_list[0][1] == 0:
-            achievements_list[0][0] += 1 
+            achievements_list[0][0] += 1             
         return 'dirt'
+
 
 def cave_ore(height):
 
     ores = [['diamond', 14], ['redstone', 14],
     ['gold_ore', 30], ['lapis', 30], ['iron_ore', 61], ['coal', 61]]
     mineable = []
+
     for i in ores:
         if i[1] >= height:
             mineable.append(i[0])
+
     if height < 61:
         return mineable[random.randint(0, (len(mineable)-1))]
     else:
@@ -399,10 +418,12 @@ def cave_ore(height):
 
 
 def dig_down(height):
+
     global health
     block = 0
     z = 0
     bucket = False
+    tick(1)
 
     print("You mine the block below you")
     while z != 3:
@@ -410,6 +431,7 @@ def dig_down(height):
         time.sleep(.5)
         z += 1
     block = ore(height)
+
 
     
     if block != 'bedrock' and block != 'lava':
@@ -421,10 +443,8 @@ def dig_down(height):
         if select == 'c':
             print("You climb back to the surface")
             input("> ")
-
         elif select == 'd':
             dig_down(height)
-        
         else:
             print("Returning to surface because you can't type")
             input("> ")
@@ -440,7 +460,6 @@ def dig_down(height):
                 print("OUCH LAVA BURNS!")
                 print("Bring a water bucket next time.")
                 dead()
-            
             else:
                 print("You use your water bucket to turn the lava into obsidian")
                 print("You also lose 10 hp from well, lava")
@@ -457,10 +476,8 @@ def dig_down(height):
                 if select == 'c':
                     print("You climb back to the surface")
                     input("> ")
-
                 elif select == 'd':
                     dig_down(height)
-        
                 else:
                     print("Returning to surface because you can't type")
                     input("> ")
@@ -477,6 +494,8 @@ def a4():
 
 # Defines what you find on an adventure
 def adventure():
+
+    tick(1)
     search = ['tree','tree', 'tree', 'tree',
  'tree', 'tree', 'river', 'animal', 'animal', 'cave']
     end = search[random.randint(0, (len(search)-1))]
@@ -489,8 +508,10 @@ def adventure():
         select = input("Do you want to cut it down(y/n)")
         if select == 'y':
             break_tree()
-        else:
+        elif select == 'n':
             adventure()
+        else:
+            pass
 
     elif end == 'river':
         river()
@@ -503,6 +524,7 @@ def adventure():
 
 
 def river():
+
     rod = False
     bucket = False
     print("You see a river!")
@@ -522,7 +544,7 @@ def river():
         elif select == 'b':
             fill_bucket()
         else:
-            river()
+            pass
 
     elif bucket == True:
         print("would you like to fill a bucket with water?(y/n)")
@@ -538,11 +560,17 @@ def river():
 
     else:
         print("Sorry there's nothing for you here.")
-        input("> ")
-
+        print("Keep adventuring?(y/n)")
+        select = input("> ")
+        if select == 'y':
+            adventure()
+        else:
+            start()
 
 
 def fill_bucket():
+
+    tick(1)
     z = 0
     print("Your bucket fills up")
     
@@ -556,19 +584,18 @@ def fill_bucket():
             store('bucket', -1)
             store('water_bucket', 1)
 
-
-cls()
   
-
-
 def fish():
+
     print("You throw in your line")
+    tick(1)
     select = 0
     z = 0
     while z != 10:
         print(".")
         time.sleep(1)
         z += 1
+
     if random.randint(0,100) < 30:
         print("You caught a fish!")
         store('raw_fish', 1)
@@ -582,10 +609,15 @@ def fish():
     if select == 'n':
         print("The river waves goodbye")
         input(">")
-    else:
+    elif select == 'y':
         fish()
+    else:
+        pass
+
 
 def cave():
+
+    tick(1)
     global height
     z = 0
     search = ['ore', 'monster']
@@ -598,6 +630,7 @@ def cave():
     if select == 'y':
         height -= 10
         find = search[random.randint(0,1)]
+
         if find == 'ore':
             block = cave_ore(height)
             print(f"You mine one {block}")
@@ -607,7 +640,6 @@ def cave():
                 z += 1
             store(block, 1)    
             deep_cave()
-            
         else:
             fight_mob(search_mob[random.randint(0,2)])
             deep_cave()
@@ -616,12 +648,14 @@ def cave():
         adventure()
 
     else:
-        cave()
+        start()
 def a3():
     print("@@@@@      2018          @@@@@")
     input("> ")
 def deep_cave():
+
     global height
+    tick(1)
     z = 0
     have_torch = False
     search = ['ore', 'monster']
@@ -638,6 +672,7 @@ def deep_cave():
         store('torch', -1)
         height -= 10
         find = search[random.randint(0,1)]
+
         if find == 'ore':
             block = cave_ore(height)
             print(f"You mine one {block}")
@@ -647,10 +682,10 @@ def deep_cave():
                 z += 1
             store(block, 1)    
             deep_cave()
-            
         else:
             fight_mob(search_mob[random.randint(0,2)])
             deep_cave()
+
     elif select == 'y' and have_torch == False:
         print("You're out of torches, returning to surface")
         input("> ")
@@ -665,14 +700,18 @@ def deep_cave():
         print("Learn to type")
         deep_cave()
 
+
 def break_tree():
+
     z = 0
     amount = 0
     amount2 = 0
+
     if random.randint(0,100) < 10:
         x = 1
     else:
         x = 0
+
     if x == 0:
         print("breaking tree")
         while z != 3:
@@ -681,14 +720,14 @@ def break_tree():
             z += 1
         amount = random.randint(4,8)
         store('log', amount)
+        print(f"You got {amount} logs!")
+
         if random.randint(0,100) < 10:
             amount2 = random.randint(1,4)
             print(f"You got {amount2} apples!")
             store('apple', amount2)
         else:
             print("Guess you're going to the doctor today!")
-
-        print(f"You got {amount} logs!")
         input("> ")
 
     
@@ -703,49 +742,56 @@ def break_tree():
         print(f"You got {amount} logs!")
         input("> ")
 
-
 #Defines what mob you will find on an adventure
 def mob():
+
+    global animal
+    global animal_night
+    tick(1)
+    mob_type = 0
+
     if night == False:
-        animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
-    'cow', 'cow', 'sheep', 'sheep', 'sheep']
+        mob_type = animal
 
     else:
-        animal = ['wolf', 'chicken', 'pig', 'cow'
-    , 'sheep', 'zombie', 'zombie', 'skeleton', 'skeleton',
-    'witch', 'slime', 'creeper', 'spider']
+        mob_type = animal_night
 
-    mob = animal[random.randint(0, (len(animal)-1))]
-
-
+    mob = mob_type[random.randint(0, (len(animal)-1))]
     print(f"You run into a {mob}")
     fight_mob(mob)
 
 
 def fight_mob(mob):
+
     global health
+    global friend
+    global foe
+
     select = 0
     wolf = ['wolf']
-    friend = ['chicken', 'pig', 'cow', 'sheep']
-    foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
+    
 
     if (mob) in friend:
         print(f"Would you like to kill the {mob} (y/n)")
         select = input("> ")
         if select == 'y':
             kill(mob)
-        else:
+        elif select == 'n':
             adventure()
+        else:
+            start()
 
     elif (mob) in wolf:
-        print("You find a wolf!  Would you like to tame or kill it? (t/k)")
+        print("You find a wolf!  Would you like to tame it?(y/n)")
         select = input("")
-        if select == 't':
+        if select == 'y':
             tame()
 
+        elif select == 'n':
+            advanture()
+
         else:
-            print("You kill the wolf, giving you nothing")
-            input("> ")
+            start()
 
     else:
         print(f"Fight the {mob} or run (f/r)")
@@ -761,9 +807,9 @@ def fight_mob(mob):
                 health -= 5
                 input("> ")
 
-
-#['chicken', 'pig', 'cow', 'sheep]
+# function for killing['chicken', 'pig', 'cow', 'sheep]
 def kill(mob):
+
     if mob == 'sheep':
         print(f"You kill the {mob}!")
         amount = random.randint(0,3)
@@ -801,8 +847,10 @@ def kill(mob):
 
 def a1():
     print("@@@@@      TEXTCRAFT     @@@@@")
-#['zombie', 'skeleton','spider', 'witch', 'slime', 'creeper']
+
+# function for fighting ['zombie', 'skeleton','spider', 'witch', 'slime', 'creeper']
 def fight(mob):
+
     global health
     global damage
     
@@ -810,12 +858,13 @@ def fight(mob):
 
     if mob == 'zombie':
         mob_health = 20
+
         while mob_health > 0:
+
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The zombie bites you taking {hurt} hp")
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -823,9 +872,9 @@ def fight(mob):
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
-
                 else:
                     print("You miss")
+            # DEATH                    
             if health <= 0:
                 dead()
         
@@ -839,12 +888,13 @@ def fight(mob):
    
     elif mob == 'skeleton':
         mob_health = 20
+
         while mob_health > 0:
+
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The skeleton shoots you taking {hurt} hp")
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -852,10 +902,9 @@ def fight(mob):
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
-                
                 else:
                     print("You miss")
-
+            # DEATH
             if health <= 0:
                 dead()
         
@@ -869,7 +918,9 @@ def fight(mob):
 
     elif mob == 'witch':
         mob_health = 26
+
         while mob_health > 0:
+
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
@@ -880,7 +931,6 @@ def fight(mob):
                 mob_health += 10
                 if mob_health > 26:
                     mob_health = 26
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -890,7 +940,7 @@ def fight(mob):
                     print(f"You hit the {mob} for {damage2} hp")
                 else:
                     print("You miss")
-
+            # DEATH
             if health <= 0:
                 dead()
         
@@ -904,12 +954,13 @@ def fight(mob):
 
     elif mob == 'slime':
         mob_health = 16
+
         while mob_health > 0:
+
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The slime stomps on you taking {hurt} hp")
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -919,7 +970,7 @@ def fight(mob):
                     print(f"You hit the {mob} for {damage2} hp")
                 else:
                     print("You miss")
-
+            # DEATH
             if health <= 0:
                 dead()
         
@@ -934,7 +985,9 @@ def fight(mob):
     elif mob == 'creeper':
         mob_health = 20
         blow_up = False
+
         while mob_health > 0:
+
             if random.randint(0,100) < 10:
                 hurt = random.randint(40,61)
                 health -= hurt
@@ -942,7 +995,6 @@ def fight(mob):
                 mob_health = 0
                 blow_up = True
                 input("> ")
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -953,7 +1005,7 @@ def fight(mob):
 
                 else:
                     print("You miss")
-
+            # DEATH
             if health <= 0:
                 dead()
         
@@ -967,12 +1019,13 @@ def fight(mob):
 
     if mob == 'spider':
         mob_health = 16
+
         while mob_health > 0:
+
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The spider bites you taking {hurt} hp")
-
             else:
                 print("")
                 input("Hit (enter) to attack!")
@@ -983,7 +1036,7 @@ def fight(mob):
 
                 else:
                     print("You miss")
-
+            # DEATH
             if health <= 0:
                 dead()
         
@@ -996,13 +1049,16 @@ def fight(mob):
         
 
 def dead():
+
     print("You die, game over")
     exit(0)
 
 
 def view_inventory():
+
     x = 1
     z = 0
+
     for i in inventory:
         if i != None and i[1] != 0:
             print(f"#{x}", i[0], " - " ,i[1], end = " ")
@@ -1011,16 +1067,20 @@ def view_inventory():
                 print("")
                 z = 0
             x += 1
+
     input("> ")
 
 
 def tame():
+
     select = 0
     bone = 0
     global damage
+
     for i in inventory:
         if i[0] == 'bone' and i[1] >= 1:
             bone = True
+
     if bone == True:
         print("Use bone? (y/n)")
         select = input("> ")
@@ -1042,6 +1102,7 @@ def tame():
 
 # cook_output
 def furnace():
+
     z = 0
     y = 0
     p = 0
@@ -1059,11 +1120,10 @@ def furnace():
     for i in inventory:
         if i[0] == 'furnace':
             furnace_have = True
+
     if furnace_have == False:
         print("Try crafting a furnace first")
         input("> ")
-
-
 
     for i in cook_output:
         cook_list.append(i[0])
@@ -1071,6 +1131,7 @@ def furnace():
     for i in inventory:
         if i[0] in cook_list and i[1] >= 1:
             can_cook = True
+
     for i in inventory:
         for x in fuel:
             if x[0] == i[0] and i[1] >= 1:
@@ -1111,6 +1172,7 @@ def furnace():
                         quantity_fuel = i[1]
                 
                 while ape != 'q':
+
                     print(f"How many would you like to cook? You have {quantity_unit}")
                     print(f"and {select_fuel} only cooks {quantity_fuel}")
                     select = input("> ")
@@ -1165,6 +1227,45 @@ def furnace():
             print("No fuel!")
         input("> ")
 
+# tick(0) checks the clock
+# tick(x) checks clock and moves time forward by x
+def tick(x):
+
+    global clock
+    if x == 0:
+        if clock < 100:
+            print("  Birds are singing in the sunlight...")
+        else:
+            print("  Crickets are chirping in the moonlight...")
+
+    # For sleeping
+    elif x == 100:
+        night = False
+        print("=========================")
+        print("=========================")
+        print("The sun has RISEN!")
+        print("=========================")
+        print("=========================")
+        clock = 0
+
+    else:
+        clock += x
+        if clock == 100:
+            night = True
+            print("=========================")
+            print("=========================")
+            print("The sun has FALLEN!")
+            print("=========================")
+            print("=========================")
+        if clock == 200:
+            night = False
+            print("=========================")
+            print("=========================")
+            print("The sun has RISEN!")
+            print("=========================")
+            print("=========================")
+            clock = 0
+        
 a4()
 select = 0
 def start():
@@ -1194,38 +1295,15 @@ def start():
     (i)nventory
     (m)enu""")
 
-
     cls()
-
-    clock += 1
-    if clock == 40:
-        night = True
-        print("=========================")
-        print("=========================")
-        print("The sun has FALLEN!")
-        print("=========================")
-        print("=========================")
-    if clock == 80:
-        night = False
-        print("=========================")
-        print("=========================")
-        print("The sun has RISEN!")
-        print("=========================")
-        print("=========================")
-        clock = 0
-
+    # Checking time
+    tick(0)
+    # Checking for new achievements
     achievements(1)
-
-
-
-
-    print('Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
+    print('  Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
     print(question)
 
-
     select = input("> ")
-
-
 
     if select == 'i': # inventory
         view_inventory()
