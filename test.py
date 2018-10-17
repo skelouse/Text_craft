@@ -19,52 +19,85 @@ cls()
 # for 1 material [item to craft, material, quantity of material, quantity received]
 # for 2 material [item to creaft, material, quantity of material, material2, quantity of material2, quantity received]
 crafting = [
-['furnace', 'cobblestone', 8, 1], 
-['bed', 'wool', 3, 'wood_plank', 3, 1],
-['wood_plank', 'log', 1, 4], 
-['stick', 'wood_plank', 2, 4],
-['fishing_rod', 'stick', 3, 'string', 2, 1],
-['bucket', 'iron', 3, 1],
-['torch', 'coal', 1,'stick', 1, 4],
-['crafting_table', 'wood_plank', 4, 1]
+    ['furnace', 'cobblestone', 8, 1],
+    ['bed', 'wool', 3, 'wood_plank', 3, 1],
+    ['wood_plank', 'log', 1, 4],
+    ['stick', 'wood_plank', 2, 4],
+    ['fishing_rod', 'stick', 3, 'string', 2, 1],
+    ['bucket', 'iron', 3, 1],
+    ['torch', 'coal', 1,'stick', 1, 4],
+    ['crafting_table', 'wood_plank', 4, 1],
+    ['gold_pickaxe', 'stick', 2, 'gold', 3, 1],
+    ['wooden_pickaxe', 'stick', 2, 'wood_plank', 3, 1],
+    ['stone_pickaxe', 'stick', 2, 'cobblestone', 3, 1],
+    ['iron_pickaxe', 'stick', 2, 'iron', 3, 1],
+    ['diamond_pickaxe', 'stick', 2, 'diamond', 3, 1],
+    
 ]
 
 
 cook_output = [
-['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
-['gold_ore', 'gold'], ['cobblestone', 'stone'], ['log', 'coal'], ['raw_fish', 'cooked_fish'],
-['raw_lambchop', 'cooked_lambchop'], ['raw_chicken', 'cooked_chicken']
+    ['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
+    ['gold_ore', 'gold'], ['cobblestone', 'stone'], ['log', 'coal'], ['raw_fish', 'cooked_fish'],
+    ['raw_lambchop', 'cooked_lambchop'], ['raw_chicken', 'cooked_chicken']
 ]
 
 inventory = [
-['torch', 1]
+    ['torch', 1]
 ]
 
+# type, current durability
+equipment = [
+    ['wooden_pickaxe', 4, 1, 59]
+]
+current_pickaxe = ['wooden_pickaxe', 4, 1, 59]
+
+#type, current durability, power, total durability
+tools = [
+    ['gold_pickaxe', 32, 2, 32], ['wooden_pickaxe', 59, 1, 59], ['stone_pickaxe', 131, 2]
+        , ['iron_pickaxe', 250, 3], ['diamond_pickaxe', 1561, 3]
+]
+
+picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
+
 fuel = [
-['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]
+    ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]
 ]
 
 edible = [
-['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
-['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
-['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]
+    ['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
+    ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
+    ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]
 ]
 semi_edible = [
-'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
-'raw_lambchop', 'rotten_flesh'
+    'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
+    'raw_lambchop', 'rotten_flesh'
 ]
 
 animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
-'cow', 'cow', 'sheep', 'sheep', 'sheep']
+    'cow', 'cow', 'sheep', 'sheep', 'sheep']
 
 animal_night = [
-'wolf', 'chicken', 'pig', 'cow','sheep',
-'zombie', 'zombie', 'skeleton', 'skeleton',
-'witch', 'slime', 'creeper', 'spider'
+    'wolf', 'chicken', 'pig', 'cow','sheep',
+    'zombie', 'zombie', 'skeleton', 'skeleton',
+    'witch', 'slime', 'creeper', 'spider'
 ]
 
 friend = ['chicken', 'pig', 'cow', 'sheep']
 foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
+
+
+#['', ##, (0 for none, 1 for wood pick, 2 for stone pick, 3 for iron pick, 4 for unbreakable)]
+ores = [
+    ['bedrock', 5, 4], ['diamond', 14, 3], ['redstone', 14, 3],
+    ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 2], ['gravel', 61, 0],
+    ['cobblestone', 61, 1], ['dirt', 0, 0]
+]
+
+cave_ores = [
+    ['diamond', 14, 3], ['redstone', 14, 3],
+    ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 2]
+]
 
 # To set an achievement up to something achievements_list[list number][0] += 1 
 # [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
@@ -121,12 +154,20 @@ def achievements(x):
 
 
 def menu():
+
+    print("(e)quipment")
+    print("")
     print("(a)chievements")
     print("(q)uit")
     select = input("> ")
+
     if select == 'a':
         achievements(0)
         input("> ")
+    
+    elif select == 'e':
+        view_equipment()
+
     elif select == 'q':
         choice = input("Are you sure you want to quit and lose your progress? (y/n)")
         if choice == 'y':
@@ -371,22 +412,38 @@ def eat():
 def store(x,y):
 
     added = False
+    in_tools = False
+    z = 0
+    remove = 0
 
-    for i in inventory:
-        if i[0] == x:
-            i[1] = i[1] + y
-            added = True
 
-    if added != True:
-        inventory.append([x, y])
+    for i in tools:
+        if x[0] == i[0]:
+            if y > 0:
+                equipment.append(i)
+                in_tools = True
+
+            else:
+                for i in equipment:
+                    if i == x:
+                        equipment.remove(i)
+                        in_tools = True       
+
+
+    if in_tools == False:
+        for i in inventory:
+            if i[0] == x:
+                i[1] = i[1] + y
+                added = True
+
+        if added != True:
+            inventory.append([x, y])
 
 
 # Takes current height and returns the available ores
 def ore(height):
 
-    ores = [['bedrock', 5], ['diamond', 14], ['redstone', 14],
-    ['gold_ore', 30], ['lapis', 30], ['lava', 30], ['iron_ore', 61], ['coal', 61], ['gravel', 61],
-    ['cobblestone', 61]]   
+    global ores
     mineable = []
 
     for i in ores:
@@ -403,11 +460,10 @@ def ore(height):
 
 def cave_ore(height):
 
-    ores = [['diamond', 14], ['redstone', 14],
-    ['gold_ore', 30], ['lapis', 30], ['iron_ore', 61], ['coal', 61]]
+    global cave_ores
     mineable = []
 
-    for i in ores:
+    for i in cave_ores:
         if i[1] >= height:
             mineable.append(i[0])
 
@@ -416,7 +472,7 @@ def cave_ore(height):
     else:
         return 'dirt'
 
-
+#######UPDATE FOR PICKAXE
 def dig_down(height):
 
     global health
@@ -435,10 +491,15 @@ def dig_down(height):
 
     
     if block != 'bedrock' and block != 'lava':
-        print(f"You get 1 {block}!")
+        
+        if pickaxe(block) == True:
+            print(f"You get 1 {block}!")
+            store(block, 1)
+        else:
+            print("Try using a better pickaxe")
+
         height -= 1
         print("Climb back up or keep digging(c/d)")
-        store(block, 1)
         select = input("> ")
         if select == 'c':
             print("You climb back to the surface")
@@ -467,8 +528,13 @@ def dig_down(height):
                 block = 'obsidian'
                 store('water_bucket', -1)
                 store('bucket', 1)
-                print(f"You get 1 {block}!")
-                store(block, 1)
+
+                if pickaxe(block) == True:
+                    print(f"You get 1 {block}!")
+                    store(block, 1)
+                else:
+                    print("Try using a better pickaxe")
+
                 height -= 1
                 print("Climb back up or keep digging(c/d)")
                 select = input("> ")
@@ -486,6 +552,25 @@ def dig_down(height):
             print("You can't mine through bedrock silly!")
             print("Returning to surface")
             input("> ")
+
+# current_pickaxe = ['wooden_pickaxe', 33, 1, 59]
+def pickaxe(block):
+    global current_pickaxe
+    can_mine = False
+    for i in ores:
+        if i[0] == block and i[2] <= current_pickaxe[2]:
+            broken = True
+            if current_pickaxe[1] > 0:
+                current_pickaxe[1] -= 1
+
+            if current_pickaxe[1] == 0:
+                print("Your pickaxe has broken...")
+                current_pickaxe = ['fist', -1, 0, 1]
+
+            return True
+    if can_mine == False:
+        return False
+
 
 def a4():
     a1()
@@ -638,7 +723,11 @@ def cave():
                 print(".")
                 time.sleep(.5)
                 z += 1
-            store(block, 1)    
+            if pickaxe(block) == True:
+                print(f"You get 1 {block}!")
+                store(block, 1)
+            else:
+                print("Try using a better pickaxe")   
             deep_cave()
         else:
             fight_mob(search_mob[random.randint(0,2)])
@@ -649,9 +738,13 @@ def cave():
 
     else:
         start()
+
+
 def a3():
     print("@@@@@      2018          @@@@@")
     input("> ")
+
+
 def deep_cave():
 
     global height
@@ -680,7 +773,11 @@ def deep_cave():
                 print(".")
                 time.sleep(.5)
                 z += 1
-            store(block, 1)    
+            if pickaxe(block) == True:
+                print(f"You get 1 {block}!")
+                store(block, 1)
+            else:
+                print("Try using a better pickaxe")   
             deep_cave()
         else:
             fight_mob(search_mob[random.randint(0,2)])
@@ -1067,8 +1164,69 @@ def view_inventory():
                 print("")
                 z = 0
             x += 1
-
+    print("")
     input("> ")
+
+
+def view_equipment():
+
+    global picks
+    global current_pickaxe
+    x = 0
+    z = 0
+    y = 1
+    old_pick = 0
+    percentage1 = 0
+    percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
+    equipment_fresh = [[]]
+
+    #[['wooden_pickaxe', 4, 1, 59], []]
+    for i in equipment:
+        equipment_fresh[x] = i
+        equipment_fresh[x].append(x + 1)
+        x += 1
+
+    print(f"Current - {current_pickaxe[0]} {percentage2}%")
+
+    for i in equipment_fresh:
+        if i != None and len(equipment_fresh[0]) > 0:
+            if i[1] != 0:
+                percentage1 = math.ceil( 100* (i[1]) / i[3])
+                print(f"#{y} {i[0]} {percentage1}%", end = " ")
+                z += 1
+                if z == 2:
+                    print("")
+                    z = 0
+                y += 1
+        else:
+            print("You don't have any other equipment.")
+            input("Exit")
+
+    print("")
+    print("Equip a #?")
+    try:
+        select = input("# ")
+        select = int(select)
+    except (TypeError, ValueError):
+        print("Type a number")
+        input("(Exit)")
+    for x in equipment_fresh:
+        if select == x[4]:
+            select = x[0]
+
+    for x in equipment:
+        if select == x[0]:
+            store(x, -1)
+
+            for i in picks:
+                if select == i:
+                    print(current_pickaxe)
+                    
+                    equipment.append(current_pickaxe)
+                    print(equipment)
+                    current_pickaxe = x
+                    print(f"{x[0]} equipped!")
+                    input("Exit")
 
 
 def tame():
