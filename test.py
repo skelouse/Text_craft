@@ -3,12 +3,14 @@ import time
 import os
 import math
 
+
 night = False
 furnace_have = False
 health = 100
 height = 64
 damage = 1
 clock = 0
+
 
 
 def cls():
@@ -47,6 +49,10 @@ edible = [
 ['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
 ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
 ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]
+]
+semi_edible = [
+'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
+'raw_lambchop', 'rotten_flesh'
 ]
 
 # To set an achievement up to something achievements_list[list number][0] += 1 
@@ -293,7 +299,42 @@ def eat():
                     y = 0
     print("")
     select = input("> ")
-    if select in food_list:
+
+    if select in semi_edible:
+        
+        if random.randint(0,100) < 70:
+            print("Ehh")
+            for x in edible:
+                if x[0] == select:
+                    health_added = x[1]
+                    food_selected = x[0]
+                    store(food_selected, -1)
+                    health += health_added
+                    print(f"You eat {food_selected} for {health_added} hp.")
+                    if health >= 100:
+                        print("Your health is full!")
+                        health = 100
+                        input("> ")
+                    else:
+                        input("> ")
+
+        else:
+            print("Yuck")
+            for x in edible:
+                if x[0] == select:
+                    health_added = -(x[1])
+                    food_selected = x[0]
+                    store(food_selected, -1)
+                    health += health_added
+                    print(f"The {food_selected} poisons you, taking {health_added} hp!")
+                    if health <= 0:
+                        dead()
+                    else:
+                        input("> ")
+
+
+
+    elif select in food_list:
         print("Yummy")
         for x in edible:
             if x[0] == select:
@@ -307,9 +348,7 @@ def eat():
             print("Your health is full!")
             health = 100
         input("> ")
-        
-    else:
-        start()
+
 
 
 
@@ -1099,6 +1138,7 @@ def furnace():
                             store(select_fuel, -1)
                             store(select_unit, -total_cooked)
                             input("> ")
+
                             ape = 'q'
 
                         elif int(select) > quantity_unit:
@@ -1125,7 +1165,6 @@ def furnace():
             print("No fuel!")
         input("> ")
 
-
 a4()
 select = 0
 def start():
@@ -1147,13 +1186,13 @@ def start():
     global edible
     
     question = ("""What would you like to do?
-(a)dventure
-(c)raft
-(d)ig down
-(e)at
-(f)urnace
-(i)nventory
-(m)enu""")
+    (a)dventure
+    (c)raft
+    (d)ig down
+    (e)at
+    (f)urnace
+    (i)nventory
+    (m)enu""")
 
 
     cls()
@@ -1180,8 +1219,7 @@ def start():
 
 
 
-    print('health ('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
-
+    print('Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
     print(question)
 
 
