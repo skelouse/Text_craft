@@ -1,8 +1,10 @@
 import random
 import time
 import os
+import math
 
 night = False
+furnace_have = False
 health = 100
 height = 64
 damage = 1
@@ -21,8 +23,9 @@ crafting = [['furnace', 'cobblestone', 8, 1],
 ['stick', 'wood_plank', 2, 4],
 ['fishing_rod', 'stick', 3, 'string', 2, 1],
 ['bucket', 'iron', 3, 1],
-['torch', 'coal', 1,'stick', 1, 2]]
-
+['torch', 'coal', 1,'stick', 1, 4],
+['crafting_table', 'wood_plank', 4, 1]]
+####MUST MOVE THE BRACKET AND ADD COMMA FOR NEW ITEM
 
 
 cook_output = [['iron_ore', 'iron'], ['raw_porkchop', 'cooked_porkchop'], ['raw_beef', 'cooked_beef'],
@@ -35,7 +38,7 @@ fuel = [['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]]
 
 edible = [['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
 ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
-['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5]]
+['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]]
 
 
 def craft():
@@ -43,62 +46,149 @@ def craft():
     global inventory
     available = []
     item1 = False
+    table = False
+    done = False
+    msg = 0
     x = 1
     z = 0
     y = 0
+    p = 0
+    var1 = 0
+    var2 = 0
+    var3 = 0
+    var4 = 0
+    possible = 0
+    quantity = 1
+    quantity2 = 0
+    quantity3 = 0
+
+    for i in inventory:
+        if i[0] == 'crafting_table' and i[1] >= 1:
+            table = True
+
+
     for i in crafting:
 
         if len(i) == 4:
             for x in inventory:
                 if i[1] == x[0] and i[2] <= x[1]:
-                    available.append(i[0])
+                    available.append(i)
         
         if len(i) == 6:
-            for x in inventory:
-                if i[1] == x[0] and i[2] <= x[1]:
-                    item1 = True
+            if table == True:
+                for x in inventory:
+                    if i[1] == x[0] and i[2] <= x[1]:
+                        item1 = True
 
-            for x in inventory:
-                if item1 == True and i[3] == x[0] and i[4] <= x[1]:
-                    available.append(i[0])
+                for x in inventory:
+                    if item1 == True and i[3] == x[0] and i[4] <= x[1]:
+                        available.append(i)
+            else:
+                pass
 
     print("Items you can craft")
     for i in available:
+
         if i != None:
-            print(i, end = "   ")
-            z += 1
-            if z == 4:
+            print(i[0], end = "   ")
+            p += 1
+            if p == 4:
                 print("")
-                z = 0
+                p = 0
             y += 1
+
     print("")
-    print("What would you like to craft? #")
+    print("What would you like to craft?")
     select = input("> ")
 
+    
+    
     for i in available:
-        if select == i:
-            print(f"Crafting {i}")
-            while z != 3:
-                print(".")
-                time.sleep(.5)
-                z += 1 
+        if select == i[0]:
+            
+
+            
+            # finding the possible quantities
+            for e in crafting:
+                # e is  ['bed', 'wool', 3, 'wood_plank', 3, 1],
+                # for 2 material recipies
+                if len(e) == 6 and select == e[0]:
+                    for x in inventory:
+                        if e[1] == x[0]:
+                            # (Quantity I have on hand / Quantity needed for recipie) rounded down *
+                            # total amount given at end [Total amount of item craftable]
+                            var1 = math.floor(x[1] / e[2])
+
+                    for x in inventory:
+                        if e[3] == x[0]:
+                            var2 = math.floor(x[1] / e[4])
+
+                    if var1 > var2:
+                        possible = var2
+                    else:
+                        possible = var1
+
+                # ['wood_plank', 'log', 1, 4], 
+                # for 1 material recipies
+                elif select == e[0]:
+                    for x in inventory:
+                        if e[1] == x[0]:
+                            # Total amount of item craftable
+                            var1 = math.floor(x[1] / e[2])
+
+
+            while done == False:
+                possible = var1
+                print(f"Make {select} how many times? 0-{possible}(enter 0 to cancel)")
+
+                try:
+                    select2 = int(input("> "))
+                    quantity2 = select2
+
+                    if quantity2 < 0:
+                        print("Must be greater than zero")
+
+                    elif quantity2 == 0:
+                        done = True
+                        start()
+
+                    elif quantity2 <= possible:
+                        done = True
+
+                    else:
+                        print("You don't have that many!")
+
+                except (TypeError, ValueError) as e:
+                    print("Numbers only please")
+
+
+            # Where the crafting actually happens
+             
 
             for e in crafting:
                 if e[0] == select:
 
                     if len(e) == 6:
-                        store(e[0], e[5])
-                        store(e[1], -e[2])
-                        store(e[3], -e[4])
-                        print(f"You gained {e[5]} {select}")
-                        input("> ")
+                        store(e[0], (e[5] * quantity2))
+                        store(e[1], (-e[2] * quantity2))
+                        store(e[3], (-e[4] * quantity2))
+                        msg = (f"You gained {quantity2 * e[5]} {select}")
+                        select2 = select2 * e[3]
+
                     else:
-                        store(e[0], e[3])
-                        store(e[1], -e[2])
-                        print(f"You gained {e[3]} {select}")
-                        input("> ")
-    
-        
+                        store(e[0], (e[3] * quantity2))
+                        store(e[1], (-e[2] * quantity2))
+                        msg = (f"You gained {quantity2 * e[3]} {select}")
+                        select2 = select2 * e[3]
+
+            print(f"Crafting {select}")
+            while z != 3:
+                print(".")
+                time.sleep(.5)
+                z += 1
+            print(msg)
+            input("> ")
+
     
 def a2():
     print("@@@@@      Skelouse      @@@@@")
@@ -459,6 +549,8 @@ def deep_cave():
 
 def break_tree():
     z = 0
+    amount = 0
+    amount2 = 0
     if random.randint(0,100) < 10:
         x = 1
     else:
@@ -471,6 +563,13 @@ def break_tree():
             z += 1
         amount = random.randint(4,8)
         store('log', amount)
+        if random.randint(0,100) < 10:
+            amount2 = random.randint(1,4)
+            print(f"You got {amount2} apples!")
+            store('apple', amount2)
+        else:
+            print("Guess you're going to the doctor today!")
+
         print(f"You got {amount} logs!")
         input("> ")
 
@@ -837,6 +936,16 @@ def furnace():
     have_fuel = False
     cook_list = []
     fuel_list = []
+
+    for i in inventory:
+        if i[0] == 'furnace':
+            furnace_have = True
+    if furnace_have == False:
+        print("Try crafting a furnace first")
+        input("> ")
+
+
+
     for i in cook_output:
         cook_list.append(i[0])
 
@@ -888,7 +997,28 @@ def furnace():
                     select = input("> ")
                     try:
                         if int(select) <= quantity_unit:
-                            quantity_unit = int(select)
+                            quantity_unit = int(select)####
+                            if int(quantity_unit) > int(quantity_fuel):
+                                total_cooked = int(quantity_fuel)
+                            else:
+                                total_cooked = int(quantity_unit)
+                            print("Cooking")
+                            while p != 3:
+                                print(".")
+                                time.sleep(1 * total_cooked)
+                                p += 1
+
+                            for i in cook_output:
+                                if select_unit == i[0]:
+                                    select_unit2 = i[1]
+
+
+                            print(f"You cook {total_cooked} {select_unit} with your {select_fuel}")
+                            print(f"Giving you {total_cooked} {select_unit2}")
+                            store(select_unit2, total_cooked)
+                            store(select_fuel, -1)
+                            store(select_unit, -total_cooked)
+                            input("> ")
                             ape = 'q'
 
                         elif int(select) > quantity_unit:
@@ -898,46 +1028,16 @@ def furnace():
                             print("Your fuel won't last that long")
                     
                         else:
-                            furnace()
-                            print("Learn to type a number!")
+                            start()
+                            ape = 'q'
 
                     except ValueError:
-                        print("Learn to type a number!")
-
-                if int(quantity_unit) > int(quantity_fuel):
-                    total_cooked = int(quantity_fuel)
-                else:
-                    total_cooked = int(quantity_unit)
-                print("Cooking")
-                while p != 3:
-                    print(".")
-                    time.sleep(1 * total_cooked)
-                    p += 1
-
-                for i in cook_output:
-                    if select_unit == i[0]:
-                        select_unit2 = i[1]
-
-
-                print(f"You cook {total_cooked} {select_unit} with your {select_fuel}")
-                print(f"Giving you {total_cooked} {select_unit2}")
-                store(select_unit2, total_cooked)
-                store(select_fuel, -1)
-                store(select_unit, -total_cooked)
+                        start()
+                        ape = 'q'
                 
-
-                
-
-            else:
-                print("Not valid")
-                
-
         else:
-            print("Not valid")
+            start()
 
-
-        print("")
-        input("> ")
 
     else:
         print("Cooks you can't")
@@ -946,16 +1046,32 @@ def furnace():
         input("> ")
 
 
-
 a4()
 select = 0
-while select != 'q':
+def start():
+
+    # variables
+    global night
+    global health
+    global height
+    global damage
+    global clock
+    global select
+    global furnace
+
+    # lists
+    global crafting
+    global cook_output
+    global inventory
+    global fuel
+    global edible
     
     question = ("""What would you like to do?
 (a)dventure
 (c)raft
 (d)ig down
 (e)at
+(f)urnace
 (i)nventory""")
 
 
@@ -981,13 +1097,13 @@ while select != 'q':
     print('health ('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
 
     print(question)
-    for i in inventory:
-        if i[0] == 'furnace':
-            print("(f)urnace")
+    
     print("(q)uit")
 
     select = input("> ")
-    
+
+
+
     if select == 'i': # inventory
         view_inventory()
     
@@ -1010,12 +1126,19 @@ while select != 'q':
         choice = input("Are you sure you want to quit and lose your progress? (y/n)")
         if choice == 'y':
             print("BYEEEE")
+            time.sleep(3)
+            exit(0)
         else:
             select = ''
 
     
     else:
+        cls()
         print("Try again")
+
+while select != 'q':
+    start()
+
 
 
 
