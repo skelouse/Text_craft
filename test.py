@@ -157,7 +157,6 @@ def menu():
 
     print("(e)quipment")
     print("(i)nventory")
-    print("")
     print("(a)chievements")
     print("(q)uit")
     select = input("> ")
