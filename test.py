@@ -421,7 +421,7 @@ def store(x,y):
 
 
     for i in tools:
-        if x[0] == i[0]:
+        if x[0] == i:
             if y > 0:
                 equipment.append(i)
                 in_tools = True
