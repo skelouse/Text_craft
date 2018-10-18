@@ -47,9 +47,8 @@ inventory = [
 ]
 
 # type, current durability
-equipment = [
-    []
-]
+equipment = []
+
 current_pickaxe = ['fist', -1, 0, -1]
 
 #type, current durability, power, total durability
@@ -421,16 +420,17 @@ def store(x,y):
 
 
     for i in tools:
-        if x[0] == i:
+        if x == i[0]:
             if y > 0:
                 equipment.append(i)
                 in_tools = True
 
             else:
                 for i in equipment:
-                    if i == x:
+                    if i[0] == x:
+
                         equipment.remove(i)
-                        in_tools = True       
+                        in_tools = True      
 
 
     if in_tools == False:
@@ -475,7 +475,7 @@ def cave_ore(height):
     else:
         return 'dirt'
 
-#######UPDATE FOR PICKAXE
+
 def dig_down(height):
 
     global health
@@ -1181,73 +1181,66 @@ def view_equipment():
 
     global picks
     global current_pickaxe
+    global equipment
     x = 0
     z = 0
     y = 1
+    a = 0
     old_pick = 0
     percentage1 = 0
+    ready = False
+
     if len(current_pickaxe) > 1:
         percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
         print(f"Current - {current_pickaxe[0]} {percentage2}%")
-    equipment_fresh = [[]]
 
     
     #[['wooden_pickaxe', 4, 1, 59], []]
 
-    if len(equipment[0]) > 1:
-        for i in equipment:
-            equipment_fresh[x] = i
-            equipment_fresh[x].append(x + 1)
-            x += 1
+    if len(equipment) > 0:
         
-        for i in equipment_fresh:
-            if i != None and len(equipment_fresh[0]) > 0:
+        for i in equipment:
+            if i != None and len(equipment[0]) > 0:
                 if i[1] != 0:
                     percentage1 = math.ceil( 100* (i[1]) / i[3])
-                    print(f"#{y} {i[0]} {percentage1}%", end = " ")
+                    print(f"#{y} {i[0]} {percentage1}% ", end = " ")
                     z += 1
                     if z == 2:
                         print("")
                         z = 0
                     y += 1
-            else:
-                print("You don't have any other equipment.")
-                input("Exit")
 
         print("")
         print("Equip a #?")
         try:
             select = input("# ")
-            select = int(select)
-        except (TypeError, ValueError):
-            print("Type a number")
+            a = int(select) - 1
+            select = equipment[a]
+            for x in equipment:
+                if select[0] == x[0]:
+                    ready = True
+
+            for i in picks:
+                if equipment[a][0] == i and ready == True:
+                    store(equipment[a][0], -1)                    
+                    old_equipment(current_pickaxe)                    
+                    current_pickaxe = x
+                    print(f"{x[0]} equipped!")
+
+        except (TypeError, ValueError, IndexError):
             input("(Exit)")
-        for x in equipment_fresh:
-            if select == x[4]:
-                select = x[0]
 
-        for x in equipment:
-            if select == x[0]:
-                store(x, -1)
+        
 
-                for i in picks:
-                    if select == i:                    
-                        old_equipment(current_pickaxe)                    
-                        current_pickaxe = x
-                        print(f"{x[0]} equipped!")
-                        input("Exit")
+
     else:
         print("You don't have any equipment")
-        input("Exit")    
+        input("Exit")
 
 
 def old_equipment(x):
     if x[0] != 'fist':
-        if len(x) == 4:
-            equipment.append(x)
-        else:
-            x.pop(4)
-            equipment.append(x)
+        equipment.append(x)
 
 
 def tame():
@@ -1446,7 +1439,6 @@ def tick(x):
             print("=========================")
             clock = 0
 
-
 a4()
 select = 0
 def start():
@@ -1467,6 +1459,8 @@ def start():
     global fuel
     global edible
     
+    
+
     question = ("""What would you like to do?
     (a)dventure
     (c)raft
@@ -1508,7 +1502,12 @@ def start():
         print("Try again")
 
 while True:
-    start()
+    try:
+        start()
+    except Exception as e:
+        print("Error 40 lol")
+        input("Return")
+
 
 
 
