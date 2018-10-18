@@ -1304,101 +1304,101 @@ def furnace():
     if furnace_have == False:
         print("Try crafting a furnace first")
         input("> ")
+    else:
+        for i in cook_output:
+            cook_list.append(i[0])
 
-    for i in cook_output:
-        cook_list.append(i[0])
-
-    for i in inventory:
-        if i[0] in cook_list and i[1] >= 1:
-            can_cook = True
-
-    for i in inventory:
-        for x in fuel:
-            if x[0] == i[0] and i[1] >= 1:
-                have_fuel = True
-                fuel_list.append(x[0])
-
-    if can_cook == True and have_fuel == True:
-        cookable = []
-        print("What would you like to cook?")
         for i in inventory:
-            if i[0] in cook_list:
-                print(i[0], end = "   ")
-                z += 1
-                if z == 4:
-                    print("")
-                    z = 0
-        print("")
-        select_unit = input("> ")
-        if select_unit in cook_list:
-            print("What fuel would you like to use?")
-            for i in fuel_list:
-                print(i, end ="   ")
-                y += 1
-                if y == 4:
-                    print("")
-                    y = 0
+            if i[0] in cook_list and i[1] >= 1:
+                can_cook = True
+
+        for i in inventory:
+            for x in fuel:
+                if x[0] == i[0] and i[1] >= 1:
+                    have_fuel = True
+                    fuel_list.append(x[0])
+
+        if can_cook == True and have_fuel == True:
+            cookable = []
+            print("What would you like to cook?")
+            for i in inventory:
+                if i[0] in cook_list:
+                    print(i[0], end = "   ")
+                    z += 1
+                    if z == 4:
+                        print("")
+                        z = 0
             print("")
-            select_fuel = input("> ")
+            select_unit = input("> ")
+            if select_unit in cook_list:
+                print("What fuel would you like to use?")
+                for i in fuel_list:
+                    print(i, end ="   ")
+                    y += 1
+                    if y == 4:
+                        print("")
+                        y = 0
+                print("")
+                select_fuel = input("> ")
 
-            # This is where the actual cooking happens
-            if select_fuel in fuel_list:
-                # discovering the quantities in inventory and how many the fuel can burn
-                for i in inventory:
-                    if select_unit == i[0]:
-                        quantity_unit = i[1]
-                for i in fuel:
-                    if select_fuel == i[0]:
-                        quantity_fuel = i[1]
-                
-                while ape != 'q':
-
-                    print(f"How many would you like to cook? You have {quantity_unit}")
-                    print(f"and {select_fuel} only cooks {quantity_fuel}")
-                    select = input("> ")
-                    try:
-                        if int(select) <= quantity_unit:
-                            quantity_unit = int(select)####
-                            if int(quantity_unit) > int(quantity_fuel):
-                                total_cooked = int(quantity_fuel)
-                            else:
-                                total_cooked = int(quantity_unit)
-                            print("Cooking")
-                            while p != 3:
-                                print(".")
-                                time.sleep(1 * total_cooked)
-                                p += 1
-
-                            for i in cook_output:
-                                if select_unit == i[0]:
-                                    select_unit2 = i[1]
-
-
-                            print(f"You cook {total_cooked} {select_unit} with your {select_fuel}")
-                            print(f"Giving you {total_cooked} {select_unit2}")
-                            store(select_unit2, total_cooked)
-                            store(select_fuel, -1)
-                            store(select_unit, -total_cooked)
-                            input("> ")
-
-                            ape = 'q'
-
-                        elif int(select) > quantity_unit:
-                            print("You don't have that many dummy!")
-
-                        elif int(select) > quantity_fuel:
-                            print("Your fuel won't last that long")
+                # This is where the actual cooking happens
+                if select_fuel in fuel_list:
+                    # discovering the quantities in inventory and how many the fuel can burn
+                    for i in inventory:
+                        if select_unit == i[0]:
+                            quantity_unit = i[1]
+                    for i in fuel:
+                        if select_fuel == i[0]:
+                            quantity_fuel = i[1]
                     
-                        else:
+                    while ape != 'q':
+
+                        print(f"How many would you like to cook? You have {quantity_unit}")
+                        print(f"and {select_fuel} only cooks {quantity_fuel}")
+                        select = input("> ")
+                        try:
+                            if int(select) <= quantity_unit:
+                                quantity_unit = int(select)####
+                                if int(quantity_unit) > int(quantity_fuel):
+                                    total_cooked = int(quantity_fuel)
+                                else:
+                                    total_cooked = int(quantity_unit)
+                                print("Cooking")
+                                while p != 3:
+                                    print(".")
+                                    time.sleep(1 * total_cooked)
+                                    p += 1
+
+                                for i in cook_output:
+                                    if select_unit == i[0]:
+                                        select_unit2 = i[1]
+
+
+                                print(f"You cook {total_cooked} {select_unit} with your {select_fuel}")
+                                print(f"Giving you {total_cooked} {select_unit2}")
+                                store(select_unit2, total_cooked)
+                                store(select_fuel, -1)
+                                store(select_unit, -total_cooked)
+                                input("> ")
+
+                                ape = 'q'
+
+                            elif int(select) > quantity_unit:
+                                print("You don't have that many dummy!")
+
+                            elif int(select) > quantity_fuel:
+                                print("Your fuel won't last that long")
+                        
+                            else:
+                                start()
+                                ape = 'q'
+
+                        except ValueError:
                             start()
                             ape = 'q'
-
-                    except ValueError:
-                        start()
-                        ape = 'q'
-                
-        else:
-            start()
+                    
+            else:
+                start()
 
 
     else:
