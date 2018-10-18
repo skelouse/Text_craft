@@ -50,7 +50,7 @@ inventory = [
 equipment = [
     []
 ]
-current_pickaxe = []
+current_pickaxe = ['fist', -1, 0, -1]
 
 #type, current durability, power, total durability
 tools = [
