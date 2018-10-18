@@ -53,7 +53,7 @@ current_pickaxe = ['fist', -1, 0, -1]
 
 #type, current durability, power, total durability
 tools = [
-    ['gold_pickaxe', 32, 2, 32], ['wooden_pickaxe', 59, 1, 59], ['stone_pickaxe', 131, 2]
+    ['gold_pickaxe', 32, 2, 32], ['wooden_pickaxe', 59, 1, 59], ['stone_pickaxe', 131, 2, 131]
         , ['iron_pickaxe', 250, 3], ['diamond_pickaxe', 1561, 3]
 ]
 
