@@ -53,8 +53,8 @@ current_pickaxe = ['fist', -1, 0, -1]
 
 #type, current durability, power, total durability
 tools = [
-    ['gold_pickaxe', 32, 2, 32], ['wooden_pickaxe', 59, 1, 59], ['stone_pickaxe', 131, 2, 131]
-        , ['iron_pickaxe', 250, 3], ['diamond_pickaxe', 1561, 3]
+    ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2]
+        , ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 3, 1561, 4]
 ]
 
 picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
@@ -65,8 +65,8 @@ fuel = [
 
 edible = [
     ['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
-    ['apple', 10], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
-    ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['apple', 8]
+    ['apple', 8], ['rotten_flesh', -5], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
+    ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5]
 ]
 semi_edible = [
     'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
@@ -89,13 +89,13 @@ foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
 #['', ##, (0 for none, 1 for wood pick, 2 for stone pick, 3 for iron pick, 4 for unbreakable)]
 ores = [
     ['bedrock', 5, 4], ['diamond', 14, 3], ['redstone', 14, 3],
-    ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 2], ['gravel', 61, 0],
+    ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 1], ['gravel', 61, 0],
     ['cobblestone', 61, 1], ['dirt', 0, 0]
 ]
 
 cave_ores = [
     ['diamond', 14, 3], ['redstone', 14, 3],
-    ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 2]
+    ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 1]
 ]
 
 # To set an achievement up to something achievements_list[list number][0] += 1 
@@ -484,12 +484,15 @@ def dig_down(height):
     bucket = False
     tick(1)
 
+    block = ore(height)
+    
+    # if block == 'dirt'
     print("You mine the block below you")
     while z != 3:
         print(".")
-        time.sleep(.5)
+        time.sleep(.5 / current_pickaxe[4])
         z += 1
-    block = ore(height)
+    
 
 
     
@@ -724,7 +727,7 @@ def cave():
             print(f"You mine one {block}")
             while z != 3:
                 print(".")
-                time.sleep(.5)
+                time.sleep(.5 / current_pickaxe[4])
                 z += 1
             if pickaxe(block) == True:
                 print(f"You get 1 {block}!")
@@ -774,7 +777,7 @@ def deep_cave():
             print(f"You mine one {block}")
             while z != 3:
                 print(".")
-                time.sleep(.5)
+                time.sleep(.5 / current_pickaxe[4])
                 z += 1
             if pickaxe(block) == True:
                 print(f"You get 1 {block}!")
@@ -835,7 +838,7 @@ def break_tree():
         print("breaking big tree")
         while z != 6:
             print(".")
-            time.sleep(4)
+            time.sleep(2)
             z += 1
         amount = random.randint(10,18)
         store('log', amount)
@@ -853,6 +856,7 @@ def mob():
 
     global animal
     global animal_night
+    global night
     tick(1)
     mob_type = 0
 
@@ -1164,7 +1168,7 @@ def view_inventory():
 
     x = 1
     z = 0
-
+    print("Items")
     for i in inventory:
         if i != None and i[1] != 0:
             print(f"#{x}", i[0], " - " ,i[1], end = " ")
@@ -1173,6 +1177,18 @@ def view_inventory():
                 print("")
                 z = 0
             x += 1
+    print("")
+    print("Equipment")
+    z = 0
+    for i in equipment:
+        if i != None:
+            print(f"#{x}", i[0], end = " ")
+            z += 1
+            if z == 4:
+                print("")
+                z = 0
+            x += 1
+    
     print("")
     input("> ")
 
@@ -1273,6 +1289,27 @@ def tame():
         input("> ")
 
 
+def bed_sleep():
+
+    global night
+    have_bed = False
+
+    for i in inventory:
+        if i[0] == 'bed':
+            have_bed = True
+
+    if have_bed == False and night == False:
+        print("You can't sleep on the ground, silly")
+        input("> ")
+    elif night == False:
+        print("No naps allowed, sleep at night...")
+        input("> ")
+
+    else:
+        tick(100)
+    
+        
+
 # cook_output
 def furnace():
 
@@ -1294,27 +1331,29 @@ def furnace():
         if i[0] == 'furnace':
             furnace_have = True
 
+
+    for i in cook_output:
+        cook_list.append(i[0])
+
+    for i in inventory:
+        if i[0] in cook_list and i[1] >= 1:
+            can_cook = True
+
+    for i in inventory:
+        for x in fuel:
+            if x[0] == i[0] and i[1] >= 1:
+                have_fuel = True
+                fuel_list.append(x[0])
+
     if furnace_have == False:
         print("Try crafting a furnace first")
         input("> ")
-        for i in cook_output:
-            cook_list.append(i[0])
-
-        for i in inventory:
-            if i[0] in cook_list and i[1] >= 1:
-                can_cook = True
-
-        for i in inventory:
-            for x in fuel:
-                if x[0] == i[0] and i[1] >= 1:
-                    have_fuel = True
-                    fuel_list.append(x[0])
-
+    else:
         if can_cook == True and have_fuel == True:
             cookable = []
             print("What would you like to cook?")
             for i in inventory:
-                if i[0] in cook_list:
+                if i[0] in cook_list and i[1] >= 0:
                     print(i[0], end = "   ")
                     z += 1
                     if z == 4:
@@ -1342,7 +1381,7 @@ def furnace():
                     for i in fuel:
                         if select_fuel == i[0]:
                             quantity_fuel = i[1]
-                    
+                        
                     while ape != 'q':
 
                         print(f"How many would you like to cook? You have {quantity_unit}")
@@ -1365,7 +1404,6 @@ def furnace():
                                     if select_unit == i[0]:
                                         select_unit2 = i[1]
 
-
                                 print(f"You cook {total_cooked} {select_unit} with your {select_fuel}")
                                 print(f"Giving you {total_cooked} {select_unit2}")
                                 store(select_unit2, total_cooked)
@@ -1373,13 +1411,15 @@ def furnace():
                                 store(select_unit, -total_cooked)
                                 input("> ")
 
+
                                 ape = 'q'
 
                             elif int(select) > quantity_unit:
                                 print("You don't have that many dummy!")
-
+                                input("> ")
                             elif int(select) > quantity_fuel:
                                 print("Your fuel won't last that long")
+                                input("> ")
                         
                             else:
                                 start()
@@ -1388,16 +1428,14 @@ def furnace():
                         except ValueError:
                             start()
                             ape = 'q'
-                    
-            else:
-                start()
 
 
-    else:
-        print("Cooks you can't")
-        if can_cook == True:
-            print("No fuel!")
-        input("> ")
+
+        else:
+            print("Cooks you can't")
+            if can_cook == True:
+                print("No fuel!")
+            input("> ")
 
 
 # tick(0) checks the clock
@@ -1439,6 +1477,7 @@ def tick(x):
             print("=========================")
             clock = 0
 
+
 a4()
 select = 0
 def start():
@@ -1467,6 +1506,7 @@ def start():
     (d)ig down
     (e)at
     (f)urnace
+    (s)leep
     (m)enu""")
 
     cls()
@@ -1494,6 +1534,9 @@ def start():
     elif select == 'e':# eat
         eat()
     
+    elif select == 's':# sleep
+        bed_sleep()
+    
     elif select == 'm':# menu
         menu()
     
@@ -1504,9 +1547,10 @@ def start():
 while True:
     try:
         start()
-    except Exception as e:
-        print("Error 40 lol")
-        input("Return")
+    except Exception:
+        print("This is broken lol Error### bl  hgfaj  owo.   wkkd        .")
+    
+
 
 
 
