@@ -156,6 +156,7 @@ def achievements(x):
 def menu():
 
     print("(e)quipment")
+    print("(i)nventory")
     print("")
     print("(a)chievements")
     print("(q)uit")
@@ -164,8 +165,11 @@ def menu():
     if select == 'a':
         achievements(0)
         input("> ")
+
+    elif select == 'i': # inventory
+        view_inventory()
     
-    elif select == 'e':
+    elif select == 'e': # equipment
         view_equipment()
 
     elif select == 'q':
@@ -837,6 +841,12 @@ def break_tree():
         amount = random.randint(10,18)
         store('log', amount)
         print(f"You got {amount} logs!")
+        if random.randint(0,100) < 10:
+            amount2 = random.randint(1,9)
+            print(f"You got {amount2} apples!")
+            store('apple', amount2)
+        else:
+            print("Guess you're going to the doctor today!")
         input("> ")
 
 #Defines what mob you will find on an adventure
@@ -1465,7 +1475,6 @@ def start():
     (d)ig down
     (e)at
     (f)urnace
-    (i)nventory
     (m)enu""")
 
     cls()
@@ -1477,11 +1486,8 @@ def start():
     print(question)
 
     select = input("> ")
-
-    if select == 'i': # inventory
-        view_inventory()
     
-    elif select == 'a':# adventure()
+    if select == 'a':# adventure()
         adventure()
 
     elif select == 'd':# dig_down()
@@ -1505,6 +1511,8 @@ def start():
 
 while True:
     start()
+
+
 
 
 
