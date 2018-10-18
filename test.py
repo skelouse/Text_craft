@@ -1549,6 +1549,7 @@ while True:
         start()
     except Exception:
         print("This is broken lol Error### bl  hgfaj  owo.   wkkd        .")
+        input("> ")
     
 
 
