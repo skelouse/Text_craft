@@ -1304,7 +1304,6 @@ def furnace():
     if furnace_have == False:
         print("Try crafting a furnace first")
         input("> ")
-    else:
         for i in cook_output:
             cook_list.append(i[0])
 
@@ -1510,6 +1509,8 @@ def start():
 
 while True:
     start()
+
+
 
 
 
