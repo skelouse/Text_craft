@@ -49,7 +49,7 @@ inventory = [
 # type, current durability
 equipment = []
 
-current_pickaxe = ['fist', -1, 0, -1]
+current_pickaxe = ['fist', -1, 0, -1, 1]
 
 #type, current durability, power, total durability
 tools = [
@@ -102,27 +102,27 @@ cave_ores = [
 # [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
 achievements_list = [
 # 0
-[0, 0, 'Dirt miner',100 , 'mining 100 dirt'],
+[0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
 # 1
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],# Not added
 # 2
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],# Not added
 # 3
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],# Not added
 # 4
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Sorry, Mom',1 , 'killing a cow'],# Not added
 # 5
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],# Not added
 # 6
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],# Not added
 # 7
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],# Not added
 # 8
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],# Not added
 # 9
-[0, 0, 'x',13 , 'asd'],
+[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],# Not added
 # 10
-[0, 0, 'x',13 , 'asd']
+[0, 0, 'Oink, Oink',100 , 'eat 100 items'] # Not added
 ]
 achieved = []
 
@@ -476,6 +476,7 @@ def cave_ore(height):
         return 'dirt'
 
 
+
 def dig_down(height):
 
     global health
@@ -499,6 +500,8 @@ def dig_down(height):
     if block != 'bedrock' and block != 'lava':
         
         if pickaxe(block) == True:
+            if block == 'diamond':
+                    achievements_list[0] += 1
             print(f"You get 1 {block}!")
             store(block, 1)
         else:
@@ -571,7 +574,7 @@ def pickaxe(block):
 
             if current_pickaxe[1] == 0:
                 print("Your pickaxe has broken...")
-                current_pickaxe = ['fist', -1, 0, 1]
+                current_pickaxe = ['fist', -1, 0, -1, 1]
 
             return True
     if can_mine == False:
@@ -730,6 +733,8 @@ def cave():
                 time.sleep(.5 / current_pickaxe[4])
                 z += 1
             if pickaxe(block) == True:
+                if block == 'diamond':
+                    achievements_list[0] += 1
                 print(f"You get 1 {block}!")
                 store(block, 1)
             else:
@@ -780,6 +785,8 @@ def deep_cave():
                 time.sleep(.5 / current_pickaxe[4])
                 z += 1
             if pickaxe(block) == True:
+                if block == 'diamond':
+                    achievements_list[0] += 1
                 print(f"You get 1 {block}!")
                 store(block, 1)
             else:
@@ -1548,10 +1555,9 @@ while True:
     try:
         start()
     except Exception:
-        print("This is broken lol Error### bl  hgfaj  owo.   wkkd        .")
+        print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
         input("> ")
     
-
 
 
 
