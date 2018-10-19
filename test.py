@@ -1888,7 +1888,7 @@ version('pre-alpha')
 
 while True:
     try:
-    start()
+        start()
     except Exception:
         print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
         input("> ")
