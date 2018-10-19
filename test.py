@@ -10,6 +10,7 @@ health = 100
 height = 64
 damage = 1
 clock = 0
+money = 0
 
 
 
@@ -126,6 +127,297 @@ achievements_list = [
 ]
 achieved = []
 
+# START FARMING LISTS
+# START FARMING LISTS
+
+farm_types = [
+    ['wheat', 1, 500],
+    ['skeleton', 1 ,10000000]
+]
+all_farms = [# my farms   ADDD MOREEEEEEEEEEEEE
+['wheat', 0, 500, 'dirt'],
+['skeleton', 0 ,10000000, 'dirt']
+]
+
+farm_materials = [
+    ['log', 5],
+    ['stone', 2],
+    ['iron_block', .5],
+    ['diamond_block', .02],
+    ['obsidian', .001],
+    ['bedrock', .0001]
+]
+
+# END FARMING LISTS
+# END FARMING LISTS
+
+def money_add(x):
+    global money
+    money = money + x
+
+def farming():
+
+    global money
+
+    q = 0
+    z = 0
+    select = 0
+    selected_farm = 0
+    have_farm = False
+    farm_selected = False
+    choice_material = 0
+    current_farms = []   
+
+    for i in all_farms:
+        if i[1] > 0:
+            current_farms.append(i)
+            have_farm = True
+
+            # Base cost of a farm
+        # $, material, wood_plank, dirt, money
+    base_farm_cost = [100, 100, 40, 100]# level up is less
+
+    EventFarm(0, all_farms)
+    # need to water? 0 or 1/ , need to rebuild 0 or 1, 
+    #               return [water, rebuild]
+
+    while select != 'q':
+
+        x = 1
+        try:
+
+            if have_farm == True:   
+                if farm_selected:
+                    EventFarm(1, selected_farm)  # 1 is check for things that need to be done 
+                else:
+                    pass  
+                print("""What would you like to do?
+    (s)elect a farm
+    (w)ater
+    (h)arvest
+    (l)evel up
+    (b)uild farm
+    (d)estroy
+    (q)uit
+    """)# add are you sure on destroy
+
+                select = input("> ")
+
+                if select == 's': # Select a farm
+                    for i in current_farms:
+                        print(f"#{x} {i[0]}")
+                    try:
+                        select = int(input("> "))
+                        if select:
+                            selected_farm = current_farms[(select-1)]
+                            farm_selected == True
+
+                    except (ValueError, IndexError):
+                        print("Invalid selection")
+                        print("")
+
+                elif select == 'w' and selected_farm != 0: # Water selected
+                    EventFarm(2, selected_farm)
+
+                elif select == 'h' and selected_farm != 0: # Harvest selected
+                    EventFarm(3, selected_farm)
+
+                elif select == 'l' and selected_farm != 0: # level selected
+                    EventFarm(5, selected_farm)
+
+                elif select == 'd' and selected_farm != 0: # Destroy
+                    print("Are you sure you want to destroy this farm? (y/n)")
+                    select = input("> ")
+                    if select == 'y':
+                        EventFarm(6, selected_farm)
+                
+                elif select == 'b':# build farm
+                    build_farm()
+                    select = 'q'
+
+                elif select == 'q': # Quit
+                    pass
+
+                elif selected_farm == 0:
+                    print("No farm selected")
+                    print("")
+
+                else:
+                    print("Not an option")
+                
+
+            elif current_farms:# current_farms returns true or false
+                print("Which farm would you like to go to")
+                input("> ")
+            
+            else:
+                print("You don't have any farms")
+                print("Build one? (y/n)")
+                select = input("> ")
+
+                if select == 'y':
+                    build_farm()
+                    select = 'q'
+                else:
+                    select = 'q'
+            
+
+
+        except ZeroDivisionError:
+            print("Lol")
+
+
+# x is what to do
+# y is which farm ('all_farms')
+#x
+# 1 is check for things that need to be done on y farm
+# 2 is water
+# 3 is harvest
+# 4 is build
+# 5 is level up
+# 6 is destroy
+
+def EventFarm(x,y):
+
+    have_farm = False
+    for i in all_farms:
+        if i[1] > 0:
+            have_farm = True
+
+    if x == 1 and len(y) == 2:
+        print("Checking what needs to be done")
+        input("> ")
+
+    elif x == 2:
+        print("watering",y)
+    elif x == 3:
+        print("harvesting",y)
+    elif x == 4:
+        all_farms.append(y)
+    elif x == 5:
+        print("leveling up",y)
+    elif x == 6:
+        print("Destroying")
+
+
+    else:# 0
+
+        if have_farm:
+            print("This happened while you were gone")
+            input("> ")
+        else:
+            pass
+
+
+
+# $, material, wood_plank, dirt, money
+# base_farm_cost = [100, 100, 40, 100]
+def build_farm():
+
+    select = 0
+    farm_selected = False
+    have_enough_materials = False
+    have_enough_wood_plank = False
+    have_enough_dirt = False
+    have_enough_materials_to_build = False
+
+    for i in inventory:
+        if i[0] == 'wood_plank' and i[1] >= 100:
+            have_enough_wood_plank = True
+        if i[0] == 'dirt' and i[1] >= 40:
+            have_enough_dirt = True
+
+    if have_enough_dirt and have_enough_wood_plank:
+        have_enough_materials_to_build = True
+
+    while select != 'q':
+        z = 0
+        x = 1
+        k = 0
+        print("What would you like to build it out of?")
+        for i in farm_materials:
+            print(f"#{x} {i[0]}")
+            x += 1
+        print("(q)uit")
+        select = input("> ")
+        if select != 'q':
+            try:
+                select = int(select)
+                if select:
+                    choice_material = farm_materials[(select-1)]# material chosen
+
+                    for i in inventory:
+                        if i[0] == choice_material[0] and i[1] >= 100:
+                            have_enough_materials = True
+
+                    if have_enough_materials:
+                        print("What kind of farm do you want?")
+                        x = 1
+                        for i in farm_types:
+                            print(f"#{x} {i[0]} ${i[2]}, 100 wood_plank, and 40 dirt")
+                            x += 1
+                        select = input()
+                        select = int(select)
+                        select = farm_types[(select-1)]
+                        if have_enough_materials_to_build and money > select[2]:
+                            select.append(choice_material[0])
+                            print(f"Building {select[0]} farm!")
+
+                            while z != 4:
+                                if z == 0:
+                                    print("adding fence posts")
+                                    while k != 6:
+                                        print(".")
+                                        time.sleep(.5)
+                                        k += 1
+                                    input("(Enter)")
+                                    k = 0
+                                elif z == 1:
+                                    print(f"building the {choice_material[0]} supports")
+                                    while k != 6:
+                                        print(".")
+                                        time.sleep(.5)
+                                        k += 1
+                                    input("(Enter)")
+                                    k = 0
+                                elif z == 2:
+                                    print("dumping the dirt")
+                                    while k != 6:
+                                        print(".")
+                                        time.sleep(.5)
+                                        k += 1
+                                    input("decorate?")
+                                    k = 0
+                                elif z == 3:
+                                    print("decorating")
+                                    while k != 6:
+                                        print(".")
+                                        time.sleep(.5)
+                                        k += 1
+                                    
+
+                                z += 1
+                            input(f"{select[0]} farm is complete!")
+                            EventFarm(4, select)
+                            select = 'q'
+                            farming()                                               
+
+                        elif have_enough_materials_to_build:
+                            input("You don't have enough cash.")
+                            select = 'q'
+
+                        else:
+                            input("You don't have enough materials.")
+                            select = 'q'
+                    else:
+                        print(f"You don't have 100 {choice_material[0]}")
+
+            except (ValueError, IndexError):
+                print("Not Valid")
+                print("")
+        else:
+            pass
+
 
 # x is whether to show all achievements or check for gained and notify(0 or 1)
 def achievements(x):
@@ -154,16 +446,18 @@ def achievements(x):
 
 def menu():
 
-    print("(e)quipment")
-    print("(i)nventory")
-    print("(a)chievements")
-    print("(q)uit")
+    print("""    (f)arm
+    (e)quipment
+    (i)nventory
+    (a)chievements
+    (q)uit""")
     select = input("> ")
 
     if select == 'a':
         achievements(0)
         input("> ")
-
+    elif select == 'f': # farm
+        farming()
     elif select == 'i': # inventory
         view_inventory()
     
@@ -335,75 +629,106 @@ def eat():
     global health
     health_added = 0
     food_selected = 0
+    quantity = 0
     y = 0
     food_list = []
+    have_food = False
+
     for i in inventory:
         for x in edible:
-            if x[0] == i[0] and i[1] >= 1:
-                food_list.append(x[0])
+            if i[0] == x[0] and i[1]:
+                have_food = True
 
-    print("What are you hungry for?")
-    for i in food_list:
-                print(i, end ="   ")
-                y += 1
-                if y == 4:
-                    print("")
-                    y = 0
-    print("")
-    select = input("> ")
+    if have_food == False:
+        input("You don't have anything to eat")
 
-    if select in semi_edible:
-        
-        if random.randint(0,100) < 70:
-            print("Ehh")
+    while have_food:
+
+        health_added = 0
+        food_selected = 0
+        y = 0
+        food_list = []
+        for i in inventory:
             for x in edible:
-                if x[0] == select:
-                    tick(1)
-                    health_added = x[1]
-                    food_selected = x[0]
-                    store(food_selected, -1)
-                    health += health_added
-                    print(f"You eat {food_selected} for {health_added} hp.")
-                    if health >= 100:
-                        print("Your health is full!")
-                        health = 100
-                        input("> ")
-                    else:
-                        input("> ")
+                if x[0] == i[0] and i[1] >= 1:
+                    food_list.append(x[0])
+        print("What are you hungry for?")
+        for i in food_list:
+                    print(i, end ="   ")
+                    y += 1
+                    if y == 4:
+                        print("")
+                        y = 0
+        print("")
+        select = input("> ")
+        while have_food:
+            select2 = 0
+            if select in semi_edible:
+                
+                if random.randint(0,100) < 70:
+                    print("Ehh")
+                    for x in edible:
+                        if x[0] == select:
+                            tick(1)
+                            health_added = x[1]
+                            food_selected = x[0]
+                            store(food_selected, -1)
+                            health += health_added
+                            print(f"You eat {food_selected} for {health_added} hp.")
+                            if health >= 100:
+                                print("Your health is full!")
+                                health = 100
 
-        else:
-            print("Yuck")
-            for x in edible:
-                if x[0] == select:
-                    tick(1)
-                    health_added = -(x[1])
-                    food_selected = x[0]
-                    store(food_selected, -1)
-                    health += health_added
-                    print(f"The {food_selected} poisons you, taking {health_added} hp!")
-                    if health <= 0:
-                        dead()
-                    else:
-                        input("> ")
+
+                else:
+                    print("Yuck")
+                    for x in edible:
+                        if x[0] == select:
+                            tick(1)
+                            health_added = -(x[1])
+                            food_selected = x[0]
+                            store(food_selected, -1)
+                            health += health_added
+                            print(f"The {food_selected} poisons you, taking {health_added} hp!")
+                            if health <= 0:
+                                dead()
 
 
 
-    elif select in food_list:
-        print("Yummy")
-        for x in edible:
-            if x[0] == select:
-                tick(1)
-                health_added = x[1]
-                food_selected = x[0]
-        
-        store(food_selected, -1)
-        health += health_added
-        print(f"You eat {food_selected} for {health_added} hp")
-        if health >= 100:
-            print("Your health is full!")
-            health = 100
-        input("> ")
 
+            elif select in food_list:
+                print("Yummy")
+                for x in edible:
+                    if x[0] == select:
+                        tick(1)
+                        health_added = x[1]
+                        food_selected = x[0]
+                
+                store(food_selected, -1)
+                health += health_added
+                print(f"You eat {food_selected} for {health_added} hp")
+                if health >= 100:
+                    print("Your health is full!")
+                    health = 100
+
+            have_food = False
+            for i in inventory:
+                for x in edible:
+                    if i[0] == x[0]:
+                        quantity = i[1]
+                        if quantity >= 1: 
+                            have_food = True
+            if quantity:
+                print(f"{quantity} left, eat another? (y/n)")
+                select2 = input("> ")
+
+                if select2 == 'y' and have_food:
+                    pass
+                elif select2 == 'y':
+                    input("None left")
+                else:
+                    have_food = False
+    input("(Enter)")        
 
 
 # ['stick', 'wood_plank', 2, 4]
@@ -501,7 +826,7 @@ def dig_down(height):
         
         if pickaxe(block) == True:
             if block == 'diamond':
-                    achievements_list[0] += 1
+                    achievements_list[1][0] += 1
             print(f"You get 1 {block}!")
             store(block, 1)
         else:
@@ -734,7 +1059,7 @@ def cave():
                 z += 1
             if pickaxe(block) == True:
                 if block == 'diamond':
-                    achievements_list[0] += 1
+                    achievements_list[1][0] += 1
                 print(f"You get 1 {block}!")
                 store(block, 1)
             else:
@@ -753,7 +1078,6 @@ def cave():
 
 def a3():
     print("@@@@@      2018          @@@@@")
-    input("> ")
 
 
 def deep_cave():
@@ -786,7 +1110,7 @@ def deep_cave():
                 z += 1
             if pickaxe(block) == True:
                 if block == 'diamond':
-                    achievements_list[0] += 1
+                    achievements_list[1][0] += 1
                 print(f"You get 1 {block}!")
                 store(block, 1)
             else:
@@ -1108,7 +1432,7 @@ def fight(mob):
             if random.randint(0,100) < 10:
                 hurt = random.randint(40,61)
                 health -= hurt
-                print(f"The blows up hurting you {hurt} hp")
+                print(f"The creeper blows up hurting you {hurt} hp")
                 mob_health = 0
                 blow_up = True
                 input("> ")
@@ -1485,7 +1809,7 @@ def tick(x):
             clock = 0
 
 
-a4()
+
 select = 0
 def start():
 
@@ -1550,15 +1874,25 @@ def start():
     else:
         cls()
         print("Try again")
+def version(x):
+    print(f"     v.{x}", end = " ")
+    input("(Enter)")
+
+a4()
+
+#version('test')
+version('pre-alpha')
+
+
+
 
 while True:
     try:
-        start()
+    start()
     except Exception:
         print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
         input("> ")
     
-
 
 
 
