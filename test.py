@@ -3,6 +3,7 @@ import time
 import os
 import math
 
+test = False
 
 night = False
 furnace_have = False
@@ -55,7 +56,7 @@ current_pickaxe = ['fist', -1, 0, -1, 1]
 #type, current durability, power, total durability
 tools = [
     ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2]
-        , ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 3, 1561, 4]
+        , ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 4, 1561, 4]
 ]
 
 picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
@@ -89,9 +90,9 @@ foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
 
 #['', ##, (0 for none, 1 for wood pick, 2 for stone pick, 3 for iron pick, 4 for unbreakable)]
 ores = [
-    ['bedrock', 5, 4], ['diamond', 14, 3], ['redstone', 14, 3],
+    ['bedrock', 5, 5], ['diamond', 14, 3], ['redstone', 14, 3],
     ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 1], ['gravel', 61, 0],
-    ['cobblestone', 61, 1], ['dirt', 0, 0]
+    ['cobblestone', 61, 1], ['dirt', 0, 0], ['obsidian', 0, 4]
 ]
 
 cave_ores = [
@@ -335,9 +336,8 @@ def build_farm():
         x = 1
         k = 0
         print("What would you like to build it out of?")
-        for i in farm_materials:
-            print(f"#{x} {i[0]}")
-            x += 1
+        number_list(farm_materials, 0)
+
         print("(q)uit")
         select = input("> ")
         if select != 'q':
@@ -481,8 +481,10 @@ def craft():
     item1 = False
     table = False
     done = False
+    done2 = False
     msg = 0
     x = 1
+    k = 1
     z = 0
     y = 0
     p = 0
@@ -520,108 +522,108 @@ def craft():
                 pass
 
     print("Items you can craft")
-    for i in available:
+    while k == 1:
+        try:
+            number_list(available, 0)
 
-        if i != None:
-            print(i[0], end = "   ")
-            p += 1
-            if p == 4:
-                print("")
-                p = 0
-            y += 1
+            print("")
+            print("What would you like to craft? (0 to cancel)")
+            select = int(input("> "))
+            select = available[(select -1)][0]
+            k = 2
+        except(TypeError, ValueError):
+            print("Invalid selection")
 
-    print("")
-    print("What would you like to craft?")
-    select = input("> ")
+    if k == 2:
+        
+        for i in available:
+            if select == i[0]:
+                
 
-    
-    
-    for i in available:
-        if select == i[0]:
-            
+                
+                # finding the possible quantities
+                for e in crafting:
+                    # e is  ['bed', 'wool', 3, 'wood_plank', 3, 1],
+                    # for 2 material recipies
+                    if len(e) == 6 and select == e[0]:
+                        for x in inventory:
+                            if e[1] == x[0]:
+                                # (Quantity I have on hand / Quantity needed for recipie) rounded down *
+                                # total amount given at end [Total amount of item craftable]
+                                var1 = math.floor(x[1] / e[2])
 
-            
-            # finding the possible quantities
-            for e in crafting:
-                # e is  ['bed', 'wool', 3, 'wood_plank', 3, 1],
-                # for 2 material recipies
-                if len(e) == 6 and select == e[0]:
-                    for x in inventory:
-                        if e[1] == x[0]:
-                            # (Quantity I have on hand / Quantity needed for recipie) rounded down *
-                            # total amount given at end [Total amount of item craftable]
-                            var1 = math.floor(x[1] / e[2])
+                        for x in inventory:
+                            if e[3] == x[0]:
+                                var2 = math.floor(x[1] / e[4])
 
-                    for x in inventory:
-                        if e[3] == x[0]:
-                            var2 = math.floor(x[1] / e[4])
+                        if var1 > var2:
+                            possible = var2
+                        else:
 
-                    if var1 > var2:
-                        possible = var2
-                    else:
-                        possible = var1
+                            possible = var1
 
-                # ['wood_plank', 'log', 1, 4], 
-                # for 1 material recipies
-                elif select == e[0]:
-                    for x in inventory:
-                        if e[1] == x[0]:
-                            # Total amount of item craftable
-                            var1 = math.floor(x[1] / e[2])
-
-
-            while done == False:
-                possible = var1
-                print(f"Make {select} how many times? 0-{possible}(enter 0 to cancel)")
-
-                try:
-                    select2 = int(input("> "))
-                    quantity2 = select2
-
-                    if quantity2 < 0:
-                        print("Must be greater than zero")
-
-                    elif quantity2 == 0:
-                        done = True
-                        start()
-
-                    elif quantity2 <= possible:
-                        done = True
-
-                    else:
-                        print("You don't have that many!")
-
-                except (TypeError, ValueError) as e:
-                    print("Numbers only please")
+                    # ['wood_plank', 'log', 1, 4], 
+                    # for 1 material recipies
+                    elif select == e[0]:
+                        for x in inventory:
+                            if e[1] == x[0]:
+                                # Total amount of item craftable
+                                var1 = math.floor(x[1] / e[2])
+                                possible = var1
 
 
-            # Where the crafting actually happens
-             
+                while done == False:
+                    
+                    print(f"Make {select} how many times? 0-{possible}(enter 0 to cancel)")
 
-            for e in crafting:
-                if e[0] == select:
+                    try:
+                        select2 = int(input("> "))
+                        quantity2 = select2
 
-                    if len(e) == 6:
-                        store(e[0], (e[5] * quantity2))
-                        store(e[1], (-e[2] * quantity2))
-                        store(e[3], (-e[4] * quantity2))
-                        msg = (f"You gained {quantity2 * e[5]} {select}")
-                        select2 = select2 * e[3]
+                        if quantity2 < 0:
+                            print("Must be greater than zero")
 
-                    else:
-                        store(e[0], (e[3] * quantity2))
-                        store(e[1], (-e[2] * quantity2))
-                        msg = (f"You gained {quantity2 * e[3]} {select}")
-                        select2 = select2 * e[3]
+                        elif quantity2 == 0:
+                            done = True
+                            done2 = True
 
-            print(f"Crafting {select}")
-            tick(1)
-            while z != 3:
-                print(".")
-                time.sleep(.5)
-                z += 1
-            print(msg)
-            input("> ")
+                        elif quantity2 <= possible:
+                            done = True
+
+                        else:
+                            print("You don't have that many!")
+
+                    except (TypeError, ValueError) as e:
+                        print("Numbers only please")
+
+
+                # Where the crafting actually happens
+                
+                if done2 == False:
+                    for e in crafting:
+                        if e[0] == select:
+
+                            if len(e) == 6:
+                                store(e[0], (e[5] * quantity2))
+                                store(e[1], (-e[2] * quantity2))
+                                store(e[3], (-e[4] * quantity2))
+                                msg = (f"You gained {quantity2 * e[5]} {select}")
+                                select2 = select2 * e[3]
+
+                            else:
+                                store(e[0], (e[3] * quantity2))
+                                store(e[1], (-e[2] * quantity2))
+                                msg = (f"You gained {quantity2 * e[3]} {select}")
+                                select2 = select2 * e[3]
+
+                    print(f"Crafting {select}")
+                    tick(1)
+                    while z != 3:
+                        print(".")
+                        time.sleep(.5)
+                        z += 1
+                    print(msg)
+                    input("> ")
     
 def a2():
     print("@@@@@      Skelouse      @@@@@")
@@ -630,105 +632,131 @@ def eat():
     health_added = 0
     food_selected = 0
     quantity = 0
+    query = 0
     y = 0
     food_list = []
-    have_food = False
+    have_food = True
 
-    for i in inventory:
-        for x in edible:
-            if i[0] == x[0] and i[1]:
-                have_food = True
-
-    if have_food == False:
-        input("You don't have anything to eat")
 
     while have_food:
-
-        health_added = 0
-        food_selected = 0
-        y = 0
-        food_list = []
+        have_food = False
         for i in inventory:
             for x in edible:
-                if x[0] == i[0] and i[1] >= 1:
-                    food_list.append(x[0])
-        print("What are you hungry for?")
-        for i in food_list:
-                    print(i, end ="   ")
-                    y += 1
-                    if y == 4:
-                        print("")
-                        y = 0
-        print("")
-        select = input("> ")
-        while have_food:
-            select2 = 0
-            if select in semi_edible:
-                
-                if random.randint(0,100) < 70:
-                    print("Ehh")
+                if i[0] == x[0] and i[1] > 0:
+                    have_food = True
+        if have_food == False:
+            input("You don't have anything to eat")
+        else:
+            health_added = 0
+            food_selected = 0
+            y = 0
+            food_list = []
+            for i in inventory:
+                for x in edible:
+                    if x[0] == i[0] and i[1] >= 1:
+                        food_list.append(x[0])
+            while query != 'q':
+                try:
+                    x = 1
+                    print("What are you hungry for?")
+                    number_list(food_list, -1)
+
+                    print("")
+                    select = int(input("> "))
+                    select = food_list[(select - 1)]
+                    query = 'q'
+                    
+                except (ValueError, TypeError):
+                    have_food = False
+                    query = 'q'
+            while have_food:
+                select2 = 0
+                if select in semi_edible:
+                    
+                    if random.randint(0,100) < 70:
+                        print("Ehh")
+                        for x in edible:
+                            if x[0] == select:
+                                tick(1)
+                                health_added = x[1]
+                                food_selected = x[0]
+                                store(food_selected, -1)
+                                health += health_added
+                                print(f"You eat {food_selected} for {health_added} hp.")
+                                if health >= 100:
+                                    print("Your health is full!")
+                                    health = 100
+
+
+                    else:
+                        print("Yuck")
+                        for x in edible:
+                            if x[0] == select:
+                                tick(1)
+                                health_added = -(x[1])
+                                food_selected = x[0]
+                                store(food_selected, -1)
+                                health += health_added
+                                print(f"The {food_selected} poisons you, taking {health_added} hp!")
+                                if health <= 0:
+                                    dead()
+
+
+                    have_food = False
+                    quantity = 0
+                    for i in inventory:
+                        if i[0] == food_selected:
+                            quantity = i[1]
+                            if quantity >= 1:
+                                have_food = True
+                    if quantity and have_food:
+                        print(f"{quantity} left, eat another? (y/n)")
+                        select2 = input("> ")
+
+                        if select2 == 'y':
+                            pass
+                        else:
+                            have_food = False
+                    else:
+                        input("No more food!")
+                        have_food = False
+
+
+
+                elif select in food_list:
+                    print("Yummy")
                     for x in edible:
                         if x[0] == select:
                             tick(1)
                             health_added = x[1]
                             food_selected = x[0]
-                            store(food_selected, -1)
-                            health += health_added
-                            print(f"You eat {food_selected} for {health_added} hp.")
-                            if health >= 100:
-                                print("Your health is full!")
-                                health = 100
+                    
+                    store(food_selected, -1)
+                    health += health_added
+                    print(f"You eat {food_selected} for {health_added} hp")
+                    if health >= 100:
+                        print("Your health is full!")
+                        health = 100
 
-
-                else:
-                    print("Yuck")
-                    for x in edible:
-                        if x[0] == select:
-                            tick(1)
-                            health_added = -(x[1])
-                            food_selected = x[0]
-                            store(food_selected, -1)
-                            health += health_added
-                            print(f"The {food_selected} poisons you, taking {health_added} hp!")
-                            if health <= 0:
-                                dead()
-
-
-
-
-            elif select in food_list:
-                print("Yummy")
-                for x in edible:
-                    if x[0] == select:
-                        tick(1)
-                        health_added = x[1]
-                        food_selected = x[0]
-                
-                store(food_selected, -1)
-                health += health_added
-                print(f"You eat {food_selected} for {health_added} hp")
-                if health >= 100:
-                    print("Your health is full!")
-                    health = 100
-
-            have_food = False
-            for i in inventory:
-                for x in edible:
-                    if i[0] == x[0]:
-                        quantity = i[1]
-                        if quantity >= 1: 
-                            have_food = True
-            if quantity:
-                print(f"{quantity} left, eat another? (y/n)")
-                select2 = input("> ")
-
-                if select2 == 'y' and have_food:
-                    pass
-                elif select2 == 'y':
-                    input("None left")
-                else:
                     have_food = False
-    input("(Enter)")        
+                    quantity = 0
+                    for i in inventory:
+                        if i[0] == food_selected:
+                            quantity = i[1]
+                            if quantity >= 1:
+                                have_food = True
+                    if quantity and have_food:
+                        print(f"{quantity} left, eat another? (y/n)")
+                        select2 = input("> ")
+
+                        if select2 == 'y':
+                            pass
+                        else:
+                            have_food = False
+                    else:
+                        input("No more food!")
+                        have_food = False
+
 
 
 # ['stick', 'wood_plank', 2, 4]
@@ -747,8 +775,10 @@ def store(x,y):
     for i in tools:
         if x == i[0]:
             if y > 0:
-                equipment.append(i)
-                in_tools = True
+                while y > 0:
+                    equipment.append(i)
+                    in_tools = True
+                    y -= 1
 
             else:
                 for i in equipment:
@@ -845,10 +875,10 @@ def dig_down(height):
             input("> ")
 
     else:
-
+        bucket = False
         if block == 'lava':
             for i in inventory:
-                if i[0] == 'water_bucket':
+                if i[0] == 'water_bucket' and i[1] > 0:
                     bucket = True
             
             if bucket == False:
@@ -859,6 +889,8 @@ def dig_down(height):
                 print("You use your water bucket to turn the lava into obsidian")
                 print("You also lose 10 hp from well, lava")
                 health -= 10
+                if health <= 0:
+                    dead()
                 block = 'obsidian'
                 store('water_bucket', -1)
                 store('bucket', 1)
@@ -1490,38 +1522,91 @@ def fight(mob):
         
 
 def dead():
-
-    print("You die, game over")
-    exit(0)
+    #    select = 0
+    #    deaths = 1
+    print("You die, game over.")#  Total fatal incidents = {deaths}")
+    input("(Enter)")
+    exit(0 )
+    #    print("Play again (y/n)")
+    #    select = input("> ")
+    #    while True:
+    #        if select == 'n':
+    #            exit(0)
+    #        elif select == 'y':
+    #            deaths += 1
+    #            clear_save()
+    #        else:
+    #            pass
+        
 
 
 def view_inventory():
 
-    x = 1
-    z = 0
+    k = 0
+    m = 1
+    select = 0
+    is_sure = False
+    selected_item = 0
     print("Items")
     for i in inventory:
-        if i != None and i[1] != 0:
-            print(f"#{x}", i[0], " - " ,i[1], end = " ")
-            z += 1
-            if z == 4:
+        if i[1] == 0:
+            inventory.remove(i)
+
+    for i in inventory:
+            #MAX len 21
+            text = (f"  {i[1]}-{i[0]}")
+            var1 = 20 - len(text)
+            print(text,' ' * var1, end = "")
+            k += 1
+            m += 1
+            if k == 3:
                 print("")
-                z = 0
-            x += 1
-    print("")
+                k = 0
     print("Equipment")
-    z = 0
-    for i in equipment:
-        if i != None:
-            print(f"#{x}", i[0], end = " ")
-            z += 1
-            if z == 4:
-                print("")
-                z = 0
-            x += 1
+
+    number_list(equipment, 0)
+
+
+    print("Throw out an item or equipment? (i/e)")
+    select = input("> ")
+
+    if select == 'i':
+        number_list(inventory, 0)
+        print("")
+        print("Select an item to destroy")
+        try:
+            select = int(input("> "))
+            print("Are you sure? (y/n)")
+            is_sure = input("> ")
+            if is_sure:
+                store(inventory[(select-1)][0], -(inventory[(select-1)][1]))
+                input("(Enter)")
+
+        except(ValueError, TypeError, IndexError):
+            print("Invalid")
+            input("(Enter)")
+
+    elif select == 'e':
+        number_list(equipment, 0)
+        print("")
+        print("Select an item to destroy")
+        try:
+            select = int(input("> "))
+            select_item = equipment[(select-1)][0]
+            print("Are you sure? (y/n)")
+            is_sure = input("> ")
+            if is_sure:
+                store(select, -(inventory[(select-1)]))
+
+        except(ValueError, TypeError, IndexError):
+            print("Invalid")
+            input("(Enter)")
+
+
+    else:
+        pass
     
-    print("")
-    input("> ")
+
 
 
 def view_equipment():
@@ -1648,6 +1733,7 @@ def furnace():
     y = 0
     p = 0
     ape = 0
+    query = 0
     quantity_unit = 0
     quantity_fuel = 0
     select_unit = 0
@@ -1662,13 +1748,11 @@ def furnace():
         if i[0] == 'furnace':
             furnace_have = True
 
-
-    for i in cook_output:
-        cook_list.append(i[0])
-
-    for i in inventory:
-        if i[0] in cook_list and i[1] >= 1:
-            can_cook = True
+    for x in inventory:
+        for i in cook_output:
+            if x[0] == i[0] and x[1] > 0:
+                cook_list.append(i[0])
+                can_cook = True
 
     for i in inventory:
         for x in fuel:
@@ -1681,27 +1765,37 @@ def furnace():
         input("> ")
     else:
         if can_cook == True and have_fuel == True:
-            cookable = []
-            print("What would you like to cook?")
-            for i in inventory:
-                if i[0] in cook_list and i[1] >= 0:
-                    print(i[0], end = "   ")
+            try:
+                k = 1
+                print("What would you like to cook?")
+                for i in cook_list:
+                    print(f"#{k} {i}", end = "   ")
                     z += 1
+                    k += 1
                     if z == 4:
                         print("")
                         z = 0
-            print("")
-            select_unit = input("> ")
-            if select_unit in cook_list:
-                print("What fuel would you like to use?")
-                for i in fuel_list:
-                    print(i, end ="   ")
-                    y += 1
-                    if y == 4:
-                        print("")
-                        y = 0
                 print("")
-                select_fuel = input("> ")
+                select_unit = int(input("> "))
+                select_unit = cook_list[(select_unit - 1)]
+            except(ValueError, IndexError):
+                pass
+            if select_unit in cook_list:
+                try:
+                    k = 1
+                    print("What fuel would you like to use?")
+                    for i in fuel_list:
+                        print(f"#{k} {i}", end ="   ")
+                        y += 1
+                        k += 1
+                        if y == 4:
+                            print("")
+                            y = 0
+                    print("")
+                    select_fuel = int(input("> "))
+                    select_fuel = fuel_list[(select_fuel - 1)]
+                except(ValueError, IndexError):
+                    pass
 
                 # This is where the actual cooking happens
                 if select_fuel in fuel_list:
@@ -1753,11 +1847,9 @@ def furnace():
                                 input("> ")
                         
                             else:
-                                start()
                                 ape = 'q'
 
                         except ValueError:
-                            start()
                             ape = 'q'
 
 
@@ -1808,6 +1900,39 @@ def tick(x):
             print("=========================")
             clock = 0
 
+# x is the list to print. y is the list indice(-1 for no indice) diamond_pickaxe
+def number_list(x,y):
+    m = 1
+    k = 0
+    var1 = 0
+    text = 0
+    done = False
+    if y != -1:
+
+        for i in x:
+            
+            #MAX len 21
+            text = (f"  #{m} {i[y]}")
+            var1 = 21 - len(text)
+            print(text,' ' * var1, end = "")
+            k += 1
+            m += 1
+            if k == 3:
+                print("")
+                k = 0
+    else:
+
+        for i in x:
+            
+            #MAX len 20
+            text = (f" #{m} {i}")
+            var1 = 20 - len(text)
+            print(text,' ' * var1, end = "")
+            k += 1
+            m += 1
+            if k == 3:
+                print("")
+                k = 0
 
 
 select = 0
@@ -1875,8 +2000,13 @@ def start():
         cls()
         print("Try again")
 def version(x):
+    global test
     print(f"     v.{x}", end = " ")
-    input("(Enter)")
+    if x == 'test':
+        test = True
+        print("")
+    else:
+        input("(Enter)")
 
 a4()
 
@@ -1887,11 +2017,16 @@ version('pre-alpha')
 
 
 while True:
-    try:
+    if test:
         start()
-    except Exception:
-        print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
-        input("> ")
+    else:
+        try:
+            start()
+        except Exception:
+            print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
+            input("> ")
+
+
     
 
 
