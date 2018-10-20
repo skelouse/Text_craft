@@ -106,25 +106,25 @@ achievements_list = [
 # 0
 [0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
 # 1
-[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],# Not added
+[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
 # 2
-[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],# Not added
+[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
 # 3
-[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],# Not added
+[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
 # 4
-[0, 0, 'Sorry, Mom',1 , 'killing a cow'],# Not added
+[0, 0, 'Sorry, Mom',1 , 'killing a cow'],
 # 5
-[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],# Not added
+[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
 # 6
-[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],# Not added
+[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
 # 7
-[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],# Not added
+[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
 # 8
-[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],# Not added
+[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
 # 9
-[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],# Not added
+[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
 # 10
-[0, 0, 'Oink, Oink',100 , 'eat 100 items'] # Not added
+[0, 0, 'Oink, Oink',100 , 'eat 100 items']
 ]
 achieved = []
 
@@ -155,6 +155,7 @@ farm_materials = [
 def money_add(x):
     global money
     money = money + x
+
 
 def farming():
 
@@ -268,17 +269,16 @@ def farming():
             print("Lol")
 
 
-# x is what to do
-# y is which farm ('all_farms')
-#x
-# 1 is check for things that need to be done on y farm
-# 2 is water
-# 3 is harvest
-# 4 is build
-# 5 is level up
-# 6 is destroy
-
 def EventFarm(x,y):
+    # x is what to do
+    # y is which farm ('all_farms')
+    #x
+    # 1 is check for things that need to be done on y farm
+    # 2 is water
+    # 3 is harvest
+    # 4 is build
+    # 5 is level up
+    # 6 is destroy
 
     have_farm = False
     for i in all_farms:
@@ -683,6 +683,7 @@ def eat():
                                 store(food_selected, -1)
                                 health += health_added
                                 print(f"You eat {food_selected} for {health_added} hp.")
+                                achievements_list[10][0] += 1
                                 if health >= 100:
                                     print("Your health is full!")
                                     health = 100
@@ -698,6 +699,7 @@ def eat():
                                 store(food_selected, -1)
                                 health += health_added
                                 print(f"The {food_selected} poisons you, taking {health_added} hp!")
+                                achievements_list[10][0] += 1
                                 if health <= 0:
                                     dead()
 
@@ -734,6 +736,7 @@ def eat():
                     store(food_selected, -1)
                     health += health_added
                     print(f"You eat {food_selected} for {health_added} hp")
+                    achievements_list[10][0] += 1
                     if health >= 100:
                         print("Your health is full!")
                         health = 100
@@ -834,8 +837,10 @@ def cave_ore(height):
 
 def dig_down(height):
 
+
     global health
     block = 0
+    select = 0
     z = 0
     bucket = False
     tick(1)
@@ -871,7 +876,7 @@ def dig_down(height):
         elif select == 'd':
             dig_down(height)
         else:
-            print("Returning to surface because you can't type")
+            print("Returning to surface")
             input("> ")
 
     else:
@@ -886,6 +891,7 @@ def dig_down(height):
                 print("Bring a water bucket next time.")
                 dead()
             else:
+                achievements_list[3][0] += 1
                 print("You use your water bucket to turn the lava into obsidian")
                 print("You also lose 10 hp from well, lava")
                 health -= 10
@@ -904,14 +910,13 @@ def dig_down(height):
                 height -= 1
                 print("Climb back up or keep digging(c/d)")
                 select = input("> ")
-
                 if select == 'c':
                     print("You climb back to the surface")
                     input("> ")
                 elif select == 'd':
                     dig_down(height)
                 else:
-                    print("Returning to surface because you can't type")
+                    print("Returning to surface")
                     input("> ")
 
         else:    
@@ -949,6 +954,8 @@ def adventure():
     tick(1)
     search = ['tree','tree', 'tree', 'tree',
  'tree', 'tree', 'river', 'animal', 'animal', 'cave']
+
+
     end = search[random.randint(0, (len(search)-1))]
 
     if end == 'animal':
@@ -1022,18 +1029,37 @@ def river():
 def fill_bucket():
 
     tick(1)
-    z = 0
-    print("Your bucket fills up")
-    
-    while z != 3:
-        print(".")
-        time.sleep(.5)
-        z += 1
-    
-    for i in inventory:
-        if i[0] == 'bucket' and i[1] >= 1:
-            store('bucket', -1)
-            store('water_bucket', 1)
+    bucket = True
+
+    while bucket == True:
+        z = 0
+        print("Your bucket fills up")
+        achievements_list[5][0] += 1
+        
+        while z != 3:
+            print(".")
+            time.sleep(.5)
+            z += 1
+        
+        for i in inventory:
+            if i[0] == 'bucket' and i[1] >= 1:
+                store('bucket', -1)
+                store('water_bucket', 1)
+
+        bucket = False
+        for i in inventory:
+            if i[0] == 'bucket' and i[1] > 0:
+                bucket = True
+
+        if bucket == True:
+            print("Fill another? (y/n)")
+            select = input("> ")
+
+            if select == 'y':
+                pass
+            else:
+                bucket = False
+
 
   
 def fish():
@@ -1049,6 +1075,7 @@ def fish():
 
     if random.randint(0,100) < 30:
         print("You caught a fish!")
+        achievements_list[6][0] += 1
         store('raw_fish', 1)
         print("Continue fishing? (y/n)")
         select = input("> ")
@@ -1172,6 +1199,7 @@ def break_tree():
     z = 0
     amount = 0
     amount2 = 0
+    achievements_list[2][0] += 1
 
     if random.randint(0,100) < 10:
         x = 1
@@ -1252,7 +1280,7 @@ def fight_mob(mob):
         elif select == 'n':
             adventure()
         else:
-            start()
+            pass
 
     elif (mob) in wolf:
         print("You find a wolf!  Would you like to tame it?(y/n)")
@@ -1261,10 +1289,10 @@ def fight_mob(mob):
             tame()
 
         elif select == 'n':
-            advanture()
+            adventure()
 
         else:
-            start()
+            pass
 
     else:
         print(f"Fight the {mob} or run (f/r)")
@@ -1309,6 +1337,7 @@ def kill(mob):
         input(">")
     
     elif mob == 'cow':
+        achievements_list[4][0] += 1
         print(f"You kill the {mob}!")
         amount = random.randint(0,3)
         amount2 = random.randint(0,3)
@@ -1485,6 +1514,7 @@ def fight(mob):
         if mob_health <= 0 and blow_up == False:
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
+            achievements_list[8][0] += 1
             print(f"You get {amount} gunpowder!")
             store('gunpowder', amount)
             input("> ")
@@ -1547,6 +1577,7 @@ def view_inventory():
     select = 0
     is_sure = False
     selected_item = 0
+    achievements_list[9][0] += 1
     print("Items")
     for i in inventory:
         if i[1] == 0:
@@ -1691,6 +1722,7 @@ def tame():
         if select == 'y':
             store('bone', -1)
             if random.randint(0,100) < 20:
+                achievements_list[7][0] += 1
                 print("Tame successful, your damage increases by 1")
                 damage += 1
                 input("> ")
@@ -1768,13 +1800,8 @@ def furnace():
             try:
                 k = 1
                 print("What would you like to cook?")
-                for i in cook_list:
-                    print(f"#{k} {i}", end = "   ")
-                    z += 1
-                    k += 1
-                    if z == 4:
-                        print("")
-                        z = 0
+                number_list(cook_list, -1)
+
                 print("")
                 select_unit = int(input("> "))
                 select_unit = cook_list[(select_unit - 1)]
@@ -1784,13 +1811,8 @@ def furnace():
                 try:
                     k = 1
                     print("What fuel would you like to use?")
-                    for i in fuel_list:
-                        print(f"#{k} {i}", end ="   ")
-                        y += 1
-                        k += 1
-                        if y == 4:
-                            print("")
-                            y = 0
+                    number_list(fuel_list, -1)
+
                     print("")
                     select_fuel = int(input("> "))
                     select_fuel = fuel_list[(select_fuel - 1)]
@@ -1813,7 +1835,7 @@ def furnace():
                         print(f"and {select_fuel} only cooks {quantity_fuel}")
                         select = input("> ")
                         try:
-                            if int(select) <= quantity_unit:
+                            if int(select) <= quantity_fuel:
                                 quantity_unit = int(select)####
                                 if int(quantity_unit) > int(quantity_fuel):
                                     total_cooked = int(quantity_fuel)
