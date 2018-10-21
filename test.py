@@ -152,6 +152,12 @@ farm_materials = [
 # END FARMING LISTS
 # END FARMING LISTS
 
+prices = [
+    ['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10],
+    ['iron', 5], ['leather', 5], ['redstone', 5], ['obsidian', 20], ['stone', 3],
+    ['bedrock', 340]
+]
+
 def money_add(x):
     global money
     money = money + x
@@ -527,11 +533,12 @@ def craft():
             number_list(available, 0)
 
             print("")
-            print("What would you like to craft? (0 to cancel)")
+            print("What would you like to craft?")
             select = int(input("> "))
             select = available[(select -1)][0]
             k = 2
         except(TypeError, ValueError):
+            k = 3
             print("Invalid selection")
 
     if k == 2:
@@ -844,8 +851,8 @@ def dig_down(height):
     z = 0
     bucket = False
     tick(1)
-
     block = ore(height)
+    
     
     # if block == 'dirt'
     print("You mine the block below you")
@@ -863,11 +870,16 @@ def dig_down(height):
             if block == 'diamond':
                     achievements_list[1][0] += 1
             print(f"You get 1 {block}!")
+            input("(Enter)")
+            cls()
             store(block, 1)
         else:
             print("Try using a better pickaxe")
+            input("(Enter)")
+            cls()
 
         height -= 1
+        health_bar()
         print("Climb back up or keep digging(c/d)")
         select = input("> ")
         if select == 'c':
@@ -903,17 +915,21 @@ def dig_down(height):
 
                 if pickaxe(block) == True:
                     print(f"You get 1 {block}!")
+                    input("(Enter)")
+                    cls()
                     store(block, 1)
                 else:
                     print("Try using a better pickaxe")
 
                 height -= 1
+                health_bar()
                 print("Climb back up or keep digging(c/d)")
                 select = input("> ")
                 if select == 'c':
                     print("You climb back to the surface")
                     input("> ")
                 elif select == 'd':
+                    cls()
                     dig_down(height)
                 else:
                     print("Returning to surface")
@@ -955,27 +971,38 @@ def adventure():
     search = ['tree','tree', 'tree', 'tree',
  'tree', 'tree', 'river', 'animal', 'animal', 'cave']
 
+    if random.randint(0,100) < 20:
+        search.append('villager')
 
     end = search[random.randint(0, (len(search)-1))]
 
     if end == 'animal':
+        cls()
         mob()
 
     elif end == 'tree':
         print("You find a tree")
         select = input("Do you want to cut it down(y/n)")
         if select == 'y':
+            cls()
             break_tree()
         elif select == 'n':
+            cls()
             adventure()
         else:
             pass
 
     elif end == 'river':
+        cls()
         river()
 
     elif end == 'cave':
+        cls()
         cave()
+
+    elif end == 'villager':
+        cls()
+        villager()
     
     else:
         print("ERROR in def adventure")
@@ -998,8 +1025,10 @@ def river():
         print("Would you like to fish or fill your bucket with water?(f/b)")
         select = input("> ")
         if select == 'f':
+            cls()
             fish()
         elif select == 'b':
+            cls()
             fill_bucket()
         else:
             pass
@@ -1008,12 +1037,14 @@ def river():
         print("would you like to fill a bucket with water?(y/n)")
         select = input("> ")
         if select == 'y':
+            cls()
             fill_bucket()
 
     elif rod == True:
         print("would you like to fish?(y/n) ")
         select = input("> ")
         if select == 'y':
+            cls()
             fish()
 
     else:
@@ -1021,9 +1052,10 @@ def river():
         print("Keep adventuring?(y/n)")
         select = input("> ")
         if select == 'y':
+            cls()
             adventure()
         else:
-            start()
+            pass
 
 
 def fill_bucket():
@@ -1122,16 +1154,20 @@ def cave():
                 print(f"You get 1 {block}!")
                 store(block, 1)
             else:
-                print("Try using a better pickaxe")   
+                print("Try using a better pickaxe")  
+            cls() 
             deep_cave()
         else:
+            cls()
             fight_mob(search_mob[random.randint(0,2)])
             deep_cave()
 
     elif select == 'n':
+        cls()
         adventure()
 
     else:
+        cls()
         start()
 
 
@@ -1142,6 +1178,9 @@ def a3():
 def deep_cave():
 
     global height
+    global health
+    cls()
+    health_bar()
     tick(1)
     z = 0
     have_torch = False
@@ -1162,6 +1201,7 @@ def deep_cave():
 
         if find == 'ore':
             block = cave_ore(height)
+            cls()
             print(f"You mine one {block}")
             while z != 3:
                 print(".")
@@ -1171,20 +1211,27 @@ def deep_cave():
                 if block == 'diamond':
                     achievements_list[1][0] += 1
                 print(f"You get 1 {block}!")
+                
                 store(block, 1)
             else:
-                print("Try using a better pickaxe")   
+                print("Try using a better pickaxe")
+
+            input("(Enter)")
+            cls()   
             deep_cave()
         else:
+            cls()
             fight_mob(search_mob[random.randint(0,2)])
             deep_cave()
 
     elif select == 'y' and have_torch == False:
+        cls()
         print("You're out of torches, returning to surface")
         input("> ")
         height = 64
 
     elif select == 'n':
+        cls()
         print("Returning to surface")
         input("> ")
         height = 64
@@ -1267,7 +1314,8 @@ def fight_mob(mob):
     global health
     global friend
     global foe
-
+    cls()
+    health_bar()
     select = 0
     wolf = ['wolf']
     
@@ -1278,6 +1326,7 @@ def fight_mob(mob):
         if select == 'y':
             kill(mob)
         elif select == 'n':
+            cls()
             adventure()
         else:
             pass
@@ -1286,9 +1335,11 @@ def fight_mob(mob):
         print("You find a wolf!  Would you like to tame it?(y/n)")
         select = input("")
         if select == 'y':
+            cls()
             tame()
 
         elif select == 'n':
+            cls()
             adventure()
 
         else:
@@ -1298,15 +1349,20 @@ def fight_mob(mob):
         print(f"Fight the {mob} or run (f/r)")
         select = input("> ")
         if select == 'f':
+            cls()
             fight(mob)
         else:
             if mob == 'creeper':
+                cls()
                 print("Somehow you get away")
                 input("> ")
             else:
-                print(f"You run away and the {mob} hits you for 5 hp")
+                cls()
                 health -= 5
+                health_bar()
+                print(f"You run away and the {mob} hits you for 5 hp")
                 input("> ")
+                cls()
 
 # function for killing['chicken', 'pig', 'cow', 'sheep]
 def kill(mob):
@@ -1347,6 +1403,116 @@ def kill(mob):
         input("> ")
     
 
+
+def villager():
+    
+
+    global prices
+    buying_selling = True
+    
+    item_for_sale = 0
+    item_for_buy = 0
+    quantity_buy = 0
+    quantity_sell = 0
+    select = 0
+    z = 5
+    sell_list = [['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10]]
+    buy_list = prices
+    for i in inventory:
+        for x in prices:
+            if i[0] == x[0]:
+                sell_list.append(x)
+                if z != 0:
+                    sell_list.remove(sell_list[(z - 1)])
+                    z -= 1
+    # ['leather', 5]
+    item_for_sale = sell_list[random.randint(0,(len(sell_list)-1))]
+    sell_list.remove(item_for_sale)
+    item_for_buy = buy_list[random.randint(0,(len(buy_list)-1))]
+    item_for_sale[1] = (item_for_sale[1]/2)
+
+    
+    while buying_selling == True:
+        global money
+        have_item_sell = False
+        have_item_buy = False
+        cls()
+        print("Villager is...")
+        print(f"Buying - {item_for_sale[0]} for ${item_for_sale[1]}")
+        print(f"Selling - {item_for_buy[0]} for ${item_for_buy[1]}")
+        print("")
+
+        
+        for i in inventory:
+            if i[0] == item_for_sale[0] and i[1] > 0:
+                have_item_sell = True
+                quantity_sell = i[1]
+        if money >= item_for_buy[1]:
+            have_item_buy = True
+            quantity_buy = math.floor(money/(item_for_buy[1]))
+
+
+    
+        print(f"You have ${money}")
+        print(f"Would you like to buy or sell? (b/s) (q to quit)")
+        select = input("> ")
+
+        if select == 's' and have_item_sell:
+            print(f"How many {item_for_sale[0]} would you like to sell? (0-{quantity_sell})")
+            try:
+                select = int(input("> "))
+                if 1 <= select <= quantity_sell:
+                    print(f"Selling {select} {item_for_sale[0]} to Villager")
+
+                    store((item_for_sale[0]), -(select))
+                    money_added = item_for_sale[1] * select
+                    print(f"You get ${money_added}")
+                    money_add(money_added)
+                    input("(Enter)")
+
+                elif select > quantity_sell:
+                    print("You don't have that many!")
+                    input("(Enter)")
+                else:
+                    print("Invalid")
+                    input("(Enter)")
+            except(ValueError, IndexError):
+                print("Invalid")
+                input("(Enter)")
+
+        elif select == 'b' and have_item_buy:
+            print(f"How many {item_for_buy[0]} would you like to buy? (0-{quantity_buy})")
+            try:
+                select = int(input("> "))
+                if 1 <= select <= quantity_buy:
+                    print(f"Buying {select} {item_for_buy[0]} to Villager")   
+                    store((item_for_buy[0]), select)
+                    money_added = item_for_buy[1] * -(select)
+                    print(f"You get {select} {item_for_buy[0]}!")
+                    money_add(money_added)
+                    input("(Enter)")
+
+                elif select > quantity_buy:
+                    print("You don't have enough money!")
+                    input("(Enter)")
+                else:
+                    print("Invalid")
+                    input("(Enter)")
+            except(ValueError, IndexError):
+                print("Invalid")
+                input("(Enter)")
+
+        elif select == 's':
+            print(f"You dont have any {item_for_sale[0]}.")
+            input("(Enter)")
+        elif select == 'b':
+            print(f"You don't have enough money to buy {item_for_buy[0]}.")
+            input("(Enter)")
+        elif select == 'q':
+            buying_selling = False
+
+
+
 def a1():
     print("@@@@@      TEXTCRAFT     @@@@@")
 
@@ -1362,91 +1528,107 @@ def fight(mob):
         mob_health = 20
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The zombie bites you taking {hurt} hp")
+                input("(Enter)")
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH                    
             if health <= 0:
                 dead()
         
         if mob_health <= 0:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
             print(f"You get {amount} rotten flesh!")
             store('rotten_flesh', amount)
-            input("> ")
+            input("(Enter)")
 
    
     elif mob == 'skeleton':
         mob_health = 20
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The skeleton shoots you taking {hurt} hp")
+                input("(Enter)")
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH
             if health <= 0:
                 dead()
         
         if mob_health <= 0:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
             print(f"You get {amount} bone!")
             store('bone', amount)
-            input("> ")
+            input("(Enter)")
 
 
     elif mob == 'witch':
         mob_health = 26
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The witch throws a damage potion at you taking {hurt} hp")
+                input("(Enter)")
 
             if random.randint(0,100) < 10:
                 print("The witch heals itself with a potion")
+                input("(Enter)")
                 mob_health += 10
                 if mob_health > 26:
                     mob_health = 26
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH
             if health <= 0:
                 dead()
         
         if mob_health <= 0:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,2)
             print(f"You get {amount} glass bottle")
@@ -1458,30 +1640,35 @@ def fight(mob):
         mob_health = 16
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The slime stomps on you taking {hurt} hp")
+                input("(Enter)")
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH
             if health <= 0:
                 dead()
         
         if mob_health <= 0:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
             print(f"You get {amount} slimeball!")
             store('slimeball', amount)
-            input("> ")
+            input("(Enter)")
 
 
     elif mob == 'creeper':
@@ -1489,61 +1676,72 @@ def fight(mob):
         blow_up = False
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
-            if random.randint(0,100) < 10:
+            if random.randint(0,100) < 20:
                 hurt = random.randint(40,61)
                 health -= hurt
+                cls()
+                health_bar()
                 print(f"The creeper blows up hurting you {hurt} hp")
                 mob_health = 0
                 blow_up = True
-                input("> ")
+                input("(Enter)")
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
 
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH
             if health <= 0:
                 dead()
         
         if mob_health <= 0 and blow_up == False:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
             achievements_list[8][0] += 1
             print(f"You get {amount} gunpowder!")
             store('gunpowder', amount)
-            input("> ")
+            input("(Enter)")
 
 
     if mob == 'spider':
         mob_health = 16
 
         while mob_health > 0:
+            cls()
+            health_bar()
 
             if random.randint(0,100) < 25:
                 hurt = random.randint(3,10)
                 health -= hurt
                 print(f"The spider bites you taking {hurt} hp")
+                input("(Enter)")
             else:
-                print("")
                 input("Hit (enter) to attack!")
                 if random.randint(0,100) < 90:
                     damage2 = damage * random.randint(1,3)
                     mob_health -= damage2
                     print(f"You hit the {mob} for {damage2} hp")
+                    input("(Enter)")
 
                 else:
                     print("You miss")
+                    input("(Enter)")
             # DEATH
             if health <= 0:
                 dead()
         
         if mob_health <= 0:
+            cls()
             print(f"The {mob} has fallen by your fist")##### {weapon}
             amount = random.randint(0,3)
             print(f"You get {amount} string!")
@@ -1582,7 +1780,7 @@ def view_inventory():
     for i in inventory:
         if i[1] == 0:
             inventory.remove(i)
-
+    
     for i in inventory:
             #MAX len 21
             text = (f"  {i[1]}-{i[0]}")
@@ -1593,6 +1791,7 @@ def view_inventory():
             if k == 3:
                 print("")
                 k = 0
+    print("")
     print("Equipment")
 
     number_list(equipment, 0)
@@ -1700,6 +1899,11 @@ def view_equipment():
         print("You don't have any equipment")
         input("Exit")
 
+
+def health_bar():
+
+    global health
+    print('  Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
 
 def old_equipment(x):
     if x[0] != 'fist':
@@ -1992,30 +2196,38 @@ def start():
     tick(0)
     # Checking for new achievements
     achievements(1)
-    print('  Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')')
+    health_bar()
+    print(f"  In the bank = ${money}")
     print(question)
 
     select = input("> ")
     
     if select == 'a':# adventure()
+        cls()
         adventure()
 
     elif select == 'd':# dig_down()
+        cls()
         dig_down(height)
 
     elif select == 'c':# craft
+        cls()
         craft()
     
     elif select == 'f':# furnace
+        cls()
         furnace()
     
     elif select == 'e':# eat
+        cls()
         eat()
     
     elif select == 's':# sleep
+        cls()
         bed_sleep()
     
     elif select == 'm':# menu
+        cls()
         menu()
     
     else:
@@ -2047,6 +2259,9 @@ while True:
         except Exception:
             print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
             input("> ")
+
+
+    
 
 
     
