@@ -2541,11 +2541,6 @@ a4()
 version('pre-alpha 2.0')
 
 
-store('rotten_flesh', 10)
-store('wood_plank', 1000)
-store('dirt', 1000)
-store('log', 1000)
-money_add(10000)
 
 
 while True:
@@ -2557,6 +2552,10 @@ while True:
         except Exception:
             print("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .")
             input("> ")
+
+
+    
+
 
 
     
