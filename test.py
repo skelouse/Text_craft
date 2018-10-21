@@ -8,7 +8,6 @@ test = False
 night = False
 furnace_have = False
 current_time = math.floor(time.time())
-time_passed = 0
 health = 100
 height = 64
 damage = 1
@@ -331,7 +330,7 @@ def EventFarm(x,y):
     #['bedrock', .0001]
     else:# 0
         global current_time
-        global time_passed
+        time_passed = 0
         time_passed = (math.floor(time.time())) - current_time + time_passed #seconds
         current_time = math.floor(time.time())
         time_passed_storm = time_passed
@@ -339,7 +338,6 @@ def EventFarm(x,y):
         for i in all_farms:
             if i[1] == 1:
                 i[5] += time_passed
-
         storm = False
         need_water = False
         need_harvest = False
@@ -370,7 +368,7 @@ def EventFarm(x,y):
         #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, 50000]
     #['bedrock', .0001]
         for i in all_farms:
-            if i[5] > 1800:
+            if i[5] >= 1800:
                 i[3] = 0
                 i[6] += 1800
 
@@ -638,8 +636,6 @@ def build_farm():
                         if have_enough_materials_to_build and money > select[2]:
                             select.append(choice_material)
                             select.append(len(all_farms) + 1)
-                            print(select)
-                            input("ZED")
                             print(f"Building {select[0]} farm!")
 
                             while z != 4:
@@ -2540,6 +2536,8 @@ a4()
 #version('test')
 version('pre-alpha 2.0')
 
+#all_farms.append(['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, ['log', 50000], 1])
+#store('water_bucket', 20)
 
 
 while True:
@@ -2554,8 +2552,6 @@ while True:
 
 
     
-
-
 
 
 
