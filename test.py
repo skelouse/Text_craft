@@ -2682,7 +2682,7 @@ def version(x):
 
 
 
-version('test')
+#version('test')
 version('pre-alpha 3.0')
 
 
