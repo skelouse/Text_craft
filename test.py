@@ -269,7 +269,7 @@ def farming():
                         msg = ''
                         msg += EventFarm(0, all_farms)
                         msg += ("(press any key)\n")
-                        input
+                        input(msg, 0)
 
                     elif select == 's': # Select a farm
                         msg = ''
@@ -285,7 +285,7 @@ def farming():
                         except (ValueError, IndexError, TypeError):
                             msg = ''
                             msg += ("Invalid selection\n")
-                            input
+                            input(msg, 0)
 
 
                     elif select == 'w' and selected_farm != 0: # Water selected
@@ -314,16 +314,16 @@ def farming():
                     elif selected_farm == 0:
                         msg = ''
                         msg += ("No farm selected\n")
-                        input
+                        input(msg, 0)
 
                     else:
                         msg = ''
                         msg += ("Not an option\n")
-                        input
+                        input(msg, 0)
                 except IndexError:
                     msg = ''
                     msg += ("Invalid\n")
-                    input
+                    input(msg, 0)
                 
             
             else:
@@ -497,26 +497,26 @@ def water_farm(x):
                 i[3] = 1
         store('bucket', (20+ ((x[8]-1)*3)))
         store('water_bucket', (-20+ ((x[8]-1)*3)))
-        input
+        input(msg, 0)
 
     elif enough_buckets == True and x[3] == 1:
         cls()
         msg = ''
         msg += ("This farm is already watered!\n")
-        input
+        input(msg, 0)
 
     elif x[3] == 1:
         cls()
         msg = ''
         msg += ("This farm is already watered!\n")
-        input
+        input(msg, 0)
 
     else:
         cls()
         msg = ''
         msg += ("You don't have enough water!\n")
         msg += (f"You need {(20+ ((x[8]-1)*3))} buckets of water\n")
-        input
+        input(msg, 0)
 
 def harvest_farm(x):
 
@@ -535,12 +535,12 @@ def harvest_farm(x):
                 cls()
                 msg = ''
                 msg += (f"Farm harvested you get {amount_received} {i[0]}\n")
-                input
+                input(msg, 0)
     else:
         cls()
         msg = ''
         msg += ("Not ready to be harvested\n")
-        input
+        input(msg, 0)
 
 def level_farm(x):
 
@@ -601,7 +601,7 @@ def level_farm(x):
             cls()
             msg = ''
             msg += ("You don't have enough materials...\n")
-            input
+            input(msg, 0)
 
         if level_farm:
                     
@@ -614,7 +614,7 @@ def level_farm(x):
                         time.sleep(.5)
                         k += 1
                     msg = '(press any key)\n'
-                    input
+                    input(msg, 0)
                     k = 0
                 elif z == 1:
                     cls()
@@ -624,7 +624,7 @@ def level_farm(x):
                         time.sleep(.5)
                         k += 1
                     msg = '(press any key)\n'
-                    input
+                    input(msg, 0)
                     k = 0
                 elif z == 2:
                     cls()
@@ -817,7 +817,6 @@ def menu():
 
     if select == 'a':
         achievements(0)
-        input("> ")
     elif select == 'f': # farm
         farming()
     elif select == 'i': # inventory
@@ -1083,10 +1082,10 @@ def eat():
                                 achievements_list[10][0] += 1
                                 if health >= 100:
                                     msg += ("Your health is full!\n")
-                                    input
+                                    input(msg, 0)
                                     health = 100
                                 else:
-                                    input
+                                    input(msg, 0)
 
 
                     else:
@@ -1102,7 +1101,7 @@ def eat():
                                 msg = ''
                                 msg += ("Yuck...\n")
                                 msg += (f"The {food_selected} poisons you, taking {health_added} hp!\n")
-                                input
+                                input(msg, 0)
                                 achievements_list[10][0] += 1
                                 if health <= 0:
                                     dead()
@@ -1148,10 +1147,10 @@ def eat():
                     achievements_list[10][0] += 1
                     if health >= 100:
                         msg += ("Your health is full!\n")
-                        input
+                        input(msg, 0)
                         health = 100
                     else:
-                        input
+                        input(msg, 0)
 
                     have_food = False
                     quantity = 0
@@ -1276,13 +1275,13 @@ def dig_down(height):
                     achievements_list[1][0] += 1
             msg = ''
             msg += (f"You get 1 {block}!\n")
-            input
+            input(msg, 0)
             cls()
             store(block, 1)
         else:
             msg = ''
             msg += ("Try using a better pickaxe\n")
-            input
+            input(msg, 0)
             cls()
 
         height -= 1
@@ -1309,7 +1308,7 @@ def dig_down(height):
                 msg = ''
                 msg += ("OUCH LAVA BURNS!\n")
                 msg += ("Bring a water bucket next time.\n")
-                input
+                input(msg, 0)
                 dead()
             else:
                 achievements_list[3][0] += 1
@@ -1325,12 +1324,12 @@ def dig_down(height):
 
                 if pickaxe(block) == True:
                     msg += (f"You get 1 {block}!\n")
-                    input
+                    input(msg, 0)
                     cls()
                     store(block, 1)
                 else:
                     msg += ("Try using a better pickaxe")
-                    input
+                    input(msg, 0)
 
                 height -= 1
                 health_bar()
@@ -1351,7 +1350,7 @@ def dig_down(height):
             msg = ''   
             msg += ("You can't mine through bedrock silly!\n")
             msg += ("Returning to surface")
-            input
+            input(msg, 0)
 
 # current_pickaxe = ['wooden_pickaxe', 33, 1, 59]
 def pickaxe(block):
@@ -1814,7 +1813,7 @@ def kill(mob):
         store('raw_beef', amount)
         store('leather', amount2)
         msg += (f"You get {amount} raw beef, and {amount2} leather!\n")
-        input
+        input(msg, 0)
     
 
 
@@ -1885,7 +1884,7 @@ def villager():
                     money_added = item_for_sale[1] * select
                     msg += (f"You get ${money_added}\n")
                     money_add(money_added)
-                    input
+                    input(msg, 0)
 
                 elif select > quantity_sell:
                     input("You don't have that many!\n", 0)
@@ -1907,7 +1906,7 @@ def villager():
                     money_added = item_for_buy[1] * -(select)
                     msg += (f"You get {select} {item_for_buy[0]}!\n")
                     money_add(money_added)
-                    input
+                    input(msg, 0)
 
                 elif select > quantity_buy:
                     input("You don't have enough money!\n", 0)
@@ -2020,8 +2019,8 @@ def fight(mob):
 
 
             if random.randint(0,100) < 10:
-                print("The witch heals itself with a potion")
-                input
+                msg = ("The witch heals itself with a potion")
+                input(msg, 0)
                 mob_health += 10
                 if mob_health > 26:
                     mob_health = 26
@@ -2474,7 +2473,7 @@ def furnace():
                                 store(select_unit2, total_cooked)
                                 store(select_fuel, -1)
                                 store(select_unit, -total_cooked)
-                                input
+                                input(msg, 0)
 
 
                                 ape = 'q'
@@ -2499,10 +2498,10 @@ def furnace():
             msg += ("Cooks you can't\n")
             if can_cook == True:
                 msg += ("No fuel!\n")
-                input
+                input(msg, 0)
             else:
                 msg += ("You have nothing to cook!\n")
-                input
+                input(msg, 0)
 
 
 # tick(0) checks the clock
@@ -2525,7 +2524,7 @@ def tick(x):
         msg += ("The sun has RISEN!\n")
         msg += ("=========================\n")
         msg += ("=========================\n")
-        input
+        input(msg, 0)
         clock = 0
 
     else:
@@ -2715,6 +2714,10 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
+
+
+    
+
 
 
     
