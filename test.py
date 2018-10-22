@@ -2459,6 +2459,7 @@ def furnace():
         if can_cook == True and have_fuel == True:
             try:
                 k = 1
+                msg = ''
                 msg += ("What would you like to cook?\n")
                 msg += number_list(cook_list, -1)
 
@@ -2762,6 +2763,8 @@ while True:
 
 
     
+
+
 
 
 
