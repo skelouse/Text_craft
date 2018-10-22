@@ -2204,14 +2204,14 @@ def view_inventory():
     msg += ("\n")
     msg += ("Equipment\n")
 
-    number_list(equipment, 0)
+    msg += number_list(equipment, 0)
 
 
     msg += ("Throw out an item or equipment? (i/e)\n")
     select = input(str(msg), 1)
 
     if select == 'i':
-        number_list(inventory, 0)
+        msg += number_list(inventory, 0)
 
         msg += ("Select an item to destroy\n")
         try:
@@ -2227,7 +2227,7 @@ def view_inventory():
 
 
     elif select == 'e':
-        number_list(equipment, 0)
+        msg += number_list(equipment, 0)
 
         msg += ("Select an item to destroy\n")
         try:
@@ -2719,8 +2719,6 @@ while True:
     
 
 
-
-    
 
 
 
