@@ -2726,7 +2726,7 @@ def version(x):
 
 
 
-version('test')
+#version('test')
 version('pre-alpha 3.0')
 
 if user_id != 'user_id':
