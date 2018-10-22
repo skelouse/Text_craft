@@ -2,7 +2,7 @@ import random
 import time
 import os
 import math
-import curses
+
 
 achievements_list = [
 # 0
@@ -206,30 +206,58 @@ prices = [
     ['iron', 5], ['leather', 5], ['redstone', 5], ['obsidian', 20], ['stone', 3],
     ['bedrock', 340]
 ]
-#--------------------------------------
-def input_char(message,y):
-    #try:
-    win = curses.initscr()
-    win.clear()
-    msg1 = None
-    if y == 1:
-        msg1 = ''
-        for i in message:
-            msg1 += str(i)
-    else:
-        msg1 = message
-    win.addstr(0, 0, msg1)
-    while True: 
-        ch = win.getch()
-        if ch in range(32, 127): break
-        if ch == 10: break
-        time.sleep(0.05)
-    #except: raise
-    #finally:
-    curses.endwin()
-    return chr(ch)
+try:
 
-#--------------------------------------
+	import curses
+	#--------------------------------------
+	def input_char(message,y):
+		#try:
+		win = curses.initscr()
+		win.clear()
+		msg1 = None
+		if y == 1:
+			msg1 = ''
+			for i in message:
+				msg1 += str(i)
+		else:
+			msg1 = message
+		win.addstr(0, 0, msg1)
+		while True: 
+			ch = win.getch()
+			if ch in range(32, 127): break
+			if ch == 10: break
+			time.sleep(0.05)
+		#except: raise
+		#finally:
+		curses.endwin()
+		return chr(ch)
+except:
+	import unicurses
+	#--------------------------------------
+	def input_char(message,y):
+		#try:
+		stdscr = unicurses.initscr()
+		
+		unicurses.clear()
+		msg1 = None
+		if y == 1:
+			msg1 = ''
+			for i in message:
+				msg1 += str(i)
+		else:
+			msg1 = message
+		unicurses.addstr(msg1, 0)
+		while True: 
+			ch = unicurses.getch()
+			if ch in range(32, 127): break
+			if ch == 10: break
+			time.sleep(0.05)
+		#except: raise
+		#finally:
+		unicurses.endwin()
+		return chr(ch)
+
+	#--------------------------------------
 def input(x,y):
     c = input_char(x,y)
     try:
@@ -2763,6 +2791,9 @@ while True:
 
 
     
+
+
+
 
 
 
