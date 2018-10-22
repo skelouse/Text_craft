@@ -4,7 +4,31 @@ import os
 import math
 import curses
 
-
+achievements_list = [
+# 0
+[0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
+# 1
+[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
+# 2
+[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
+# 3
+[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
+# 4
+[0, 0, 'Sorry, Mom',1 , 'killing a cow'],
+# 5
+[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
+# 6
+[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
+# 7
+[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
+# 8
+[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
+# 9
+[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
+# 10
+[0, 0, 'Oink, Oink',100 , 'eat 100 items']
+# 11 millionaire
+]
 
 try:
     import textcraft123
@@ -13,6 +37,10 @@ except ModuleNotFoundError:
         file.write("inventory = []\n")
         file.write("all_farms = []\n")
         file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
+        file.write("achieved = []\n")
+        file.write("equipment = []\n")
+        file.write("achievements_list =  ")
+        file.write(str(achievements_list))
         print("Please hold...")
         time.sleep(2)
 
@@ -21,6 +49,9 @@ import textcraft123
 inventory = textcraft123.inventory
 all_farms = textcraft123.all_farms
 base = textcraft123.base
+achieved = textcraft123.achieved
+equipment = textcraft123.equipment
+achievements_list = textcraft123.achievements_list
 
 test = False
 night = base[0]
@@ -73,7 +104,7 @@ cook_output = [
 
 
 # type, current durability
-equipment = []
+
 
 
 
@@ -151,7 +182,7 @@ achievements_list = [
 [0, 0, 'Oink, Oink',100 , 'eat 100 items']
 # 11 millionaire
 ]
-achieved = []
+
 
 # START FARMING LISTS
 # START FARMING LISTS
@@ -834,6 +865,15 @@ def menu():
                 file.write("\n")
                 file.write("all_farms = ")
                 file.write(str(all_farms))
+                file.write("\n")
+                file.write("equipment = ")
+                file.write(str(equipment))
+                file.write("\n")
+                file.write("achieved = ")
+                file.write(str(achieved))
+                file.write("\n")
+                file.write("achievements_list = ")
+                file.write(str(achievements_list))
                 file.write("\n")
                 global night
                 global furnace_have
@@ -1867,7 +1907,7 @@ def villager():
 
 
     
-        msg += (f"You have ${money}")
+        msg += (f"You have ${money}\n")
         msg += (f"Would you like to buy or sell? (b/s) (q to quit)\n")
         select = input(str(msg), 1)
 
@@ -2162,6 +2202,10 @@ def dead():
         file.write("inventory = []\n")
         file.write("all_farms = []\n")
         file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
+        file.write("achieved = []\n")
+        file.write("equipment = []\n")
+        file.write("achievements_list = []\n")
+        
 
     msg += ("Play again (y/n)\n")
     
@@ -2276,7 +2320,7 @@ def view_equipment():
             if i != None and len(equipment[0]) > 0:
                 if i[1] != 0:
                     percentage1 = math.ceil( 100* (i[1]) / i[3])
-                    msg += str(f"#{y} {i[0]} {percentage1}% ", end = " ")
+                    msg += str(f"#{y} {i[0]} {percentage1}% ")
                     z += 1
                     if z == 2:
                         msg += ("\n")
@@ -2307,7 +2351,8 @@ def view_equipment():
 
 
     else:
-        input("You don't have any equipment\n", 0)
+        msg += ("You don't have any equipment\n")
+        input(msg, 0)
 
 
 def health_bar():
@@ -2681,7 +2726,7 @@ def version(x):
 
 
 
-#version('test')
+version('test')
 version('pre-alpha 3.0')
 
 if user_id != 'user_id':
@@ -2717,10 +2762,6 @@ while True:
 
 
     
-
-
-
-
 
 
 
