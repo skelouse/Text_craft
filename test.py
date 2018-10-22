@@ -911,7 +911,7 @@ def craft():
     msg += ("Items you can craft\n")
     while k == 1:
         try:
-            number_list(available, 0)
+            msg += number_list(available, 0)
 
             msg += ("\n")
             msg += ("What would you like to craft?\n")
@@ -922,7 +922,7 @@ def craft():
             k = 3
             msg = ''
             msg += ("Invalid selection\n")
-            input
+            input(msg, 0)
 
 
     if k == 2:
@@ -1007,13 +1007,13 @@ def craft():
                                 msg = (f"You gained {quantity2 * e[3]} {select}")
                                 select2 = select2 * e[3]
 
-                    input(f"Crafting {select}", 0)
+                    print(f"Crafting {select}")
                     tick(1)
                     while z != 3:
-                        print(".\n")
+                        print(".")
                         time.sleep(.5)
                         z += 1
-                    input
+                    input(msg, 0)
 
     
 def a2():
@@ -1969,7 +1969,7 @@ def fight(mob):
             amount = random.randint(0,3)
             msg += (f"You get {amount} rotten flesh!\n")
             store('rotten_flesh', amount)
-            input
+            input(str(msg), 0)
 
    
     elif mob == 'skeleton':
@@ -2003,7 +2003,7 @@ def fight(mob):
             amount = random.randint(0,3)
             msg += (f"You get {amount} bone!\n")
             store('bone', amount)
-            input
+            input(str(msg), 0)
 
 
     elif mob == 'witch':
@@ -2044,7 +2044,7 @@ def fight(mob):
             amount = random.randint(0,3)
             msg += (f"You get {amount} glass bottle!\n")
             store('glass_bottle', amount)
-            input
+            input(str(msg), 0)
 
 
     elif mob == 'slime':
@@ -2078,7 +2078,7 @@ def fight(mob):
             amount = random.randint(0,3)
             msg += (f"You get {amount} slimeball!\n")
             store('slimeball', amount)
-            input
+            input(str(msg), 0)
 
 
     elif mob == 'creeper':
@@ -2116,7 +2116,7 @@ def fight(mob):
             amount = random.randint(0,3)
             msg += (f"You get {amount} gunpowder!\n")
             store('gunpowder', amount)
-            input
+            input(str(msg), 0)
 
 
     if mob == 'spider':
@@ -2685,7 +2685,10 @@ def version(x):
 #version('test')
 version('pre-alpha 3.0')
 
-
+if user_id != 'user_id':
+    msg = (f"Welcome back, {user_id}")
+    input(msg, 0)
+    start()
 
 while True:
     if test:
@@ -2709,21 +2712,9 @@ while True:
                 start()
 
             else:
-                msg = (f"Welcome back, {user_id}")
-                input(msg, 0)
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
-
-    
-
-
-    
-
-
-
-    
 
 
     
