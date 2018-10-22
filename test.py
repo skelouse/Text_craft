@@ -2706,6 +2706,7 @@ while True:
                 user_id = id
                 msg = (f"Welcome {user_id}!")
                 input(msg, 0)
+                start()
 
             else:
                 msg = (f"Welcome back, {user_id}")
