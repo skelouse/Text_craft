@@ -359,7 +359,7 @@ def farming():
             
             else:
                 msg = ''
-                msg += ("You don't have any farms")
+                msg += ("You don't have any farms\n")
                 msg += ("Build one? (y/n)\n")
                 select = input(str(msg), 1)
 
@@ -717,7 +717,7 @@ def build_farm():
         k = 0
         msg = ''
         msg += ("What would you like to build it out of?\n")
-        number_list(farm_materials, 0)
+        msg += number_list(farm_materials, 0)
 
         msg += ("(q)uit")
         select = input(str(msg), 1)
@@ -2763,8 +2763,6 @@ while True:
 
 
     
-
-
 
 
 
