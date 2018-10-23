@@ -614,7 +614,7 @@ def level_farm(x):
     base_level_cost = [10, 10, 4, 10]
     level_cost = [i * 2 * x[8] for i in base_level_cost]
     have_material = False
-    have_plank = False
+    have_stone = False
     have_dirt = False
     have_money = False
     level_farm = False
@@ -622,7 +622,7 @@ def level_farm(x):
     msg = ''
     msg += (f"""Leveling up your farm costs
     {level_cost[0]} - {x[9][0]}
-    {level_cost[1]} - wood_plank
+    {level_cost[1]} - stone
     {level_cost[2]} - dirt
     {level_cost[3]}$\n""")
     msg += ("Be sure you harvest before leveling!\n")
@@ -633,14 +633,14 @@ def level_farm(x):
         for i in inventory:
             if i[0] == (x[9][0]) and i[1] >= level_cost[0]:
                 have_material = True
-            if i[0] == 'wood_plank' and i[1] >= level_cost[1]:
-                have_plank = True
+            if i[0] == 'stone' and i[1] >= level_cost[1]:
+                have_stone = True
             if i[0] == ('dirt') and i[1] >= level_cost[2]:
                 have_dirt = True
         if money > level_cost[3]:
             have_money = True
 
-        if have_material and have_plank and have_dirt and have_money:
+        if have_material and have_stone and have_dirt and have_money:
             for i in all_farms:
                 if x == i:
                     level_farm = True
@@ -650,7 +650,7 @@ def level_farm(x):
                     i[4] = 0
                     
                     store((x[9][0]), -(level_cost[0]))
-                    store('wood_plank', -(level_cost[1]))
+                    store('stone', -(level_cost[1]))
                     store('dirt', -(level_cost[2]))
                     money_add(-(level_cost[3]))
     # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
@@ -710,12 +710,12 @@ def level_farm(x):
         pass
 
 def build_farm():
-    # $, material, wood_plank, dirt, money
+    # $, material, stone, dirt, money
     # base_farm_cost = [100, 100, 40, 100]
     select = 0
     farm_selected = False
     have_enough_materials = False
-    have_enough_wood_plank = False
+    have_enough_stone = False
     have_enough_dirt = False
     have_enough_materials_to_build = False
     farm_types = [
@@ -730,12 +730,12 @@ def build_farm():
     ]
 
     for i in inventory:
-        if i[0] == 'wood_plank' and i[1] >= 100:
-            have_enough_wood_plank = True
+        if i[0] == 'stone' and i[1] >= 100:
+            have_enough_stone = True
         if i[0] == 'dirt' and i[1] >= 40:
             have_enough_dirt = True
 
-    if have_enough_dirt and have_enough_wood_plank:
+    if have_enough_dirt and have_enough_stone:
         have_enough_materials_to_build = True
 
     while select != 'q':
@@ -811,9 +811,15 @@ def build_farm():
                                     
 
                                 z += 1
+                                # $, material, stone, dirt, money
+                                # base_farm_cost = [100, 100, 40, 100]
                             cls()
                             input(f"{select[0]} farm is complete!\n", 0)
                             EventFarm(4, select)
+                            store(choice_material[0], -100)
+                            store('stone', -100)
+                            store('dirt', -40)
+                            money_add(-100)
                             select = 'q'
                             farming()                                               
 
@@ -975,26 +981,69 @@ def craft():
             else:
                 pass
     msg = ''
-    msg += ("Items you can craft\n")
-    while k == 1:
-        try:
-            msg += number_list(available, 0)
 
-            msg += ("\n")
-            msg += ("What would you like to craft?\n")
-            select = int(input(str(msg), 1))
-            select = available[(select -1)][0]
-            k = 2
-        except(TypeError, ValueError, IndexError):
-            k = 3
+    scroll = True
+    check = True
+    select = ''
+    while k == 1:
+        #try
+        available2 = available
+        while scroll:
             msg = ''
-            msg += ("Invalid selection\n")
-            input(msg, 0)
+            var = len(available2)
+            if len(available2) > 9 and check:
+                if select == 's':
+                    x = 0
+                    for i in available2:
+                        for z in available:
+                            if z == i:
+                                available2.remove(i)
+                                var -= 1
+
+
+                x = 0
+                available = []
+                for i in available2:
+                    available.append(available2[x])
+                    x += 1
+                    if x == 9: break
+
+            if var > 9:
+                msg += ("Press (s) to scroll!\n")
+                msg += ("====================\n")
+            else:
+                msg += ("\n\n")
+            msg += ("Items you can craft\n")
+            msg += number_list(available, 0)
+            msg += ("\n")
+            msg += ("What would you like to craft? (q to quit)\n")
+            select = input(msg, 1)
+            if select == 's':
+                scroll = True
+                check = True
+            elif select == 'q':
+                k = 3
+                scroll = False
+            else:
+                try:
+                    select = int(select)
+                    select = available[(select -1)][0]
+                    k = 2
+                    scroll = False
+                except:
+                    input("(Invalid)", 0)
+                    check = False
+        #except(TypeError, ValueError, IndexError):
+            #k = 3
+            #msg = ''
+            #msg += ("Invalid selection\n")
+            #input(msg, 0)
 
 
     if k == 2:
+        z = 0
         
-        for i in available:
+        for i in available: 
             if select == i[0]:
                 
 
@@ -1106,7 +1155,7 @@ def eat():
             input("You don't have anything to eat", 0)
         else:
             cls()
-            health_bar()
+            
             health_added = 0
             food_selected = 0
             y = 0
@@ -1117,10 +1166,13 @@ def eat():
                         food_list.append(x[0])
             while query != 'q':
                 msg = ''
+                msg += health_bar()
                 try:
                     x = 1
                     msg += ("What are you hungry for?\n")
-                    number_list(food_list, -1)
+                    
+                    msg += number_list(food_list, -1)
+                    msg += ("\n")
                     select = int(input(str(msg), 1))
                     select = food_list[(select - 1)]
                     query = 'q'
@@ -1131,6 +1183,8 @@ def eat():
             while have_food:
                 health_added = 0
                 select2 = 0
+                msg = ''
+                msg += health_bar()
                 if select in semi_edible:
                     
                     if random.randint(0,100) < 70:
@@ -1144,7 +1198,6 @@ def eat():
                                 health += health_added
                                 cls()
                                 health_bar()
-                                msg = ''
                                 msg += ("Ehh...\n")
                                 msg += (f"You eat {food_selected} for {health_added} hp.\n")
                                 achievements_list[10][0] += 1
@@ -1166,7 +1219,6 @@ def eat():
                                 health += health_added
                                 cls()
                                 health_bar()
-                                msg = ''
                                 msg += ("Yuck...\n")
                                 msg += (f"The {food_selected} poisons you, taking {health_added} hp!\n")
                                 input(msg, 0)
@@ -1183,7 +1235,6 @@ def eat():
                             if quantity >= 1:
                                 have_food = True
                     if quantity and have_food:
-                        msg = ''
                         msg += (f"{quantity} left, eat another? (y/n)\n")
                         select2 = input(str(msg), 1)
 
@@ -2756,7 +2807,7 @@ def version(x):
 
 
 #version('test')
-version('pre-alpha 3.0')
+version("Alpha 1.0 / known bug, can't select more than 9 of something")
 
 if user_id != 'user_id':
     msg = (f"Welcome back, {user_id}")
@@ -2777,9 +2828,8 @@ while True:
                     select = input(msg, 1)
                     id += select
                     msg += select
-                for x in id:
-                    x.replace(".", "")
-                user_id = id
+                
+                user_id = id[0:(len(id)-1)]
                 msg = (f"Welcome {user_id}!")
                 input(msg, 0)
                 start()
@@ -2788,12 +2838,6 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
-
-    
-
-
-
 
 
 
