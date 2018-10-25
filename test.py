@@ -4,40 +4,52 @@ import os
 import math
 
 
-achievements_list = [
-# 0
-[0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
-# 1
-[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
-# 2
-[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
-# 3
-[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
-# 4
-[0, 0, 'Sorry, Mom',1 , 'killing a cow'],
-# 5
-[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
-# 6
-[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
-# 7
-[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
-# 8
-[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
-# 9
-[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
-# 10
-[0, 0, 'Oink, Oink',100 , 'eat 100 items']
-# 11 millionaire
+farm_materials = [
+    ['log', 50000],
+    ['stone', 20000],
+    ['iron_block', 5000],
+    ['diamond_block', 2000],
+    ['obsidian', 10],
+    ['bedrock', 3]
 ]
 
+
+
+# [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
 try:
     import textcraft123
 except ModuleNotFoundError:
+    achievements_list = [
+    # 0
+    [0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
+    # 1
+    [0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
+    # 2
+    [0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
+    # 3
+    [0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
+    # 4
+    [0, 0, 'Sorry, Mom',1 , 'killing a cow'],
+    # 5
+    [0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
+    # 6
+    [0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
+    # 7
+    [0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
+    # 8
+    [0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
+    # 9
+    [0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
+    # 10
+    [0, 0, 'Oink, Oink',100 , 'eat 100 items']
+    # 11 millionaire
+    ]
+
+
     with open('textcraft123.py', 'w') as file:
         file.write("inventory = []\n")
         file.write("all_farms = []\n")
         file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
-        file.write("achieved = []\n")
         file.write("equipment = []\n")
         file.write("achievements_list =  ")
         file.write(str(achievements_list))
@@ -45,16 +57,25 @@ except ModuleNotFoundError:
         time.sleep(2)
 
 import textcraft123
+global inventory
+global all_farms
+global base
+global equipment
 
 inventory = textcraft123.inventory
 all_farms = textcraft123.all_farms
 base = textcraft123.base
-achieved = textcraft123.achieved
 equipment = textcraft123.equipment
 achievements_list = textcraft123.achievements_list
 
 test = False
-night = base[0]
+
+#night
+if base[0] == 1:
+    night = True
+else:
+    night = False
+
 furnace_have = base[1]
 health = base[2]
 damage = base[3]
@@ -106,8 +127,6 @@ cook_output = [
 # type, current durability
 
 
-
-
 #type, current durability, power, total durability
 tools = [
     ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2]
@@ -155,51 +174,6 @@ cave_ores = [
     ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 1]
 ]
 
-# To set an achievement up to something achievements_list[list number][0] += 1 
-# [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
-achievements_list = [
-# 0
-[0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
-# 1
-[0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
-# 2
-[0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
-# 3
-[0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
-# 4
-[0, 0, 'Sorry, Mom',1 , 'killing a cow'],
-# 5
-[0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
-# 6
-[0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
-# 7
-[0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
-# 8
-[0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
-# 9
-[0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
-# 10
-[0, 0, 'Oink, Oink',100 , 'eat 100 items']
-# 11 millionaire
-]
-
-
-# START FARMING LISTS
-# START FARMING LISTS
-
-
-
-farm_materials = [
-    ['log', 50000],
-    ['stone', 20000],
-    ['iron_block', 5000],
-    ['diamond_block', 2000],
-    ['obsidian', 10],
-    ['bedrock', 3]
-]
-
-# END FARMING LISTS
-# END FARMING LISTS
 
 prices = [
     ['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10],
@@ -208,56 +182,86 @@ prices = [
 ]
 try:
 
-	import curses
-	#--------------------------------------
-	def input_char(message,y):
-		#try:
-		win = curses.initscr()
-		win.clear()
-		msg1 = None
-		if y == 1:
-			msg1 = ''
-			for i in message:
-				msg1 += str(i)
-		else:
-			msg1 = message
-		win.addstr(0, 0, msg1)
-		while True: 
-			ch = win.getch()
-			if ch in range(32, 127): break
-			if ch == 10: break
-			time.sleep(0.05)
-		#except: raise
-		#finally:
-		curses.endwin()
-		return chr(ch)
-except:
-	import unicurses
-	#--------------------------------------
-	def input_char(message,y):
-		#try:
-		stdscr = unicurses.initscr()
-		
-		unicurses.clear()
-		msg1 = None
-		if y == 1:
-			msg1 = ''
-			for i in message:
-				msg1 += str(i)
-		else:
-			msg1 = message
-		unicurses.addstr(msg1, 0)
-		while True: 
-			ch = unicurses.getch()
-			if ch in range(32, 127): break
-			if ch == 10: break
-			time.sleep(0.05)
-		#except: raise
-		#finally:
-		unicurses.endwin()
-		return chr(ch)
+    import curses
+    #--------------------------------------
+    def input_char(message,y):
+        win = curses.initscr()
+        win.clear()
+        msg1 = None
+        if y == 1:
+            msg1 = ''
+            for i in message:
+                msg1 += str(i)
+                win.addstr(0, 0, msg1)
+            while True: 
+                ch = win.getch()
+                if ch in range(32, 127): break
+                if ch == 10: break
+                time.sleep(0.05)
+                curses.endwin()
+            return chr(ch)
+        elif y == 0:
+            msg1 = message
+            msg1 += ("\n\n(press any key)\n")
+            win.addstr(0, 0, msg1)
+            while True: 
+                ch = win.getch()
+                if ch in range(32, 127): break
+                if ch == 10: break
+                time.sleep(0.05)
+                curses.endwin()
 
-	#--------------------------------------
+        else:
+            x = 0
+            iterations = y[0]# number of iterations
+            z = y[1]
+            
+            msg1 = message
+
+            msg1 += '.'
+            win.addstr(0, 0, msg1)
+            try:
+                time.sleep(y[2])
+            except:
+                pass
+                
+            curses.endwin()
+            iterations -= 1
+            if iterations != -1:
+                input(msg1, [iterations, z, z])
+            else:
+                pass
+
+                    
+                
+
+except:
+    import unicurses
+    #--------------------------------------
+    def input_char(message,y):
+        #try:
+        stdscr = unicurses.initscr()
+        
+        unicurses.clear()
+        msg1 = None
+        if y == 1:
+            msg1 = ''
+            for i in message:
+                msg1 += str(i)
+        else:
+            msg1 = message
+        unicurses.addstr(msg1, 0)
+        while True: 
+            ch = unicurses.getch()
+            if ch in range(32, 127): break
+            if ch == 10: break
+            time.sleep(0.05)
+        #except: raise
+        #finally:
+        unicurses.endwin()
+        return chr(ch)
+
+    #--------------------------------------
 def input(x,y):
     c = input_char(x,y)
     try:
@@ -270,574 +274,1466 @@ def money_add(x):
     money = money + x
 
 
-def farming():
 
-    global money
+class farm():
+        
+    def farming():
 
-    q = 0
-    z = 0
-    select = 0
-    selected_farm = 0
-    have_farm = False
-    farm_selected = False
-    choice_material = 0
-    current_farms = []   
+        global money
 
-    for i in all_farms:
-        if i[1] > 0:
-            current_farms.append(i)
-            have_farm = True
+        q = 0
+        z = 0
+        select = 0
+        selected_farm = 0
+        have_farm = False
+        farm_selected = False
+        choice_material = 0
+        current_farms = []   
 
-    # Base cost of a farm
-    # $, material, wood_plank, dirt, money
-    base_farm_cost = [100, 100, 40, 100]# level up is less
+        for i in all_farms:
+            if i[1] > 0:
+                current_farms.append(i)
+                have_farm = True
 
-    
-    # need to water? 0 or 1/ , need to rebuild 0 or 1, 
-    #               return [water, rebuild]
+        # Base cost of a farm
+        # $, material, wood_plank, dirt, money
+        base_farm_cost = [100, 100, 40, 100]# level up is less
 
-    while select != 'q':
-        cls()
-        need_msg = ''
-        x = 1
-        try:
+        
+        # need to water? 0 or 1/ , need to rebuild 0 or 1, 
+        #               return [water, rebuild]
 
-            if have_farm == True:   
-                #if farm_selected:
-                #    EventFarm(0, selected_farm)  # 1 is check for things that need to be done 
-                #else:
-                #    pass
+        while select != 'q':
+            cls()
+            need_msg = ''
+            x = 1
+            try:
 
-                if selected_farm:
-                    need_msg = (f"   level-{selected_farm[8]} {selected_farm[0]}|{selected_farm[10]} farm is selected!\n")
-                    need_msg += (EventFarm(1, selected_farm))  
-                msg = need_msg + ("""What would you like to do?
-    (s)elect a farm
-    (w)ater
-    (h)arvest
-    (l)evel up
-    (n)otifications
-    (b)uild new farm
-    (d)estroy
-    (q)uit\n""")# add are you sure on destroy
+                if have_farm == True:   
+                    #if farm_selected:
+                    #    farm.EventFarm(0, selected_farm)  # 1 is check for things that need to be done 
+                    #else:
+                    #    pass
 
-                select = input(msg)
-                try:
-                    if select == 'n': # Notifications
-                        cls()
-                        msg = ''
-                        msg += EventFarm(0, all_farms)
-                        msg += ("(press any key)\n")
-                        input(msg, 0)
+                    if selected_farm:
+                        need_msg = (f"   level-{selected_farm[8]} {selected_farm[0]}|{selected_farm[10]} farm is selected!\n")
+                        need_msg += (farm.EventFarm(1, selected_farm))  
+                    msg = need_msg + ("""What would you like to do?
+        (s)elect a farm
+        (w)ater
+        (h)arvest
+        (l)evel up
+        (n)otifications
+        (b)uild new farm
+        (d)estroy
+        (q)uit\n""")# add are you sure on destroy
 
-                    elif select == 's': # Select a farm
-                        msg = ''
-                        for i in current_farms:
-                            msg += (f"#{x} level-{i[8]} {i[0]}|{i[10]}\n")
-                            x += 1
-                        try:
-                            select = int(input(msg), 1)
-                            if select:
-                                selected_farm = current_farms[(select-1)]
-                                farm_selected == True
-
-                        except (ValueError, IndexError, TypeError):
+                    select = input(msg, 1)
+                    try:
+                        if select == 'n': # Notifications
+                            cls()
                             msg = ''
-                            msg += ("Invalid selection\n")
+                            msg += farm.EventFarm(0, all_farms)
                             input(msg, 0)
 
+                        elif select == 's': # Select a farm
+                            msg = ''
+                            for i in current_farms:
+                                msg += (f"#{x} level-{i[8]} {i[0]}|{i[10]}\n")
+                                x += 1
+                            try:
+                                select = int(input(msg, 1))
+                                if select:
+                                    selected_farm = current_farms[(select-1)]
+                                    farm_selected == True
 
-                    elif select == 'w' and selected_farm != 0: # Water selected
-                        EventFarm(2, selected_farm)
+                            except (ValueError, IndexError, TypeError):
+                                msg = ''
+                                msg += ("Invalid selection\n")
+                                input(msg, 0)
 
-                    elif select == 'h' and selected_farm != 0: # Harvest selected
-                        EventFarm(3, selected_farm)
 
-                    elif select == 'l' and selected_farm != 0: # level selected
-                        EventFarm(5, selected_farm)
+                        elif select == 'w' and selected_farm != 0: # Water selected
+                            farm.EventFarm(2, selected_farm)
 
-                    elif select == 'd' and selected_farm != 0: # Destroy
+                        elif select == 'h' and selected_farm != 0: # Harvest selected
+                            farm.EventFarm(3, selected_farm)
+
+                        elif select == 'l' and selected_farm != 0: # level selected
+                            farm.EventFarm(5, selected_farm)
+
+                        elif select == 'd' and selected_farm != 0: # Destroy
+                            msg = ''
+                            msg += ("Are you sure you want to destroy this farm? (y/n)\n")
+                            select = input(msg, 1)
+                            if select == 'y':
+                                farm.EventFarm(6, selected_farm)
+                                select = 'q'
+                        
+                        elif select == 'b':# build farm
+                            farm.build_farm()
+                            select = 'q'
+
+                        elif select == 'q': # Quit
+                            pass
+
+                        elif selected_farm == 0:
+                            msg = ''
+                            msg += ("No farm selected\n")
+                            input(msg, 0)
+
+                        else:
+                            msg = ''
+                            msg += ("Not an option\n")
+                            input(msg, 0)
+                    except IndexError:
                         msg = ''
-                        msg += ("Are you sure you want to destroy this farm? (y/n)\n")
-                        select = input(msg)
-                        if select == 'y':
-                            EventFarm(6, selected_farm)
+                        msg += ("Invalid\n")
+                        input(msg, 0)
                     
-                    elif select == 'b':# build farm
+                
+                else:
+                    msg = ''
+                    msg += ("You don't have any farms\n")
+                    msg += ("Build one? (y/n)\n")
+                    msg += "> "
+                    select = input(str(msg), 1)
+
+                    if select == 'y':
                         build_farm()
                         select = 'q'
-
-                    elif select == 'q': # Quit
-                        pass
-
-                    elif selected_farm == 0:
-                        msg = ''
-                        msg += ("No farm selected\n")
-                        input(msg, 0)
-
                     else:
-                        msg = ''
-                        msg += ("Not an option\n")
-                        input(msg, 0)
-                except IndexError:
-                    msg = ''
-                    msg += ("Invalid\n")
-                    input(msg, 0)
+                        select = 'q'
                 
-            
-            else:
-                msg = ''
-                msg += ("You don't have any farms\n")
-                msg += ("Build one? (y/n)\n")
-                select = input(str(msg), 1)
-
-                if select == 'y':
-                    build_farm()
-                    select = 'q'
-                else:
-                    select = 'q'
-            
 
 
-        except ZeroDivisionError:
-            print("Lol")
+            except ZeroDivisionError:
+                print("Lol")
 
-def EventFarm(x,y):
-    
-
-    # x is what to do
-    # y is which farm ('all_farms')
-    #x
-    # 0 is notification
-    # 1 is check for things that need to be done on y farm
-    # 2 is water
-    # 3 is harvest
-    # 4 is build
-    # 5 is level up
-    # 6 is destroy
-    select = 0
-    have_farm = False
-    something_happend = False
-    for i in all_farms:
-        if i[1] > 0:
-            have_farm = True
-    if x == 1:
-        msg = ''
-        if y[3] == 0:
-            msg += ("   Needs to be watered.\n")
-        elif y[4] == 1:
-            msg += ("   Needs to be harvested.\n")
-        return msg
-
-    elif x == 2:
-        water_farm(y)
-    elif x == 3:
-        harvest_farm(y)
-    elif x == 4:
-        all_farms.append(y)
-    elif x == 5:
-        level_farm(y)
-    elif x == 6:
-        msg = (f"Are you sure you want to destroy {y[0]} farm? (y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            all_farms.remove(y)
-        else:
-            pass
-
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[material ,chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
-    #['bedrock', .0001]
-    else:# 0
-        global current_time
-        time_passed = 0
-        time_passed = (math.floor(time.time())) - current_time + time_passed #seconds
-        current_time = math.floor(time.time())
-        time_passed_storm = time_passed
-
-        for i in all_farms:
-            if i[1] == 1:
-                i[5] += time_passed
-        storm = False
-        need_water = False
-        need_harvest = False
-        what_happend = 0
-        affected_farms1 = []
-        affected_farms2 = []
-        affected_farms3 = []
-        #Storm 1
-        #Crops dried up 2
-        #Crops ready to harvest 3
-
-        #STORM checks for every hour passed
-        while time_passed_storm > 1800:
-            #%10 chance of a storm passing each farm every hour
-            for i in all_farms:
-                if i[1] == 1:
-                    if random.randint(0,100) < 20:
-                        if random.randint(0,1000000) < i[9][1]:
-                            storm = True
-                            what_happend = True
-                            affected_farms1.append(i)
-                            all_farms.remove(i)
-
-            time_passed_storm -= 1800
-
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[material ,chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, 50000]
-    #['bedrock', .0001]
-        for i in all_farms:
-            if i[5] >= 1800:
-                i[3] = 0
-                i[6] += 1800
-
-        for i in all_farms:
-            if i[1] == 1 and i[3] == 0:
-                if i[6] >= i[7]:
-                    i[6] = 0
-                    i[4] = 1
-                else:
-                    affected_farms2.append(i)
-                    need_water = True
-                    what_happend = True
+    #DONE
+    def EventFarm(x,y):
         
+
+        # x is what to do
+        # y is which farm ('all_farms')
+        #x
+        # 0 is notification
+        # 1 is check for things that need to be done on y farm
+        # 2 is water
+        # 3 is harvest
+        # 4 is build
+        # 5 is level up
+        # 6 is destroy
+        select = 0
+        have_farm = False
+        something_happend = False
         for i in all_farms:
-            if i[4] == 1:
-                affected_farms3.append(i)
-                need_harvest = True
-                what_happend = True
-
-
-        if have_farm and what_happend:
+            if i[1] > 0:
+                have_farm = True
+        if x == 1:
             msg = ''
-            if storm:
-                msg += ("    A storm came by\n")
-                for i in affected_farms1:
-                    msg += (f"    level-{i[8]} {i[0]}|{i[10]} farm has been destroyed...\n")
-
-
-            if need_water:
-                msg += ("    Farm needs water\n")
-                for i in affected_farms2:
-                    msg += (f"    level-{i[8]} {i[0]}|{i[10]}\n")
-
-
-            if need_harvest:
-                msg += ("    Farm is ready to be harvested\n")
-                for i in affected_farms3:
-                    msg += (f"    level-{i[8]} {i[0]}|{i[10]}\n")
-                    msg += ("(press any key)\n")
+            if y[3] == 0:
+                msg += ("       Needs to be watered.\n")
+            elif y[4] == 1:
+                msg += ("       Needs to be harvested.\n")
             return msg
 
+        elif x == 2:
+            farm.water_farm(y)
+        elif x == 3:
+            farm.harvest_farm(y)
+        elif x == 4:
+            farm.all_farms.append(y)
+        elif x == 5:
+            farm.level_farm(y)
+        elif x == 6:
+            msg = (f"Are you sure you want to destroy your {y[0]} farm? (y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                all_farms.remove(y)
+            else:
+                pass
+
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[material ,chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
+        #['bedrock', .0001]
+        else:# 0
+            global current_time
+            time_passed = 0
+            time_passed = (math.floor(time.time())) - current_time + time_passed #seconds
+            current_time = math.floor(time.time())
+            time_passed_storm = time_passed
+
+            for i in all_farms:
+                if i[1] == 1:
+                    i[5] += time_passed
+            storm = False
+            need_water = False
+            need_harvest = False
+            what_happend = 0
+            affected_farms1 = []
+            affected_farms2 = []
+            affected_farms3 = []
+            #Storm 1
+            #Crops dried up 2
+            #Crops ready to harvest 3
+
+            #STORM checks for every hour passed
+            while time_passed_storm > 1800:
+                #%10 chance of a storm passing each farm every hour
+                for i in all_farms:
+                    if i[1] == 1:
+                        if random.randint(0,100) < 20:
+                            if random.randint(0,1000000) < i[9][1]:
+                                storm = True
+                                what_happend = True
+                                affected_farms1.append(i)
+                                all_farms.remove(i)
+
+                time_passed_storm -= 1800
+
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[material ,chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, 50000]
+        #['bedrock', .0001]
+            for i in all_farms:
+                if i[5] >= 1800:
+                    i[3] = 0
+                    i[6] += 1800
+
+            for i in all_farms:
+                if i[1] == 1 and i[3] == 0:
+                    if i[6] >= i[7]:
+                        i[6] = 0
+                        i[4] = 1
+                    else:
+                        affected_farms2.append(i)
+                        need_water = True
+                        what_happend = True
+            
+            for i in all_farms:
+                if i[4] == 1:
+                    affected_farms3.append(i)
+                    need_harvest = True
+                    what_happend = True
 
 
-        else:
-            return ''
-
-def water_farm(x):
-
-    enough_buckets = False
-    # x is the selected farm
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[material ,chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
-    for i in inventory:
-        if i[0] == 'water_bucket' and i[1] >= 20 + ((x[8]-1)*3):
-            enough_buckets = True
-
-    if enough_buckets == True and x[3] == 0:
-        cls()
-        msg = ''
-        msg += (f"{x[0]} farm has been watered!\n")
-        for i in all_farms:
-            if x == i:
-                i[3] = 1
-        store('bucket', (20+ ((x[8]-1)*3)))
-        store('water_bucket', (-20+ ((x[8]-1)*3)))
-        input(msg, 0)
-
-    elif enough_buckets == True and x[3] == 1:
-        cls()
-        msg = ''
-        msg += ("This farm is already watered!\n")
-        input(msg, 0)
-
-    elif x[3] == 1:
-        cls()
-        msg = ''
-        msg += ("This farm is already watered!\n")
-        input(msg, 0)
-
-    else:
-        cls()
-        msg = ''
-        msg += ("You don't have enough water!\n")
-        msg += (f"You need {(20+ ((x[8]-1)*3))} buckets of water\n")
-        input(msg, 0)
-
-def harvest_farm(x):
-
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[material ,chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
-    amount_received = 0
-
-    if x[4] == 1:
-        for i in all_farms:
-            if x == i:
-                i[3] = 0
-                i[4] = 0
-                amount_received = (i[8] * 10 * i[8])
-                store((i[0]), amount_received)
-                cls()
+            if have_farm and what_happend:
                 msg = ''
-                msg += (f"Farm harvested you get {amount_received} {i[0]}\n")
-                input(msg, 0)
-    else:
-        cls()
-        msg = ''
-        msg += ("Not ready to be harvested\n")
-        input(msg, 0)
+                if storm:
+                    msg += ("  A storm came by\n")
+                    for i in affected_farms1:
+                        msg += (f"    -level-{i[8]} {i[0]}|{i[10]} farm has been destroyed...\n")
 
-def level_farm(x):
 
-   # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[0material ,1chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
+                if need_water:
+                    msg += ("  Farm needs water\n")
+                    for i in affected_farms2:
+                        msg += (f"    -level-{i[8]} {i[0]}|{i[10]}\n")
 
-    global money
-    select = 0
-    z = 0
-    k = 0
-    base_level_cost = [10, 10, 4, 10]
-    level_cost = [i * 2 * x[8] for i in base_level_cost]
-    have_material = False
-    have_stone = False
-    have_dirt = False
-    have_money = False
-    level_farm = False
-    cls()
-    msg = ''
-    msg += (f"""Leveling up your farm costs
-    {level_cost[0]} - {x[9][0]}
-    {level_cost[1]} - stone
-    {level_cost[2]} - dirt
-    {level_cost[3]}$\n""")
-    msg += ("Be sure you harvest before leveling!\n")
-    msg += ("Continue with level up? (y/n)\n")
-    select = input(str(msg), 1)
 
-    if select == 'y':
+                if need_harvest:
+                    msg += ("  Farm is ready to be harvested\n")
+                    for i in affected_farms3:
+                        msg += (f"    -level-{i[8]} {i[0]}|{i[10]}\n")
+                return msg
+
+
+
+            else:
+                return ''
+
+    #DONE
+    def water_farm(x):
+
+        enough_buckets = False
+        # x is the selected farm
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[material ,chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
         for i in inventory:
-            if i[0] == (x[9][0]) and i[1] >= level_cost[0]:
-                have_material = True
-            if i[0] == 'stone' and i[1] >= level_cost[1]:
-                have_stone = True
-            if i[0] == ('dirt') and i[1] >= level_cost[2]:
-                have_dirt = True
-        if money > level_cost[3]:
-            have_money = True
+            if i[0] == 'water_bucket' and i[1] >= 20 + ((x[8]-1)*3):
+                enough_buckets = True
 
-        if have_material and have_stone and have_dirt and have_money:
+        if enough_buckets == True and x[3] == 0:
+            cls()
+            msg = ''
+            msg += (f"{x[0]} farm has been watered!\n")
             for i in all_farms:
                 if x == i:
-                    level_farm = True
-                    i[8] += 1
-                    i[3] = 0
-                    i[6] = 0
-                    i[4] = 0
-                    
-                    store((x[9][0]), -(level_cost[0]))
-                    store('stone', -(level_cost[1]))
-                    store('dirt', -(level_cost[2]))
-                    money_add(-(level_cost[3]))
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[0material ,1chance of storm breaking]
-                
+                    i[3] = 1
+            store('bucket', (20+ ((x[8]-1)*3)))
+            store('water_bucket', (-20+ ((x[8]-1)*3)))
+            input(msg, 0)
+
+        elif enough_buckets == True and x[3] == 1:
+            cls()
+            msg = ''
+            msg += ("This farm is already watered!\n")
+            input(msg, 0)
+
+        elif x[3] == 1:
+            cls()
+            msg = ''
+            msg += ("This farm is already watered!\n")
+            input(msg, 0)
+
         else:
             cls()
             msg = ''
-            msg += ("You don't have enough materials...\n")
+            msg += ("You don't have enough water!\n")
+            msg += (f"You need {(20+ ((x[8]-1)*3))} buckets of water\n")
             input(msg, 0)
 
-        if level_farm:
-                    
-            while z != 4:
-                if z == 0:
+    #DONE
+    def harvest_farm(x):
+
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[material ,chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
+        amount_received = 0
+
+        if x[4] == 1:
+            for i in all_farms:
+                if x == i:
+                    i[3] = 0
+                    i[4] = 0
+                    amount_received = (i[8] * 10 * i[8])
+                    store((i[0]), amount_received)
                     cls()
-                    print("Leveling up farm!\n")
-                    while k != 2:
-                        print(".\n")
-                        time.sleep(.5)
-                        k += 1
-                    msg = '(press any key)\n'
+                    msg = ''
+                    msg += (f"Farm harvested you get {amount_received} {i[0]}\n")
                     input(msg, 0)
-                    k = 0
-                elif z == 1:
-                    cls()
-                    print(f"building more {x[9][0]} supports")
-                    while k != 2:
-                        print(".\n")
-                        time.sleep(.5)
-                        k += 1
-                    msg = '(press any key)\n'
-                    input(msg, 0)
-                    k = 0
-                elif z == 2:
-                    cls()
-                    print("dumping more dirt")
-                    while k != 2:
-                        print(".\n")
-                        time.sleep(.5)
-                        k += 1
-                    input("add more decoration?\n", 0)
-                    k = 0
-                elif z == 3:
-                    cls()
-                    print("decorating")
-                    while k != 2:
-                        print(".\n")
-                        time.sleep(.5)
-                        k += 1
-                    
+        else:
+            cls()
+            msg = ''
+            msg += ("Not ready to be harvested\n")
+            input(msg, 0)
 
-                z += 1
-            input("Farm leveled up!\n", 0)
+    #DONE
+    def level_farm(x):
 
-    else:
-        pass
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[0material ,1chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
 
-def build_farm():
-    # $, material, stone, dirt, money
-    # base_farm_cost = [100, 100, 40, 100]
-    select = 0
-    farm_selected = False
-    have_enough_materials = False
-    have_enough_stone = False
-    have_enough_dirt = False
-    have_enough_materials_to_build = False
-    farm_types = [
-    # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
-    #  7time needs water , 8level ,9[material ,chance of storm breaking]
-        #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]
-    #['bedrock', .0001]
-    ['wheat', 1, 500, 0, 0, 0, 0, 3600, 1],
-    ['log', 1, 1000, 0, 0, 0, 0, 5000, 1],
-    ['sugar_cane', 1, 1000, 0, 0, 0, 0, 4000, 1],
-    ['bone', 1 ,10000000, 0, 0, 0, 0, 28800, 1]
-    ]
-
-    for i in inventory:
-        if i[0] == 'stone' and i[1] >= 100:
-            have_enough_stone = True
-        if i[0] == 'dirt' and i[1] >= 40:
-            have_enough_dirt = True
-
-    if have_enough_dirt and have_enough_stone:
-        have_enough_materials_to_build = True
-
-    while select != 'q':
-        cls()
+        global money
+        select = 0
         z = 0
-        x = 1
         k = 0
+        base_level_cost = [10, 10, 4, 10]
+        level_cost = [i * 2 * x[8] for i in base_level_cost]
+        have_material = False
+        have_stone = False
+        have_dirt = False
+        have_money = False
+        level_farm = False
+        cls()
         msg = ''
-        msg += ("What would you like to build it out of?\n")
-        msg += number_list(farm_materials, 0)
-
-        msg += ("(q)uit")
+        msg += (f"Leveling up your farm costs\n")
+        msg += (f"  {level_cost[0]} - {x[9][0]}\n")
+        msg += (f"  {level_cost[1]} - stone\n")
+        msg += (f"  {level_cost[2]} - dirt\n")
+        msg += (f"  {level_cost[3]}$\n")
+        msg += ("Be sure you harvest before leveling!\n")
+        msg += ("Continue with level up? (y/n)\n")
         select = input(str(msg), 1)
-        if select != 'q':
-            try:
-                select = int(select)
-                if select:
-                    choice_material = farm_materials[(select-1)]# material chosen
 
+        if select == 'y':
+            for i in inventory:
+                if i[0] == (x[9][0]) and i[1] >= level_cost[0]:
+                    have_material = True
+                if i[0] == 'stone' and i[1] >= level_cost[1]:
+                    have_stone = True
+                if i[0] == ('dirt') and i[1] >= level_cost[2]:
+                    have_dirt = True
+            if money > level_cost[3]:
+                have_money = True
+
+            if have_material and have_stone and have_dirt and have_money:
+                for i in all_farms:
+                    if x == i:
+                        level_farm = True
+                        i[8] += 1
+                        i[3] = 0
+                        i[6] = 0
+                        i[4] = 0
+                        
+                        store((x[9][0]), -(level_cost[0]))
+                        store('stone', -(level_cost[1]))
+                        store('dirt', -(level_cost[2]))
+                        money_add(-(level_cost[3]))
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[0material ,1chance of storm breaking]
+                    
+            else:
+                cls()
+                msg = ''
+                msg += ("You don't have enough materials...\n")
+                if have_material == False:
+                    material_quantity = 0
                     for i in inventory:
-                        if i[0] == choice_material[0] and i[1] >= 100:
-                            have_enough_materials = True
+                        if i[0] == (x[9][0]):
+                            material_quantity = i[1]
+                    msg += str(f"You have {material_quantity}/{level_cost[0]} stone needed...\n")
+                if have_stone == False:
+                    stone_quantity = 0
+                    for i in inventory:
+                        if i[0] == 'stone':#x
+                            stone_quantity = i[1]
+                    msg += str(f"You have {stone_quantity}/{level_cost[1]} stone needed...\n")
+                if have_dirt == False:
+                    dirt_quantity = 0
+                    for i in inventory:
+                        if i[0] == 'dirt':#x
+                            dirt_quantity = i[1]
+                    msg += str(f"You have {dirt_quantity}/{level_cost[2]} dirt needed...\n")
+                if have_money == False:
+                    msg += str(f"You have ${money}/${level_cost[3]} money needed...\n")
+                
+                input(msg, 0)
 
-                    if have_enough_materials:
-                        msg = ("What kind of farm do you want?\n")
-                        x = 1
-                        for i in farm_types:
-                            msg += (f"#{x} {i[0]} ${i[2]}, 100 wood_plank, and 40 dirt")
-                            x += 1
-                        select = input(msg , 1)
-                        select = int(select)
-                        select = farm_types[(select-1)]
-                        if have_enough_materials_to_build and money > select[2]:
-                            select.append(choice_material)
-                            select.append(len(all_farms) + 1)
-                            input(f"Building {select[0]} farm!\n", 0)
+            if level_farm:
+                        
+                while z != 4:
+                    if z == 0:
+                        cls()
+                        print("Leveling up farm!\n")
+                        while k != 2:
+                            print(".\n")
+                            time.sleep(.5)
+                            k += 1
+                        msg = '(press any key)\n'
+                        input(msg, 0)
+                        k = 0
+                    elif z == 1:
+                        cls()
+                        print(f"building more {x[9][0]} supports")
+                        while k != 2:
+                            print(".\n")
+                            time.sleep(.5)
+                            k += 1
+                        msg = '(press any key)\n'
+                        input(msg, 0)
+                        k = 0
+                    elif z == 2:
+                        cls()
+                        print("dumping more dirt")
+                        while k != 2:
+                            print(".\n")
+                            time.sleep(.5)
+                            k += 1
+                        input("add more decoration?\n", 0)
+                        k = 0
+                    elif z == 3:
+                        cls()
+                        print("decorating")
+                        while k != 2:
+                            print(".\n")
+                            time.sleep(.5)
+                            k += 1
+                        
 
-                            while z != 4:
-                                if z == 0:
-                                    cls()
-                                    print("adding fence posts")
-                                    while k != 6:
-                                        print(".\n")
-                                        time.sleep(.5)
-                                        k += 1
-                                    input((("(press any key)\n")), 0)
-                                    k = 0
-                                elif z == 1:
-                                    cls()
-                                    print(f"building the {choice_material[0]} supports")
-                                    while k != 6:
-                                        print(".\n")
-                                        time.sleep(.5)
-                                        k += 1
-                                    input((("(press any key)\n")), 0)
-                                    k = 0
-                                elif z == 2:
-                                    cls()
-                                    print("dumping the dirt")
-                                    while k != 6:
-                                        print(".\n")
-                                        time.sleep(.5)
-                                        k += 1
-                                    input("decorate?\n",0)
-                                    k = 0
-                                elif z == 3:
-                                    cls()
-                                    print("decorating")
-                                    while k != 6:
-                                        print(".\n")
-                                        time.sleep(.5)
-                                        k += 1
-                                    
-
-                                z += 1
-                                # $, material, stone, dirt, money
-                                # base_farm_cost = [100, 100, 40, 100]
-                            cls()
-                            input(f"{select[0]} farm is complete!\n", 0)
-                            EventFarm(4, select)
-                            store(choice_material[0], -100)
-                            store('stone', -100)
-                            store('dirt', -40)
-                            money_add(-100)
-                            select = 'q'
-                            farming()                                               
-
-                        elif have_enough_materials_to_build:
-                            input("You don't have enough cash.\n", 0)
-                            select = 'q'
-
-                        else:
-                            input("You don't have enough materials.\n", 0)
-                            select = 'q'
-                    else:
-                        input(f"You don't have 100 {choice_material[0]}\n", 0)
-
-            except (ValueError, IndexError, TypeError):
-                input("Not Valid\n", 0)
+                    z += 1
+                input("Farm leveled up!\n", 0)
 
         else:
             pass
+
+    #DONE
+    def build_farm():
+        # $, material, stone, dirt, money
+        # base_farm_cost = [100, 100, 40, 100]
+        select = 0
+        farm_selected = False
+        have_enough_materials = False
+        have_enough_stone = False
+        have_enough_dirt = False
+        have_enough_materials_to_build = False
+        farm_types = [
+        # 0type, 1is built, 2cost, 3has_water, 4ready to be harvested,5time_passed,6time_waterd
+        #  7time needs water , 8level ,9[material ,chance of storm breaking]
+            #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, [dirt, 50000]]
+        #['bedrock', .0001]
+        ['wheat', 1, 500, 0, 0, 0, 0, 3600, 1],
+        ['log', 1, 1000, 0, 0, 0, 0, 5000, 1],
+        ['sugar_cane', 1, 1000, 0, 0, 0, 0, 4000, 1],
+        ['bone', 1 ,10000000, 0, 0, 0, 0, 28800, 1]
+        ]
+
+        for i in inventory:
+            if i[0] == 'stone' and i[1] >= 100:
+                have_enough_stone = True
+            if i[0] == 'dirt' and i[1] >= 40:
+                have_enough_dirt = True
+
+        if have_enough_dirt and have_enough_stone:
+            have_enough_materials_to_build = True
+
+        while select != 'q':
+            cls()
+            z = 0
+            x = 1
+            k = 0
+            msg = ''
+            msg += ("What would you like to build it out of?\n")
+            msg += number_list(farm_materials, 0)
+
+            msg += ("Press (q) to quit\n")
+            msg += "> #"
+            select = input(str(msg), 1)
+            if select != 'q':
+                try:
+                    select = int(select)
+                    if select:
+                        choice_material = farm_materials[(select-1)]# material chosen
+
+                        for i in inventory:
+                            if i[0] == choice_material[0] and i[1] >= 100:
+                                have_enough_materials = True
+
+                        if have_enough_materials:
+                            msg = ("What kind of farm do you want?\n")
+                            x = 1
+                            for i in farm_types:
+                                msg += (f"#{x} {i[0]} ${i[2]}, 100 wood_plank, and 40 dirt\n")
+                                x += 1
+                            msg += "> #"
+                            select = input(msg , 1)
+                            select = int(select)
+                            select = farm_types[(select-1)]
+                            if have_enough_materials_to_build and money >= select[2]:
+                                select.append(choice_material)
+                                select.append(len(all_farms) + 1)
+                                input(f"Building {select[0]} farm!\n", 0)
+
+                                while z != 4:
+                                    if z == 0:
+                                        cls()
+                                        print("adding fence posts")
+                                        while k != 6:
+                                            print(".")
+                                            time.sleep(.5)
+                                            k += 1
+                                        input((("")), 0)
+                                        k = 0
+                                    elif z == 1:
+                                        cls()
+                                        print(f"building the {choice_material[0]} supports")
+                                        while k != 6:
+                                            print(".")
+                                            time.sleep(.5)
+                                            k += 1
+                                        input((("")), 0)
+                                        k = 0
+                                    elif z == 2:
+                                        cls()
+                                        print("dumping the dirt")
+                                        while k != 6:
+                                            print(".")
+                                            time.sleep(.5)
+                                            k += 1
+                                        input("",0)
+                                        k = 0
+                                    elif z == 3:
+                                        cls()
+                                        print("decorating")
+                                        while k != 6:
+                                            print(".")
+                                            time.sleep(.5)
+                                            k += 1
+                                        
+
+                                    z += 1
+                                    # $, material, stone, dirt, money
+                                    # base_farm_cost = [100, 100, 40, 100]
+                                cls()
+                                input(f"{select[0]} farm is complete!\n", 0)
+                                farm.EventFarm(4, select)
+                                store(choice_material[0], -100)
+                                store('stone', -100)
+                                store('dirt', -40)
+                                money_add(-100)
+                                select = 'q'
+                                farming()                                               
+
+                            elif have_enough_materials_to_build:
+                                input(f"You have {money}$/{select[2]}$ cash needed ...\n", 0)
+                                select = 'q'
+
+                            else:
+                                msg = ''
+                                msg +=("You don't have enough materials.\n")
+                                if have_enough_stone == False:
+                                    stone_quantity = 0
+                                    for i in inventory:
+                                        if i[0] == 'stone':#100
+                                            stone_quantity = i[1]
+                                    msg += str(f"You have {stone_quantity}/100 stone needed...\n")
+                                if have_enough_dirt == False:
+                                    dirt_quantity = 0
+                                    for i in inventory:
+                                        if i[0] == 'dirt':#40
+                                            dirt_quantity = i[1]
+                                    msg += str(f"You have {dirt_quantity}/40 dirt needed...\n")
+                                input(msg, 0)
+                                select = 'q'
+                        else:
+                            x_quantity = 0
+                            for i in inventory:
+                                if i[0] == choice_material[0]:
+                                    x_quantity = i[1]
+                            input(f"You have {x_quantity}/100 {choice_material[0]} needed...\n", 0)
+
+                except (ValueError, IndexError, TypeError):
+                    input("Not Valid\n", 0)
+
+            else:
+                pass
+
+# END OF FARM
+
+class adventure():
+
+    # Defines what you find on an adventure
+    def adv():
+
+        tick(1)
+        search = ['tree','tree', 'tree', 'tree',
+                  'tree', 'tree', 'river', 'animal', 'animal', 'cave']
+
+        if random.randint(0,100) < 20:
+            search.append('villager')
+
+        end = search[random.randint(0, (len(search)-1))]
+
+        if end == 'animal':
+            cls()
+            adventure.mob()
+
+        elif end == 'tree':
+            msg = ''
+            msg += ("You find a tree\n")
+            msg += ("Do you want to cut it down(y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                cls()
+                adventure.break_tree()
+            elif select == 'n':
+                cls()
+                adventure.adv()
+            else:
+                pass
+
+        elif end == 'river':
+            cls()
+            adventure.river()
+
+        elif end == 'cave':
+            cls()
+            adventure.cave()
+
+        elif end == 'villager':
+            cls()
+            adventure.villager()
+        
+        else:
+            input("ERROR in def adventure\n", 0)
+
+
+    def river():
+
+        rod = False
+        bucket = False
+        msg = ''
+        msg += ("You see a river!\n")
+        for i in inventory:
+            if i[0] == 'fishing_rod':
+                rod = True
+
+        for i in inventory:
+            if i[0] == 'bucket' and i[1] > 0:
+                if i[0] != 'water_bucket':
+                    bucket = True
+
+        if bucket == True and rod == True:
+            msg += ("Would you like to fish or fill your bucket with water?(f/b)\n")
+            select = input(str(msg), 1)
+            if select == 'f':
+                cls()
+                adventure.fish()
+            elif select == 'b':
+                cls()
+                adventure.fill_bucket()
+            else:
+                pass
+
+        elif bucket == True:
+            msg += ("would you like to fill a bucket with water?(y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                cls()
+                adventure.fill_bucket()
+
+        elif rod == True:
+            msg += ("would you like to fish?(y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                cls()
+                adventure.fish()
+
+        else:
+            msg += ("Sorry there's nothing for you here.\n")
+            msg += ("Keep adventuring?(y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                cls()
+                adventure.adv()
+            else:
+                pass
+
+
+    def fill_bucket():
+
+        tick(1)
+        bucket = True
+
+        while bucket == True:
+            z = 0
+            cls()
+            input("Your bucket fills up", [2, .5])
+            achievements_list[5][0] += 1
+            
+            
+            for i in inventory:
+                if i[0] == 'bucket' and i[1] >= 1:
+                    store('bucket', -1)
+                    store('water_bucket', 1)
+
+            bucket = False
+            for i in inventory:
+                if i[0] == 'bucket' and i[1] > 0:
+                    bucket = True
+
+            if bucket == True:
+                msg = ''
+                msg += ("Fill another bucket? (y/n)\n")
+                select = input(str(msg), 1)
+
+                if select == 'y':
+                    pass
+                else:
+                    bucket = False
+
+    
+    def fish():
+
+        print("You throw in your line")
+        tick(1)
+        select = 0
+        z = 0
+        while z != 10:
+            print(".\n")
+            time.sleep(1)
+            z += 1
+
+        if random.randint(0,100) < 30:
+            msg = ''
+            msg += ("You caught a fish!\n")
+            achievements_list[6][0] += 1
+            store('raw_fish', 1)
+            msg += ("Continue fishing? (y/n)\n")
+            select = input(str(msg), 1)
+            msg = ''
+
+        else:
+            msg = ''
+            msg += ("No bite, keep fishing? (y/n)\n")
+            select = input(str(msg), 1)
+
+        if select == 'n':
+            input("The river waves goodbye", 0)
+        elif select == 'y':
+            adventure.fish()
+        else:
+            pass
+
+
+    def cave_ore(height):
+
+        global cave_ores
+        mineable = []
+
+        for i in cave_ores:
+            if i[1] >= height:
+                mineable.append(i[0])
+
+        if height < 61:
+            return mineable[random.randint(0, (len(mineable)-1))]
+        else:
+            return 'dirt'
+
+
+    def cave():
+
+        tick(1)
+        global height
+        z = 0
+        search = ['ore', 'monster']
+        search_mob = ['zombie', 'creeper', 'skeleton']
+        msg = ''
+        msg += health_bar()
+        msg += ("You peer into the entrance of a cave.\n")
+        msg += ("Will you dare enter? (y/n)\n")
+        select = input(str(msg), 1)
+
+        if select == 'y':
+            height -= 10
+            find = search[random.randint(0,1)]
+
+            if find == 'ore':
+                block = adventure.cave_ore(height)
+                print(f"You mine one {block}")
+                while z != 3:
+                    print(".\n")
+                    time.sleep(.5 / current_pickaxe[4])
+                    z += 1
+                if pickaxe(block) == True:
+                    if block == 'diamond':
+                        achievements_list[1][0] += 1
+                    input(f"You get 1 {block}!\n", 0)
+                    store(block, 1)
+                else:
+                    input("Try using a better pickaxe", 0)  
+                cls() 
+                adventure.deep_cave()
+            else:
+                cls()
+                adventure.fight_mob(search_mob[random.randint(0,2)])
+                adventure.deep_cave()
+
+        elif select == 'n':
+            cls()
+            adventure.adv()
+
+        else:
+            cls()
+            start()
+
+
+    def deep_cave():
+
+        global height
+        global health
+        cls()
+        health_bar()
+        tick(1)
+        z = 0
+        have_torch = False
+        search = ['ore', 'monster']
+        search_mob = ['zombie', 'creeper', 'skeleton']
+        msg = ''
+        msg += health_bar()
+        msg += ("Would you like to use a torch and go deeper? (y/n)\n")
+        select = input(str(msg), 1)
+
+
+        for i in inventory:
+            if i[0] == 'torch' and i[1] > 0:
+                have_torch = True
+
+        if select == 'y' and have_torch == True:
+            store('torch', -1)
+            height -= 10
+            find = search[random.randint(0,1)]
+
+            if find == 'ore':
+                block = adventure.cave_ore(height)
+                cls()
+                print(f"You mine one {block}")
+                while z != 3:
+                    print(".\n")
+                    time.sleep(.5 / current_pickaxe[4])
+                    z += 1
+                if pickaxe(block) == True:
+                    if block == 'diamond':
+                        achievements_list[1][0] += 1
+                    input(f"You get 1 {block}!\n", 0)
+                    
+                    store(block, 1)
+                else:
+                    input("Try using a better pickaxe\n", 0)
+
+                cls()   
+                adventure.deep_cave()
+            else:
+                cls()
+                adventure.fight_mob(search_mob[random.randint(0,2)])
+                adventure.deep_cave()
+
+        elif select == 'y' and have_torch == False:
+            cls()
+            input("You're out of torches, returning to surface\n", 0)
+            height = 64
+
+        elif select == 'n':
+            cls()
+            input("Returning to surface", 0)
+            height = 64
+
+        else:
+            input("Learn to hit a key", 0)
+            adventure.deep_cave()
+
+
+    def break_tree():
+
+        z = 0
+        amount = 0
+        amount2 = 0
+        achievements_list[2][0] += 1
+
+        if random.randint(0,100) < 90:
+            print("breaking tree")
+            while z != 3:
+                print(".")
+                time.sleep(2)
+                z += 1
+            amount = random.randint(4,8)
+            store('log', amount)
+            msg = ''
+            msg += (f"You got {amount} logs!\n")
+
+            if random.randint(0,100) < 10:
+                amount2 = random.randint(1,4)
+                msg += (f"You got {amount2} apples!\n")
+                store('apple', amount2)
+            else:
+                msg += ("Guess you're going to the doctor today!\n")
+            input(msg, 0)
+
+        
+        else:
+            print("breaking big tree")
+            while z != 6:
+                print(".")
+                time.sleep(2)
+                z += 1
+            amount = random.randint(10,18)
+            store('log', amount)
+            msg = ''
+            msg += (f"You got {amount} logs!\n")
+            if random.randint(0,100) < 10:
+                amount2 = random.randint(1,9)
+                msg += (f"You got {amount2} apples!\n")
+                store('apple', amount2)
+            else:
+                msg += ("Guess you're going to the doctor today!\n")
+            input(msg, 0)
+
+    #Defines what mob you will find on an adventure
+    def mob():
+
+        global animal
+        global animal_night
+        global night
+        tick(1)
+        mob_type = 0
+
+        if night == False:
+            mob_type = animal
+
+        else:
+            mob_type = animal_night
+
+        mob = mob_type[random.randint(0, (len(animal)-1))]
+        adventure.fight_mob(mob)
+
+
+    def villager():
+    
+        global prices
+        buying_selling = True
+        
+        item_for_sale = 0
+        item_for_buy = 0
+        quantity_buy = 0
+        quantity_sell = 0
+        select = 0
+        z = 5
+        sell_list = [['log', 1], ['cobblestone', 2], ['gravel', 2], ['diamond', 20], ['apple', 10]]
+        buy_list = prices
+        for i in inventory:
+            for x in prices:
+                if i[0] == x[0]:
+                    sell_list.append(x)
+                    if z != 0:
+                        sell_list.remove(sell_list[(z - 1)])
+                        z -= 1
+        # ['leather', 5]
+        item_for_sale = sell_list[random.randint(0,(len(sell_list)-1))]
+        sell_list.remove(item_for_sale)
+        item_for_buy = buy_list[random.randint(0,(len(buy_list)-1))]
+        item_for_sale[1] = (item_for_sale[1]/2)
+
+        
+        while buying_selling == True:
+            global money
+            have_item_sell = False
+            have_item_buy = False
+            cls()
+            msg = ''
+            msg += ("Villager is...\n")
+            msg += (f"Buying - {item_for_sale[0]} for ${item_for_sale[1]}\n")
+            msg += (f"Selling - {item_for_buy[0]} for ${item_for_buy[1]}\n")
+
+
+            
+            for i in inventory:
+                if i[0] == item_for_sale[0] and i[1] > 0:
+                    have_item_sell = True
+                    quantity_sell = i[1]
+            if money >= item_for_buy[1]:
+                have_item_buy = True
+                quantity_buy = math.floor(money/(item_for_buy[1]))
+
+
+        
+            msg += (f"You have ${money}\n")
+            msg += (f"Would you like to buy or sell? (b/s) (q to quit)\n")
+            select = input(str(msg), 1)
+
+            if select == 's' and have_item_sell:
+                msg = ''
+                msg += (f"How many {item_for_sale[0]} ${item_for_sale[1]} would you like to sell? (0-{quantity_sell})\n")
+                try:
+                    select = int(input(str(msg), 1))
+                    if 1 <= select <= quantity_sell:
+                        msg = ''
+                        msg += (f"Selling {select} {item_for_sale[0]} to Villager\n")
+
+                        store((item_for_sale[0]), -(select))
+                        money_added = item_for_sale[1] * select
+                        msg += (f"You get ${money_added}\n")
+                        money_add(money_added)
+                        input(msg, 0)
+
+                    elif select > quantity_sell:
+                        input("You don't have that many!\n", 0)
+
+                    else:
+                        input("Invalid", 0)
+                except(ValueError, IndexError, TypeError):
+                    input("Invalid", 0)
+
+            elif select == 'b' and have_item_buy:
+                msg = ''
+                msg += (f"How many {item_for_buy[0]} would you like to buy? (0-{quantity_buy})\n")
+                try:
+                    select = int(input(str(msg), 1))
+                    if 1 <= select <= quantity_buy:
+                        msg = ''
+                        msg += (f"Buying {select} {item_for_buy[0]} to Villager\n")   
+                        store((item_for_buy[0]), select)
+                        money_added = item_for_buy[1] * -(select)
+                        msg += (f"You get {select} {item_for_buy[0]}!\n")
+                        money_add(money_added)
+                        input(msg, 0)
+
+                    elif select > quantity_buy:
+                        input("You don't have enough money!\n", 0)
+                    else:
+                        input("Invalid", 0)
+                except(ValueError, IndexError,TypeError):
+                    input("Invalid", 0)
+
+            elif select == 's':
+                input(f"You dont have any {item_for_sale[0]}.\n", 0)
+
+            elif select == 'b':
+                input(f"You don't have enough money to buy {item_for_buy[0]}.\n", 0)
+
+            elif select == 'q':
+                buying_selling = False
+
+
+    def fight_mob(mob):
+
+        global health
+        global friend
+        global foe
+        cls()
+        
+        select = 0
+        wolf = ['wolf']
+        msg = ''
+        msg += (f"You run into a {mob}\n")
+
+        if (mob) in friend:
+            msg += (f"Would you like to kill the {mob} (y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                adventure.kill(mob)
+            elif select == 'n':
+                cls()
+                adventure.adv()
+            else:
+                pass
+
+        elif (mob) in wolf:
+            msg += ("You find a wolf!  Would you like to tame it?(y/n)\n")
+            select = input(str(msg), 1)
+            if select == 'y':
+                cls()
+                adventure.tame()
+
+            elif select == 'n':
+                cls()
+                adventure.adv()
+
+            else:
+                pass
+
+        else:
+            msg = ''
+            msg += health_bar()
+            msg += (f"Fight the {mob} or run (f/r)\n")
+            select = input(str(msg), 1)
+            if select == 'f':
+                cls()
+                adventure.fight(mob)
+            else:
+                if mob == 'creeper':
+                    cls()
+                    input("Somehow you get away\n", 0)
+                else:
+                    cls()
+                    health -= 5
+                    msg += health_bar()
+                    msg += str(f"You run away and the {mob} hits you for 5 hp\n")
+                    input(msg, 0)
+                    cls()
+
+    # function for killing['chicken', 'pig', 'cow', 'sheep]
+    def kill(mob):
+        msg = ''
+        if mob == 'sheep':
+            print(f"You kill the {mob}!\n")
+            amount = random.randint(0,3)
+            amount2 = random.randint(0,3)
+            store('wool', amount)
+            store('raw_lambchop', amount2)
+            msg += (f"You get {amount} wool and {amount2} raw lambchop!\n")
+            input(msg ,0)
+        
+        elif mob == 'chicken':
+            print(f"You kill the {mob}!\n")
+            amount = random.randint(0,3)
+            amount2 = random.randint(0,3)
+            store('feathers', amount)
+            store('raw_chicken', amount2)
+            msg += (f"You get {amount} feathers and {amount2} raw chicken!\n")
+            input(msg ,0)
+        
+        elif mob == 'pig':
+            print(f"You kill the {mob}!\n")
+            amount = random.randint(0,3)
+            store('raw_porkchop', amount)
+            msg += (f"You get {amount} raw porkchop!\n")
+            input(msg ,0)
+        
+        elif mob == 'cow':
+            achievements_list[4][0] += 1
+            print(f"You kill the {mob}!\n")
+            amount = random.randint(0,3)
+            amount2 = random.randint(0,3)
+            store('raw_beef', amount)
+            store('leather', amount2)
+            msg += (f"You get {amount} raw beef, and {amount2} leather!\n")
+            input(msg, 0)
+
+    # function for fighting ['zombie', 'skeleton','spider', 'witch', 'slime', 'creeper']
+    def fight(mob):
+
+        global health
+        global damage
+        
+        #    print("What weapon")
+
+        if mob == 'zombie':
+            mob_health = 20
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 25:
+                    hurt = random.randint(3,10)
+                    health -= hurt
+                    input(f"The zombie bites you taking {hurt} hp\n", 0)
+
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+                # DEATH                    
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} rotten flesh!\n")
+                store('rotten_flesh', amount)
+                input(str(msg), 0)
+
+    
+        elif mob == 'skeleton':
+            mob_health = 20
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 25:
+                    hurt = random.randint(3,10)
+                    health -= hurt
+                    input(f"The skeleton shoots you taking {hurt} hp\n", 0)
+
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+                # DEATH                    
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} bone!\n")
+                store('bone', amount)
+                input(str(msg), 0)
+
+
+        elif mob == 'witch':
+            mob_health = 26
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 25:
+                    hurt = random.randint(3,10)
+                    health -= hurt
+                    input(f"The witch throws a damage potion at you taking {hurt} hp\n", 0)
+
+
+                if random.randint(0,100) < 10:
+                    msg = ("The witch heals itself with a potion")
+                    input(msg, 0)
+                    mob_health += 10
+                    if mob_health > 26:
+                        mob_health = 26
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+                # DEATH                    
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} glass bottle!\n")
+                store('glass_bottle', amount)
+                input(str(msg), 0)
+
+
+        elif mob == 'slime':
+            mob_health = 16
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 25:
+                    hurt = random.randint(3,10)
+                    health -= hurt
+                    input(f"The slime stomps on you taking {hurt} hp\n", 0)
+
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+                # DEATH                    
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} slimeball!\n")
+                store('slimeball', amount)
+                input(str(msg), 0)
+
+
+        elif mob == 'creeper':
+            mob_health = 20
+            blow_up = False
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 20:
+                    hurt = random.randint(40,61)
+                    health -= hurt
+                    cls()
+                    health_bar()
+                    input(f"The creeper blows up hurting you {hurt} hp\n", 0)
+                    mob_health = 0
+                    blow_up = True
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+                # DEATH                    
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0 and blow_up == False:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} gunpowder!\n")
+                store('gunpowder', amount)
+                input(str(msg), 0)
+
+
+        if mob == 'spider':
+            mob_health = 16
+
+            while mob_health > 0:
+                cls()
+                health_bar()
+
+                if random.randint(0,100) < 25:
+                    hurt = random.randint(3,10)
+                    health -= hurt
+                    input(f"The spider bites you taking {hurt} hp\n", 0)
+
+                else:
+                    input("Hit (press any key) to attack!\n", 0)
+                    if random.randint(0,100) < 90:
+                        damage2 = damage * random.randint(1,3)
+                        mob_health -= damage2
+                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                    else:
+                        input("You miss", 0)
+              
+                if health <= 0:
+                    adventure.dead()
+            
+            if mob_health <= 0:
+                cls()
+                msg = ''
+                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                amount = random.randint(0,3)
+                msg += (f"You get {amount} string!\n")
+                store('string', amount)
+                input(str(msg), 0)  
+
+
+    def tame():
+
+        select = 0
+        bone = 0
+        global damage
+
+        for i in inventory:
+            if i[0] == 'bone' and i[1] >= 1:
+                bone = True
+
+        if bone == True:
+            msg = ''
+            msg += ("Use bone? (y/n)\n")
+            select = input(str(msg), 1)
+
+            if select == 'y':
+                store('bone', -1)
+                if random.randint(0,100) < 20:
+                    achievements_list[7][0] += 1
+                    input("Tame successful, your damage increases by 1\n", 0)
+                    damage += 1
+                else:
+                    input("Tame unsuccessful\n", 0)
+                    adventure.tame()
+            else:
+                pass
+
+        else:
+            input("Sorry you don't have anymore bones\n", 0)
+
+
+    def dead():
+        select = 0
+        deaths = 1
+        msg = ''
+        msg += ("You die, game over.\n")#  Total fatal incidents = {deaths}")
+
+        with open('textcraft123.py', 'w') as file:
+            file.write("inventory = []\n")
+            file.write("all_farms = []\n")
+            file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
+            file.write("equipment = []\n")
+            file.write("achievements_list = []\n")
+            
+
+        msg += ("Play again (y/n)\n")
+        
+        while True:
+            select = input(msg)
+            if select == 'n':
+                exit(0)
+            elif select == 'y':
+                deaths += 1
+            else:
+                pass
+
+# END OF ADVENTURE
+
 
 
 # x is whether to show all achievements or check for gained and notify(0 or 1)
@@ -846,21 +1742,19 @@ def achievements(x):
     msg = ''
     if x == 0:
         
-        for i in achievements_list:
-            if i[1] == 1:
-                msg += (i[2])
-                msg += ("\n")
-                has = True
-
-        if has == False:
-            input("You don't have any, lol.\n", 0)
+        try:
+            for i in achievements_list:
+                if i[1] == 1:
+                    msg += i[2]
+                    msg += '\n'
+        except:
+            return"You don't have any, lol.\n"
         else:
             return msg
 
     else:
         for i in achievements_list:
             if i[1] == 0 and i[0] >= i[3]:
-                achieved.append(i[2])
                 i[1] = 1
                 msg += ("=========================\n")
                 msg += ("=========================\n")
@@ -868,6 +1762,8 @@ def achievements(x):
                 msg += ("=========================\n")
                 msg += ("=========================\n")
         return msg
+
+
 
 
 def menu():
@@ -881,9 +1777,9 @@ def menu():
     select = input(str(msg), 1)
 
     if select == 'a':
-        achievements(0)
+        input(achievements(0), 0)
     elif select == 'f': # farm
-        farming()
+        farm.farming()
     elif select == 'i': # inventory
         view_inventory()
     
@@ -893,6 +1789,8 @@ def menu():
     elif select == 'q':
         choice = input("Would you like to save your game? (y/n)\n", 1)
         if choice == 'y':
+
+
             with open('textcraft123.py', 'w') as file:
                 file.write("inventory = ")
                 file.write(str(inventory))
@@ -903,8 +1801,6 @@ def menu():
                 file.write("equipment = ")
                 file.write(str(equipment))
                 file.write("\n")
-                file.write("achieved = ")
-                file.write(str(achieved))
                 file.write("\n")
                 file.write("achievements_list = ")
                 file.write(str(achievements_list))
@@ -1106,30 +2002,26 @@ def craft():
 
                 # Where the crafting actually happens
                 
-                if done2 == False:
-                    for e in crafting:
-                        if e[0] == select:
+        if done2 == False:
+            for e in crafting:
+                if e[0] == select:
 
-                            if len(e) == 6:
-                                store(e[0], (e[5] * quantity2))
-                                store(e[1], (-e[2] * quantity2))
-                                store(e[3], (-e[4] * quantity2))
-                                msg = (f"You gained {quantity2 * e[5]} {select}")
-                                select2 = select2 * e[3]
+                    if len(e) == 6:
+                        store(e[0], (e[5] * quantity2))
+                        store(e[1], (-e[2] * quantity2))
+                        store(e[3], (-e[4] * quantity2))
+                        msg2 = (f"You gained {quantity2 * e[5]} {select}")
+                        
 
-                            else:
-                                store(e[0], (e[3] * quantity2))
-                                store(e[1], (-e[2] * quantity2))
-                                msg = (f"You gained {quantity2 * e[3]} {select}")
-                                select2 = select2 * e[3]
+                    else:
+                        store(e[0], (e[3] * quantity2))
+                        store(e[1], (-e[2] * quantity2))
+                        msg2 = (f"You gained {quantity2 * e[3]} {select}")
 
-                    print(f"Crafting {select}")
-                    tick(1)
-                    while z != 3:
-                        print(".")
-                        time.sleep(.5)
-                        z += 1
-                    input(msg, 0)
+            msg = str(f"Crafting {select}")
+            tick(1)
+            input(msg, [3, .5])
+            input(msg2, 0)
 
     
 def a2():
@@ -1224,7 +2116,7 @@ def eat():
                                 input(msg, 0)
                                 achievements_list[10][0] += 1
                                 if health <= 0:
-                                    dead()
+                                    adventure.dead()
 
 
                     have_food = False
@@ -1235,6 +2127,7 @@ def eat():
                             if quantity >= 1:
                                 have_food = True
                     if quantity and have_food:
+                        msg += health_bar()
                         msg += (f"{quantity} left, eat another? (y/n)\n")
                         select2 = input(str(msg), 1)
 
@@ -1243,7 +2136,9 @@ def eat():
                         else:
                             have_food = False
                     else:
-                        input("No more food!\n", 0)
+                        msg += health_bar()
+                        msg += ("No more food!\n")
+                        input(msg, 0)
                         have_food = False
 
 
@@ -1349,21 +2244,6 @@ def ore(height):
         return 'dirt'
 
 
-def cave_ore(height):
-
-    global cave_ores
-    mineable = []
-
-    for i in cave_ores:
-        if i[1] >= height:
-            mineable.append(i[0])
-
-    if height < 61:
-        return mineable[random.randint(0, (len(mineable)-1))]
-    else:
-        return 'dirt'
-
-
 
 def dig_down(height):
 
@@ -1373,19 +2253,21 @@ def dig_down(height):
     select = 0
     z = 0
     bucket = False
-    tick(1)
+    
     block = ore(height)
     
     
-    # if block == 'dirt'
-    print("You mine the block below you")
-    while z != 3:
-        print(".\n")
-        time.sleep(.5 / current_pickaxe[4])
-        z += 1
-    
-
-
+    # if block == 'dirt' for shovel
+    msg = ''
+    x = 0
+    for i in inventory: 
+        if i[0] == 'water_bucket':
+            x = i[1]
+    msg += health_bar()
+    msg += str(f"  {x}-water buckets\n")
+    tick(1)
+    msg += ("You mine the block below you")
+    input(msg, [3, float(.5/current_pickaxe[4])])
     
     if block != 'bedrock' and block != 'lava':
         
@@ -1393,20 +2275,29 @@ def dig_down(height):
             if block == 'diamond':
                     achievements_list[1][0] += 1
             msg = ''
-            msg += (f"You get 1 {block}!\n")
-            input(msg, 0)
+            msg += health_bar()
+            for i in inventory: 
+                if i[0] == 'water_bucket':
+                    x = i[1]
+            msg += str(f"  {x}-water buckets\n")
+            msg += (f"You get 1 {block}!")
             cls()
             store(block, 1)
         else:
             msg = ''
-            msg += ("Try using a better pickaxe\n")
-            input(msg, 0)
+            x = 0
+            msg += health_bar()
+            for i in inventory: 
+                if i[0] == 'water_bucket':
+                    x = i[1]
+            msg += str(f"  {x}-water buckets\n")
+            msg += ("Try using a better pickaxe")
             cls()
 
         height -= 1
         health_bar()
-        msg = ''
-        msg += ("Climb back up or keep digging(c/d)\n")
+        if height > 62:
+            msg += ("\nClimb back up or keep digging(c/d)\n")
         select = input(str(msg), 1)
         if select == 'c':
             input("You climb back to the surface\n", 0)
@@ -1425,35 +2316,41 @@ def dig_down(height):
             
             if bucket == False:
                 msg = ''
+                health = 0
+                msg += health_bar()
+                for i in inventory: 
+                    if i[0] == 'water_bucket':
+                        x = i[1]
+                msg += str(f"  {x}-water buckets\n")
                 msg += ("OUCH LAVA BURNS!\n")
                 msg += ("Bring a water bucket next time.\n")
                 input(msg, 0)
-                dead()
+                adventure.dead()
             else:
                 achievements_list[3][0] += 1
                 msg = ''
+                health -= 10
+                msg += health_bar()
+                store('water_bucket', -1)
+                for i in inventory: 
+                    if i[0] == 'water_bucket':
+                        x = i[1]
+                msg += str(f"  {x}-water buckets\n")
                 msg += ("You use your water bucket to turn the lava into obsidian\n")
                 msg += ("You also lose 10 hp from well, lava\n")
-                health -= 10
                 if health <= 0:
-                    dead()
+                    adventure.dead()
                 block = 'obsidian'
-                store('water_bucket', -1)
+                
                 store('bucket', 1)
 
                 if pickaxe(block) == True:
                     msg += (f"You get 1 {block}!\n")
-                    input(msg, 0)
-                    cls()
                     store(block, 1)
                 else:
                     msg += ("Try using a better pickaxe")
-                    input(msg, 0)
 
                 height -= 1
-                health_bar()
-                msg = ''
-                msg = ("Climb back up or keep digging(c/d)\n")
                 select = input(str(msg), 1)
 
                 if select == 'c':
@@ -1470,7 +2367,8 @@ def dig_down(height):
             msg += ("You can't mine through bedrock silly!\n")
             msg += ("Returning to surface")
             input(msg, 0)
-
+    
+    
 # current_pickaxe = ['wooden_pickaxe', 33, 1, 59]
 def pickaxe(block):
     global current_pickaxe
@@ -1494,809 +2392,13 @@ def a4():
     msg = (a1()+a2()+a3())
     return msg
 
-# Defines what you find on an adventure
-def adventure():
-
-    tick(1)
-    search = ['tree','tree', 'tree', 'tree',
- 'tree', 'tree', 'river', 'animal', 'animal', 'cave']
-
-    if random.randint(0,100) < 20:
-        search.append('villager')
-
-    end = search[random.randint(0, (len(search)-1))]
-
-    if end == 'animal':
-        cls()
-        mob()
-
-    elif end == 'tree':
-        msg = ''
-        msg += ("You find a tree\n")
-        msg += ("Do you want to cut it down(y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            cls()
-            break_tree()
-        elif select == 'n':
-            cls()
-            adventure()
-        else:
-            pass
-
-    elif end == 'river':
-        cls()
-        river()
-
-    elif end == 'cave':
-        cls()
-        cave()
-
-    elif end == 'villager':
-        cls()
-        villager()
-    
-    else:
-        input("ERROR in def adventure\n", 0)
-
-
-def river():
-
-    rod = False
-    bucket = False
-    msg = ''
-    msg += ("You see a river!\n")
-    for i in inventory:
-        if i[0] == 'fishing_rod':
-            rod = True
-
-    for i in inventory:
-        if i[0] == 'bucket':
-            bucket = True
-
-    if bucket == True and rod == True:
-        msg += ("Would you like to fish or fill your bucket with water?(f/b)\n")
-        select = input(str(msg), 1)
-        if select == 'f':
-            cls()
-            fish()
-        elif select == 'b':
-            cls()
-            fill_bucket()
-        else:
-            pass
-
-    elif bucket == True:
-        msg += ("would you like to fill a bucket with water?(y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            cls()
-            fill_bucket()
-
-    elif rod == True:
-        msg += ("would you like to fish?(y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            cls()
-            fish()
-
-    else:
-        msg += ("Sorry there's nothing for you here.\n")
-        msg += ("Keep adventuring?(y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            cls()
-            adventure()
-        else:
-            pass
-
-
-def fill_bucket():
-
-    tick(1)
-    bucket = True
-
-    while bucket == True:
-        z = 0
-        input("Your bucket fills up\n", 0)
-        achievements_list[5][0] += 1
-        
-        while z != 3:
-            print(".\n")
-            time.sleep(.5)
-            z += 1
-        
-        for i in inventory:
-            if i[0] == 'bucket' and i[1] >= 1:
-                store('bucket', -1)
-                store('water_bucket', 1)
-
-        bucket = False
-        for i in inventory:
-            if i[0] == 'bucket' and i[1] > 0:
-                bucket = True
-
-        if bucket == True:
-            msg = ''
-            msg += ("Fill another bucket? (y/n)\n")
-            select = input(str(msg), 1)
-
-            if select == 'y':
-                pass
-            else:
-                bucket = False
-
-
-  
-def fish():
-
-    print("You throw in your line")
-    tick(1)
-    select = 0
-    z = 0
-    while z != 10:
-        print(".\n")
-        time.sleep(1)
-        z += 1
-
-    if random.randint(0,100) < 30:
-        msg = ''
-        msg += ("You caught a fish!\n")
-        achievements_list[6][0] += 1
-        store('raw_fish', 1)
-        msg += ("Continue fishing? (y/n)\n")
-        select = input(str(msg), 1)
-        msg = ''
-
-    else:
-        msg = ''
-        msg += ("No bite, keep fishing? (y/n)\n")
-        select = input(str(msg), 1)
-
-    if select == 'n':
-        input("The river waves goodbye", 0)
-    elif select == 'y':
-        fish()
-    else:
-        pass
-
-
-def cave():
-
-    tick(1)
-    global height
-    z = 0
-    search = ['ore', 'monster']
-    search_mob = ['zombie', 'creeper', 'skeleton']
-    msg = ''
-    msg += ("You peer into the entrance of a cave.\n")
-    msg += ("Will you dare enter? (y/n)\n")
-    select = input(str(msg), 1)
-
-    if select == 'y':
-        height -= 10
-        find = search[random.randint(0,1)]
-
-        if find == 'ore':
-            block = cave_ore(height)
-            print(f"You mine one {block}")
-            while z != 3:
-                print(".\n")
-                time.sleep(.5 / current_pickaxe[4])
-                z += 1
-            if pickaxe(block) == True:
-                if block == 'diamond':
-                    achievements_list[1][0] += 1
-                input(f"You get 1 {block}!\n", 0)
-                store(block, 1)
-            else:
-                input("Try using a better pickaxe", 0)  
-            cls() 
-            deep_cave()
-        else:
-            cls()
-            fight_mob(search_mob[random.randint(0,2)])
-            deep_cave()
-
-    elif select == 'n':
-        cls()
-        adventure()
-
-    else:
-        cls()
-        start()
-
 
 def a3():
     return ("@@@@@      2018          @@@@@\n")
 
 
-def deep_cave():
-
-    global height
-    global health
-    cls()
-    health_bar()
-    tick(1)
-    z = 0
-    have_torch = False
-    search = ['ore', 'monster']
-    search_mob = ['zombie', 'creeper', 'skeleton']
-    msg = ''
-    msg += ("Would you like to use a torch and go deeper? (y/n)\n")
-    select = input(str(msg), 1)
-
-
-    for i in inventory:
-        if i[0] == 'torch' and i[1] > 0:
-            have_torch = True
-
-    if select == 'y' and have_torch == True:
-        store('torch', -1)
-        height -= 10
-        find = search[random.randint(0,1)]
-
-        if find == 'ore':
-            block = cave_ore(height)
-            cls()
-            print(f"You mine one {block}")
-            while z != 3:
-                print(".\n")
-                time.sleep(.5 / current_pickaxe[4])
-                z += 1
-            if pickaxe(block) == True:
-                if block == 'diamond':
-                    achievements_list[1][0] += 1
-                input(f"You get 1 {block}!\n", 0)
-                
-                store(block, 1)
-            else:
-                input("Try using a better pickaxe\n", 0)
-
-            cls()   
-            deep_cave()
-        else:
-            cls()
-            fight_mob(search_mob[random.randint(0,2)])
-            deep_cave()
-
-    elif select == 'y' and have_torch == False:
-        cls()
-        input("You're out of torches, returning to surface\n", 0)
-        height = 64
-
-    elif select == 'n':
-        cls()
-        input("Returning to surface", 0)
-        height = 64
-
-    else:
-        input("Learn to hit a key", 0)
-        deep_cave()
-
-
-def break_tree():
-
-    z = 0
-    amount = 0
-    amount2 = 0
-    achievements_list[2][0] += 1
-
-    if random.randint(0,100) < 90:
-        print("breaking tree")
-        while z != 3:
-            print(".")
-            time.sleep(2)
-            z += 1
-        amount = random.randint(4,8)
-        store('log', amount)
-        msg = ''
-        msg += (f"You got {amount} logs!\n")
-
-        if random.randint(0,100) < 10:
-            amount2 = random.randint(1,4)
-            msg += (f"You got {amount2} apples!\n")
-            store('apple', amount2)
-        else:
-            msg += ("Guess you're going to the doctor today!\n")
-        input(msg, 0)
-
-    
-    else:
-        print("breaking big tree")
-        while z != 6:
-            print(".")
-            time.sleep(2)
-            z += 1
-        amount = random.randint(10,18)
-        store('log', amount)
-        msg = ''
-        msg += (f"You got {amount} logs!\n")
-        if random.randint(0,100) < 10:
-            amount2 = random.randint(1,9)
-            msg += (f"You got {amount2} apples!\n")
-            store('apple', amount2)
-        else:
-            msg += ("Guess you're going to the doctor today!\n")
-        input(msg, 0)
-
-#Defines what mob you will find on an adventure
-def mob():
-
-    global animal
-    global animal_night
-    global night
-    tick(1)
-    mob_type = 0
-
-    if night == False:
-        mob_type = animal
-
-    else:
-        mob_type = animal_night
-
-    mob = mob_type[random.randint(0, (len(animal)-1))]
-    input(f"You run into a {mob}\n", 0)
-    fight_mob(mob)
-
-
-def fight_mob(mob):
-
-    global health
-    global friend
-    global foe
-    cls()
-    health_bar()
-    select = 0
-    wolf = ['wolf']
-    
-
-    if (mob) in friend:
-        msg = ''
-        msg += (f"Would you like to kill the {mob} (y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            kill(mob)
-        elif select == 'n':
-            cls()
-            adventure()
-        else:
-            pass
-
-    elif (mob) in wolf:
-        msg = ''
-        msg += ("You find a wolf!  Would you like to tame it?(y/n)\n")
-        select = input(str(msg), 1)
-        if select == 'y':
-            cls()
-            tame()
-
-        elif select == 'n':
-            cls()
-            adventure()
-
-        else:
-            pass
-
-    else:
-        msg = ''
-        msg += (f"Fight the {mob} or run (f/r)\n")
-        select = input(str(msg), 1)
-        if select == 'f':
-            cls()
-            fight(mob)
-        else:
-            if mob == 'creeper':
-                cls()
-                input("Somehow you get away\n", 0)
-            else:
-                cls()
-                health -= 5
-                health_bar()
-                input(f"You run away and the {mob} hits you for 5 hp\n", 0)
-                cls()
-
-# function for killing['chicken', 'pig', 'cow', 'sheep]
-def kill(mob):
-    msg = ''
-    if mob == 'sheep':
-        print(f"You kill the {mob}!\n")
-        amount = random.randint(0,3)
-        amount2 = random.randint(0,3)
-        store('wool', amount)
-        store('raw_lambchop', amount2)
-        msg += (f"You get {amount} wool and {amount2} raw lambchop!\n")
-        input(msg ,0)
-    
-    elif mob == 'chicken':
-        print(f"You kill the {mob}!\n")
-        amount = random.randint(0,3)
-        amount2 = random.randint(0,3)
-        store('feathers', amount)
-        store('raw_chicken', amount2)
-        msg += (f"You get {amount} feathers and {amount2} raw chicken!\n")
-        input(msg ,0)
-    
-    elif mob == 'pig':
-        print(f"You kill the {mob}!\n")
-        amount = random.randint(0,3)
-        store('raw_porkchop', amount)
-        msg += (f"You get {amount} raw porkchop!\n")
-        input(msg ,0)
-    
-    elif mob == 'cow':
-        achievements_list[4][0] += 1
-        print(f"You kill the {mob}!\n")
-        amount = random.randint(0,3)
-        amount2 = random.randint(0,3)
-        store('raw_beef', amount)
-        store('leather', amount2)
-        msg += (f"You get {amount} raw beef, and {amount2} leather!\n")
-        input(msg, 0)
-    
-
-
-def villager():
-    
-
-    global prices
-    buying_selling = True
-    
-    item_for_sale = 0
-    item_for_buy = 0
-    quantity_buy = 0
-    quantity_sell = 0
-    select = 0
-    z = 5
-    sell_list = [['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10]]
-    buy_list = prices
-    for i in inventory:
-        for x in prices:
-            if i[0] == x[0]:
-                sell_list.append(x)
-                if z != 0:
-                    sell_list.remove(sell_list[(z - 1)])
-                    z -= 1
-    # ['leather', 5]
-    item_for_sale = sell_list[random.randint(0,(len(sell_list)-1))]
-    sell_list.remove(item_for_sale)
-    item_for_buy = buy_list[random.randint(0,(len(buy_list)-1))]
-    item_for_sale[1] = (item_for_sale[1]/2)
-
-    
-    while buying_selling == True:
-        global money
-        have_item_sell = False
-        have_item_buy = False
-        cls()
-        msg = ''
-        msg += ("Villager is...\n")
-        msg += (f"Buying - {item_for_sale[0]} for ${item_for_sale[1]}\n")
-        msg += (f"Selling - {item_for_buy[0]} for ${item_for_buy[1]}\n")
-
-
-        
-        for i in inventory:
-            if i[0] == item_for_sale[0] and i[1] > 0:
-                have_item_sell = True
-                quantity_sell = i[1]
-        if money >= item_for_buy[1]:
-            have_item_buy = True
-            quantity_buy = math.floor(money/(item_for_buy[1]))
-
-
-    
-        msg += (f"You have ${money}\n")
-        msg += (f"Would you like to buy or sell? (b/s) (q to quit)\n")
-        select = input(str(msg), 1)
-
-        if select == 's' and have_item_sell:
-            msg = ''
-            msg += (f"How many {item_for_sale[0]} ${item_for_sale[1]} would you like to sell? (0-{quantity_sell})\n")
-            try:
-                select = int(input(str(msg), 1))
-                if 1 <= select <= quantity_sell:
-                    msg = ''
-                    msg += (f"Selling {select} {item_for_sale[0]} to Villager\n")
-
-                    store((item_for_sale[0]), -(select))
-                    money_added = item_for_sale[1] * select
-                    msg += (f"You get ${money_added}\n")
-                    money_add(money_added)
-                    input(msg, 0)
-
-                elif select > quantity_sell:
-                    input("You don't have that many!\n", 0)
-
-                else:
-                    input("Invalid", 0)
-            except(ValueError, IndexError, TypeError):
-                input("Invalid", 0)
-
-        elif select == 'b' and have_item_buy:
-            msg = ''
-            msg += (f"How many {item_for_buy[0]} would you like to buy? (0-{quantity_buy})\n")
-            try:
-                select = int(input(str(msg), 1))
-                if 1 <= select <= quantity_buy:
-                    msg = ''
-                    msg += (f"Buying {select} {item_for_buy[0]} to Villager\n")   
-                    store((item_for_buy[0]), select)
-                    money_added = item_for_buy[1] * -(select)
-                    msg += (f"You get {select} {item_for_buy[0]}!\n")
-                    money_add(money_added)
-                    input(msg, 0)
-
-                elif select > quantity_buy:
-                    input("You don't have enough money!\n", 0)
-                else:
-                    input("Invalid", 0)
-            except(ValueError, IndexError,TypeError):
-                input("Invalid", 0)
-
-        elif select == 's':
-            input(f"You dont have any {item_for_sale[0]}.\n", 0)
-
-        elif select == 'b':
-            input(f"You don't have enough money to buy {item_for_buy[0]}.\n", 0)
-
-        elif select == 'q':
-            buying_selling = False
-
-
-
 def a1():
     return("@@@@@      TEXTCRAFT     @@@@@\n")
-
-# function for fighting ['zombie', 'skeleton','spider', 'witch', 'slime', 'creeper']
-def fight(mob):
-
-    global health
-    global damage
-    
-    #    print("What weapon")
-
-    if mob == 'zombie':
-        mob_health = 20
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 25:
-                hurt = random.randint(3,10)
-                health -= hurt
-                input(f"The zombie bites you taking {hurt} hp\n", 0)
-
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH                    
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} rotten flesh!\n")
-            store('rotten_flesh', amount)
-            input(str(msg), 0)
-
-   
-    elif mob == 'skeleton':
-        mob_health = 20
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 25:
-                hurt = random.randint(3,10)
-                health -= hurt
-                input(f"The skeleton shoots you taking {hurt} hp\n", 0)
-
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH                    
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} bone!\n")
-            store('bone', amount)
-            input(str(msg), 0)
-
-
-    elif mob == 'witch':
-        mob_health = 26
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 25:
-                hurt = random.randint(3,10)
-                health -= hurt
-                input(f"The witch throws a damage potion at you taking {hurt} hp\n", 0)
-
-
-            if random.randint(0,100) < 10:
-                msg = ("The witch heals itself with a potion")
-                input(msg, 0)
-                mob_health += 10
-                if mob_health > 26:
-                    mob_health = 26
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH                    
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} glass bottle!\n")
-            store('glass_bottle', amount)
-            input(str(msg), 0)
-
-
-    elif mob == 'slime':
-        mob_health = 16
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 25:
-                hurt = random.randint(3,10)
-                health -= hurt
-                input(f"The slime stomps on you taking {hurt} hp\n", 0)
-
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH                    
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} slimeball!\n")
-            store('slimeball', amount)
-            input(str(msg), 0)
-
-
-    elif mob == 'creeper':
-        mob_health = 20
-        blow_up = False
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 20:
-                hurt = random.randint(40,61)
-                health -= hurt
-                cls()
-                health_bar()
-                input(f"The creeper blows up hurting you {hurt} hp\n", 0)
-                mob_health = 0
-                blow_up = True
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH                    
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0 and blow_up == False:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} gunpowder!\n")
-            store('gunpowder', amount)
-            input(str(msg), 0)
-
-
-    if mob == 'spider':
-        mob_health = 16
-
-        while mob_health > 0:
-            cls()
-            health_bar()
-
-            if random.randint(0,100) < 25:
-                hurt = random.randint(3,10)
-                health -= hurt
-                input(f"The spider bites you taking {hurt} hp\n", 0)
-
-            else:
-                input("Hit (press any key) to attack!\n", 0)
-                if random.randint(0,100) < 90:
-                    damage2 = damage * random.randint(1,3)
-                    mob_health -= damage2
-                    input(f"You hit the {mob} for {damage2} hp\n", 0)
-                else:
-                    input("You miss", 0)
-            # DEATH test  test test                 
-            if health <= 0:
-                dead()
-        
-        if mob_health <= 0:
-            cls()
-            msg = ''
-            msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
-            amount = random.randint(0,3)
-            msg += (f"You get {amount} string!\n")
-            store('string', amount)
-            input(str(msg), 0)  
-        
-
-def dead():
-    select = 0
-    deaths = 1
-    msg = ''
-    msg += ("You die, game over.\n")#  Total fatal incidents = {deaths}")
-
-    with open('textcraft123.py', 'w') as file:
-        file.write("inventory = []\n")
-        file.write("all_farms = []\n")
-        file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
-        file.write("achieved = []\n")
-        file.write("equipment = []\n")
-        file.write("achievements_list = []\n")
-        
-
-    msg += ("Play again (y/n)\n")
-    
-    while True:
-        select = input(msg)
-        if select == 'n':
-            exit(0)
-        elif select == 'y':
-            deaths += 1
-        else:
-            pass
-        
 
 
 def view_inventory():
@@ -2368,8 +2470,6 @@ def view_inventory():
 
     else:
         pass
-    
-
 
 
 def view_equipment():
@@ -2444,37 +2544,6 @@ def old_equipment(x):
         equipment.append(x)
 
 
-def tame():
-
-    select = 0
-    bone = 0
-    global damage
-
-    for i in inventory:
-        if i[0] == 'bone' and i[1] >= 1:
-            bone = True
-
-    if bone == True:
-        msg = ''
-        msg += ("Use bone? (y/n)\n")
-        select = input(str(msg), 1)
-
-        if select == 'y':
-            store('bone', -1)
-            if random.randint(0,100) < 20:
-                achievements_list[7][0] += 1
-                input("Tame successful, your damage increases by 1\n", 0)
-                damage += 1
-            else:
-                input("Tame unsuccessful\n", 0)
-                tame()
-        else:
-            pass
-
-    else:
-        input("Sorry you don't have anymore bones\n", 0)
-
-
 
 def bed_sleep():
 
@@ -2494,8 +2563,6 @@ def bed_sleep():
 
     else:
         tick(100)
-    
-        
 
 # cook_output
 def furnace():
@@ -2744,25 +2811,22 @@ def start():
 
     
     cls()
-    
-    # Checking time
-    tick(0)
-    # Checking for new achievements
-    achievements(1)
-    health_bar()
-    print(f"  In the bank = ${money}")
-    # Checking for farm events
 
-    
-    select = input([tick(0), achievements(1), health_bar(),f"  In the bank = ${money}\n",
-EventFarm(0, all_farms), question], 1)
+    msg = ''
+    msg += tick(0)
+    msg += achievements(1)
+    msg += health_bar()
+    msg += str(f"  In the bank = ${money}\n")
+    msg += farm.EventFarm(0, all_farms)
+    msg += question
+    select = input(msg, 1)
 
     #select = input(ms, 1g)
     msg = ''
     
     if select == 'a':# adventure()
         cls()
-        adventure()
+        adventure.adv()
 
     elif select == 'd':# dig_down()
         cls()
@@ -2810,7 +2874,7 @@ def version(x):
 version("Alpha 1.0 / known bug, can't select more than 9 of something")
 
 if user_id != 'user_id':
-    msg = (f"Welcome back, {user_id}")
+    msg = (f"Welcome back, {user_id}!")
     input(msg, 0)
     start()
 
@@ -2838,7 +2902,6 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
 
 
 
