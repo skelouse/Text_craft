@@ -2902,6 +2902,7 @@ while True:
         start()
     else:
         try:
+            cls()
             if user_id == 'user_id':
 
                 select = 0
@@ -2918,6 +2919,7 @@ while True:
                 start()
 
             else:
+                cls()
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
