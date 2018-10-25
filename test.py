@@ -248,18 +248,37 @@ except:
             msg1 = ''
             for i in message:
                 msg1 += str(i)
-        else:
+        elif y == 0:
             msg1 = message
-        unicurses.addstr(msg1, 0)
-        while True: 
-            ch = unicurses.getch()
-            if ch in range(32, 127): break
-            if ch == 10: break
-            time.sleep(0.05)
-        #except: raise
-        #finally:
-        unicurses.endwin()
-        return chr(ch)
+            msg1 += ("\n\n(press any key)\n")
+            win.addstr(0, 0, msg1)
+            while True: 
+                ch = win.getch()
+                if ch in range(32, 127): break
+                if ch == 10: break
+                time.sleep(0.05)
+                unicurses.endwin()
+
+        else:
+            x = 0
+            iterations = y[0]# number of iterations
+            z = y[1]
+            
+            msg1 = message
+
+            msg1 += '.'
+            win.addstr(0, 0, msg1)
+            try:
+                time.sleep(y[2])
+            except:
+                pass
+                
+            unicurses.endwin()
+            iterations -= 1
+            if iterations != -1:
+                input(msg1, [iterations, z, z])
+            else:
+                pass
 
     #--------------------------------------
 def input(x,y):
