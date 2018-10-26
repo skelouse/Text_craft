@@ -192,16 +192,17 @@ try:
             msg1 = ''
             for i in message:
                 msg1 += str(i)
-                win.addstr(0, 0, msg1)
+            win.addstr(0, 0, msg1)
             while True: 
                 ch = win.getch()
                 if ch in range(32, 127): break
                 if ch == 10: break
                 time.sleep(0.05)
-                curses.endwin()
+            curses.endwin()
             return chr(ch)
         elif y == 0:
             msg1 = message
+            cls()
             msg1 += ("\n\n(press any key)\n")
             win.addstr(0, 0, msg1)
             while True: 
@@ -209,7 +210,8 @@ try:
                 if ch in range(32, 127): break
                 if ch == 10: break
                 time.sleep(0.05)
-                curses.endwin()
+            curses.endwin()
+            return chr(ch)
 
         else:
             x = 0
@@ -1768,6 +1770,7 @@ def achievements(x):
                     msg += '\n'
         except:
             return"You don't have any, lol.\n"
+            return msg
         else:
             return msg
 
@@ -2923,9 +2926,6 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
-
-
 
 
 
