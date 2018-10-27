@@ -3395,7 +3395,7 @@ def version(x):
 
 
 
-version('test')
+#version('test')
 version("Alpha 1.0 / known bug, can't select more than 9 of something")
 
 if user_id != 'user_id':
