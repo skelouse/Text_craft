@@ -49,7 +49,7 @@ except ModuleNotFoundError:
     with open('textcraft123.py', 'w') as file:
         file.write("inventory = []\n")
         file.write("all_farms = []\n")
-        file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
+        file.write("base = [0, 0, 100, 0, 0, 0, ['fist', -1, 0, -1, .5], 'user_id']\n")
         file.write("equipment = []\n")
         file.write("achievements_list =  ")
         file.write(str(achievements_list))
@@ -70,19 +70,49 @@ achievements_list = textcraft123.achievements_list
 
 test = False
 
-#night
-if base[0] == 1:
-    night = True
-else:
-    night = False
-
+night = base[0]
 furnace_have = base[1]
 health = base[2]
-damage = base[3]
+wolves = base[3]
 clock = base[4]
 money = base[5]
 current_pickaxe = base[6]
 user_id = base[7]
+
+try:
+    current_shovel = base[8]
+except IndexError:
+    current_shovel = ['fist', -1, 0, -1, .5]
+
+try:
+    current_axe = base[9]
+except IndexError:
+    current_axe = ['fist', -1, 0, -1, .5]
+
+try:
+    current_helmet = base[10]
+except IndexError:
+    current_helmet = ['skin', -1, 0, -1, 1]
+
+try:
+    current_chestplate = base[11]
+except IndexError:
+    current_chestplate = ['skin', -1, 0, -1, 1]
+
+try:
+    current_leggings = base[12]
+except IndexError:
+    current_leggings = ['skin', -1, 0, -1, 1]
+
+try:
+    current_boots = base[13]
+except IndexError:
+    current_boots = ['skin', -1, 0, -1, 1]
+
+try:
+    current_sword = base[14]
+except IndexError:
+    current_sword = ['fist', -1, 0, -1, .5]
 
 height = 64
 current_time = math.floor(time.time())
@@ -111,7 +141,47 @@ crafting = [
     ['bread', 'wheat', 3, 1],
     ['paper', 'sugar_cane', 3, 1],
     ['book', 'leather', 1, 'paper', 3],
-    ['book_shelf', 'wood_plank', 6, 'book', 3]
+    ['book_shelf', 'wood_plank', 6, 'book', 3],
+    ['log_helmet', 'log', 5, 1],
+    ['log_chestplate', 'log', 8, 1],
+    ['log_leggings', 'log', 7, 1],
+    ['log_boots', 'log', 4, 1],
+    ['iron_helmet', 'iron', 5, 1],
+    ['iron_chestplate', 'iron', 8, 1],
+    ['iron_leggings', 'iron', 7, 1],
+    ['iron_boots', 'iron', 4, 1],
+    ['gold_helmet', 'gold', 5, 1],
+    ['gold_chestplate', 'gold', 8, 1],
+    ['gold_leggings', 'gold', 7, 1],
+    ['gold_boots', 'gold', 4, 1],
+    ['diamond_helmet', 'diamond', 5, 1],
+    ['diamond_chestplate', 'diamond', 8, 1],
+    ['diamond_leggings', 'diamond', 7, 1],
+    ['diamond_boots', 'diamond', 4, 1],
+    ['bedrock_helmet', 'bedrock', 5, 1],
+    ['bedrock_chestplate', 'bedrock', 8, 1],
+    ['bedrock_leggings', 'bedrock', 7, 1],
+    ['bedrock_boots', 'bedrock', 4, 1],
+    ['lapis_helmet', 'lapis', 5, 1],
+    ['lapis_chestplate', 'lapis', 8, 1],
+    ['lapis_leggings', 'lapis', 7, 1],
+    ['lapis_boots', 'lapis', 4, 1],
+    ['gold_axe', 'stick', 2, 'gold', 3, 1],
+    ['wooden_axe', 'stick', 2, 'wood_plank', 3, 1],
+    ['stone_axe', 'stick', 2, 'cobblestone', 3, 1],
+    ['iron_axe', 'stick', 2, 'iron', 3, 1],
+    ['diamond_axe', 'stick', 2, 'diamond', 3, 1],
+    ['gold_shovel', 'stick', 2, 'gold', 1, 1],
+    ['wooden_shovel', 'stick', 2, 'wood_plank', 1, 1],
+    ['stone_shovel', 'stick', 2, 'cobblestone', 1, 1],
+    ['iron_shovel', 'stick', 2, 'iron', 1, 1],
+    ['diamond_shovel', 'stick', 2, 'diamond', 1, 1],
+    ['gold_sword', 'stick', 1, 'gold', 2, 1],
+    ['wooden_sword', 'stick', 1, 'wood_plank', 2, 1],
+    ['stone_sword', 'stick', 1, 'cobblestone', 2, 1],
+    ['iron_sword', 'stick', 1, 'iron', 2, 1],
+    ['diamond_sword', 'stick', 1, 'diamond', 2, 1]
+
     
 ]
 
@@ -129,11 +199,52 @@ cook_output = [
 
 #type, current durability, power, total durability
 tools = [
-    ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2]
-        , ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 4, 1561, 4]
+    ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2],
+    ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 4, 1561, 4],
+    ['gold_axe', 32, 2, 32, 4], ['wooden_axe', 59, 1, 59, 1], ['stone_axe', 131, 2, 131, 2],
+    ['iron_axe', 250, 3, 250, 3], ['diamond_axe', 1561, 4, 1561, 4],
+    ['gold_shovel', 32, 2, 32, 4], ['wooden_shovel', 59, 1, 59, 1], ['stone_shovel', 131, 2, 131, 2],
+    ['iron_shovel', 250, 3, 250, 3], ['diamond_shovel', 1561, 4, 1561, 4],
+    ['gold_sword', 32, 2, 32, 3], ['wooden_sword', 59, 1, 59, 1], ['stone_sword', 131, 2, 131, 2],
+    ['iron_sword', 250, 3, 250, 3], ['diamond_sword', 1561, 4, 1561, 4],
+    ['log_helmet', 56, 2, 56, 2], ['log_chestplate', 81, 1, 81, 2],
+    ['log_leggings', 76, 2, 76, 2],['log_boots', 66, 4, 66, 2],
+    ['iron_helmet', 166, 2, 166, 3], ['iron_chestplate', 241, 1, 241, 3],
+    ['iron_leggings', 226, 2, 226, 3],['iron_boots', 196, 4, 196, 3],
+    ['gold_helmet', 78, 2, 78, 3], ['gold_chestplate', 113, 1, 113, 3],
+    ['gold_leggings', 106, 2, 106, 3],['gold_boots', 92, 4, 92, 3],
+    ['diamond_helmet', 364, 2, 364, 4], ['diamond_chestplate', 529, 1, 529, 4],
+    ['diamond_leggings', 496, 2, 496, 4],['diamond_boots', 430, 4, 430, 4],
+    ['bedrock_helmet', 921, 2, 921, 5], ['bedrock_chestplate', 1338, 1, 1338, 5],
+    ['bedrock_leggings', 1254, 2, 1254, 5],['bedrock_boots', 1087, 4, 1087, 5],
+    ['lapis_helmet', 56, 2, 56, 1], ['lapis_chestplate', 81, 1, 81, 1],
+    ['lapis_leggings', 76, 2, 76, 1],['lapis_boots', 66, 4, 66, 1]
+]
+
+# type, current durability, defense, total durability
+armor = [
+    ['log_helmet', ]
 ]
 
 picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
+
+shovels = ['gold_shovel', 'wooden_shovel', 'stone_shovel', 'iron_shovel', 'diamond_shovel']
+
+axes = ['gold_axe', 'wooden_axe', 'stone_axe', 'iron_axe', 'diamond_axe']
+
+swords = ['gold_sword', 'wooden_sword', 'stone_sword', 'iron_sword', 'diamond_sword']
+
+helmets = ['log_helmet', 'iron_helmet', 'gold_helmet', 'diamond_helmet',
+'bedrock_helmet', 'lapis_helmet']
+
+chestplates = ['log_chestplate', 'iron_chestplate', 'gold_chestplate', 'diamond_chestplate',
+'bedrock_chestplate', 'lapis_chestplate']
+
+leggings = ['log_leggings', 'iron_leggings', 'gold_leggings', 'diamond_leggings',
+'bedrock_leggings', 'lapis_leggings']
+
+boots = ['log_boots', 'iron_boots', 'gold_boots', 'diamond_boots',
+'bedrock_boots', 'lapis_boots']
 
 fuel = [
     ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]
@@ -915,6 +1026,76 @@ class farm():
 
 # END OF FARM
 
+def defense(x):
+    
+    global current_helmet
+    global current_chestplate
+    global current_leggings
+    global current_boots
+    numbers = [current_helmet[4], current_chestplate[4], current_leggings[4], current_boots[4]]
+    defense_average = sum(numbers) / len(numbers)
+
+    if x > 0:
+        if current_helmet[0] != 'skin':
+            current_helmet[1] -= 1
+            if current_helmet[1] == 0:
+                input("Your helmet has broken", 0)
+                current_helmet = ['skin', -1, 0, -1, 1]
+
+        if current_chestplate[0] != 'skin':
+            current_chestplate[1] -= 1
+            if current_chestplate[1] == 0:
+                input("Your chestplate has broken", 0)
+                current_chestplate = ['skin', -1, 0, -1, 1]
+
+        if current_leggings[0] != 'skin':
+            current_leggings[1] -= 1
+            if current_leggings[1] == 0:
+                input("Your leggings have broken", 0)
+                current_leggings = ['skin', -1, 0, -1, 1]
+
+        if current_boots[0] != 'skin':
+            current_boots[1] -= 1
+            if current_boots[1] == 0:
+                input("Your boots have broken", 0)
+                current_boots = ['skin', -1, 0, -1, 1]
+
+        return (math.ceil(x / defense_average))
+    else:
+        if defense_average > 1:
+            return round((defense_average)*3)
+        else:
+            return 0
+
+    
+
+def damage():
+
+    global current_sword
+    global wolves
+    
+
+    pain = 1
+    if wolves > 0:
+        pain = random.randint(1,3) * current_sword[4]
+        pain += wolves
+
+        if current_sword[0] != 'fist':
+            current_sword[1] -= 1
+            if current_sword[1] == 0:
+                input("Your sword has broken", 0)
+                current_sword = ['fist', -1, 0, -1, .5]
+
+        return pain
+    else:
+        pain = random.randint(1,3) * current_sword[4]
+        if current_sword[0] != 'fist':
+            current_sword[1] -= 1
+            if current_sword[1] == 0:
+                input("Your sword has broken", 0)
+                current_sword = ['fist', -1, 0, -1, .5]
+        return pain
+
 class adventure():
 
     # Defines what you find on an adventure
@@ -923,9 +1104,12 @@ class adventure():
         tick(1)
         search = ['tree','tree', 'tree', 'tree',
                   'tree', 'tree', 'river', 'animal', 'animal', 'cave']
-
-        if random.randint(0,100) < 20:
-            search.append('villager')
+        if adventure.lapis_armor():
+            if random.randint(0,100) < 60:
+                search.append('villager')
+        else:
+            if random.randint(0,100) < 10:
+                search.append('villager')
 
         end = search[random.randint(0, (len(search)-1))]
 
@@ -1216,11 +1400,16 @@ class adventure():
         achievements_list[2][0] += 1
 
         if random.randint(0,100) < 90:
-            print("breaking tree")
-            while z != 3:
-                print(".")
-                time.sleep(2)
-                z += 1
+            msg = ("breaking tree")
+            input(msg, [3, float(2/current_axe[4])])
+
+            if current_axe[1] > 0 and current_axe[0] != 'fist':
+                current_axe[1] -= 1
+
+            if current_axe[1] == 0:
+                input("Your axe has broken...\n", 0)
+                current_axe = ['fist', -1, 0, -1, .5]
+
             amount = random.randint(4,8)
             store('log', amount)
             msg = ''
@@ -1236,11 +1425,16 @@ class adventure():
 
         
         else:
-            print("breaking big tree")
-            while z != 6:
-                print(".")
-                time.sleep(2)
-                z += 1
+            msg = ("breaking big tree")
+            input(msg, [6, float(2/current_axe[4])])
+
+            if current_axe[1] > 0 and current_axe[0] != 'fist':
+                current_axe[1] -= 1
+
+            if current_axe[1] == 0:
+                input("Your axe has broken...\n", 0)
+                current_axe = ['fist', -1, 0, -1, .5]
+
             amount = random.randint(10,18)
             store('log', amount)
             msg = ''
@@ -1389,6 +1583,7 @@ class adventure():
         select = 0
         wolf = ['wolf']
         msg = ''
+
         msg += (f"You run into a {mob}\n")
 
         if (mob) in friend:
@@ -1431,6 +1626,7 @@ class adventure():
                 else:
                     cls()
                     health -= 5
+                    msg = ''
                     msg += health_bar()
                     msg += str(f"You run away and the {mob} hits you for 5 hp\n")
                     input(msg, 0)
@@ -1478,7 +1674,6 @@ class adventure():
     def fight(mob):
 
         global health
-        global damage
         
         #    print("What weapon")
 
@@ -1491,17 +1686,30 @@ class adventure():
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
+                    hurt = defense(hurt)
                     health -= hurt
-                    input(f"The zombie bites you taking {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str(f"The zombie bites you taking {hurt} hp\n")
+                    input(msg, 0)
 
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1509,7 +1717,8 @@ class adventure():
             if mob_health <= 0:
                 cls()
                 msg = ''
-                msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
+                msg += health_bar()
+                msg += str(f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} rotten flesh!\n")
                 store('rotten_flesh', amount)
@@ -1525,17 +1734,30 @@ class adventure():
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
+                    hurt = defense(hurt)
                     health -= hurt
-                    input(f"The skeleton shoots you taking {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += (f"The skeleton shoots you taking {hurt} hp\n")
+                    input(msg, 0)
 
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1543,6 +1765,7 @@ class adventure():
             if mob_health <= 0:
                 cls()
                 msg = ''
+                msg += health_bar()
                 msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} bone!\n")
@@ -1560,23 +1783,37 @@ class adventure():
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
                     health -= hurt
-                    input(f"The witch throws a damage potion at you taking {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += (f"The witch throws a damage potion at you taking {hurt} hp\n")
+                    input(msg, 0)
 
 
                 if random.randint(0,100) < 10:
-                    msg = ("The witch heals itself with a potion")
+                    msg = ''
+                    msg += health_bar()
+                    msg += ("The witch heals itself with a potion")
                     input(msg, 0)
                     mob_health += 10
                     if mob_health > 26:
                         mob_health = 26
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1584,6 +1821,7 @@ class adventure():
             if mob_health <= 0:
                 cls()
                 msg = ''
+                msg += health_bar()
                 msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} glass bottle!\n")
@@ -1600,17 +1838,30 @@ class adventure():
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
+                    hurt = defense(hurt)
                     health -= hurt
-                    input(f"The slime stomps on you taking {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += (f"The slime stomps on you taking {hurt} hp\n")
+                    input(msg, 0)
 
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1618,6 +1869,7 @@ class adventure():
             if mob_health <= 0:
                 cls()
                 msg = ''
+                msg += health_bar()
                 msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} slimeball!\n")
@@ -1634,21 +1886,32 @@ class adventure():
                 health_bar()
 
                 if random.randint(0,100) < 20:
-                    hurt = random.randint(40,61)
+                    hurt = random.randint(60,90)
+                    hurt = defense(hurt)
                     health -= hurt
-                    cls()
-                    health_bar()
-                    input(f"The creeper blows up hurting you {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += (f"The creeper blows up hurting you {hurt} hp\n")
+                    input(msg, 0)
                     mob_health = 0
                     blow_up = True
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1656,6 +1919,7 @@ class adventure():
             if mob_health <= 0 and blow_up == False:
                 cls()
                 msg = ''
+                msg += health_bar()
                 msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} gunpowder!\n")
@@ -1672,17 +1936,30 @@ class adventure():
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
+                    hurt = defense(hurt)
                     health -= hurt
-                    input(f"The spider bites you taking {hurt} hp\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += (f"The spider bites you taking {hurt} hp\n")
+                    input(msg, 0)
 
                 else:
-                    input("Hit (press any key) to attack!\n", 0)
+                    msg = ''
+                    msg += health_bar()
+                    msg += str("Attack mob!\n")
+                    input(msg, 0)
                     if random.randint(0,100) < 90:
-                        damage2 = damage * random.randint(1,3)
+                        damage2 = damage()
                         mob_health -= damage2
-                        input(f"You hit the {mob} for {damage2} hp\n", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += (f"You hit the {mob} for {damage2} hp\n")
+                        input(msg, 0)
                     else:
-                        input("You miss", 0)
+                        msg = ''
+                        msg += health_bar()
+                        msg += ("You miss")
+                        input(msg, 0)
               
                 if health <= 0:
                     adventure.dead()
@@ -1690,6 +1967,7 @@ class adventure():
             if mob_health <= 0:
                 cls()
                 msg = ''
+                msg += health_bar()
                 msg += (f"The {mob} has fallen by your fist\n")##### {weapon}
                 amount = random.randint(0,3)
                 msg += (f"You get {amount} string!\n")
@@ -1717,7 +1995,7 @@ class adventure():
                 if random.randint(0,100) < 20:
                     achievements_list[7][0] += 1
                     input("Tame successful, your damage increases by 1\n", 0)
-                    damage += 1
+                    wolves += 1
                 else:
                     input("Tame unsuccessful\n", 0)
                     adventure.tame()
@@ -1737,7 +2015,7 @@ class adventure():
         with open('textcraft123.py', 'w') as file:
             file.write("inventory = []\n")
             file.write("all_farms = []\n")
-            file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, 1], 'user_id']\n")
+            file.write("base = [0, 0, 100, 1, 0, 0, ['fist', -1, 0, -1, .5], 'user_id']\n")
             file.write("equipment = []\n")
             file.write("achievements_list = []\n")
             
@@ -1752,6 +2030,18 @@ class adventure():
                 deaths += 1
             else:
                 pass
+
+
+    def lapis_armor():
+        
+        global current_helmet
+        global current_chestplate
+        global current_leggings
+        global current_boots
+
+        if ('lapis' in current_helmet[0] and 'lapis' in current_chestplate[0]
+            and 'lapis' in current_leggings[0] and 'lapis' in current_boots[0]):
+            return True
 
 # END OF ADVENTURE
 
@@ -1784,7 +2074,6 @@ def achievements(x):
                 msg += ("=========================\n")
                 msg += ("=========================\n")
         return msg
-
 
 
 
@@ -1830,7 +2119,7 @@ def menu():
                 global night
                 global furnace_have
                 global health
-                global damage
+                global wolves
                 global clock
                 global money
                 global current_pickaxe
@@ -1839,11 +2128,18 @@ def menu():
                 base.append(night)
                 base.append(furnace_have)
                 base.append(health)
-                base.append(damage)
+                base.append(wolves)
                 base.append(clock)
                 base.append(money)
                 base.append(current_pickaxe)
                 base.append(user_id)
+                base.append(current_shovel)
+                base.append(current_axe)
+                base.append(current_helmet)
+                base.append(current_chestplate)
+                base.append(current_leggings)
+                base.append(current_boots)
+                base.append(current_sword)
                 file.write("base = ")
                 file.write(str(base))
             input("BYEEEE\n", 0)
@@ -1874,6 +2170,7 @@ def craft():
     quantity = 1
     quantity2 = 0
     quantity3 = 0
+    msg = ''
 
     for i in inventory:
         if i[0] == 'crafting_table' and i[1] >= 1:
@@ -1891,72 +2188,17 @@ def craft():
             if table == True:
                 for x in inventory:
                     if i[1] == x[0] and i[2] <= x[1]:
-                        item1 = True
-
-                for x in inventory:
-                    if item1 == True and i[3] == x[0] and i[4] <= x[1]:
-                        available.append(i)
+                        for z in inventory:
+                            if i[3] == z[0] and i[4] <= z[1]:
+                                available.append(i)
             else:
                 pass
-    msg = ''
-
-    scroll = True
-    check = True
-    select = ''
-    while k == 1:
-        #try
-        available2 = available
-        while scroll:
-            msg = ''
-            var = len(available2)
-            if len(available2) > 9 and check:
-                if select == 's':
-                    x = 0
-                    for i in available2:
-                        for z in available:
-                            if z == i:
-                                available2.remove(i)
-                                var -= 1
-
-
-                x = 0
-                available = []
-                for i in available2:
-                    available.append(available2[x])
-                    x += 1
-                    if x == 9: break
-
-            if var > 9:
-                msg += ("Press (s) to scroll!\n")
-                msg += ("====================\n")
-            else:
-                msg += ("\n\n")
-            msg += ("Items you can craft\n")
-            msg += number_list(available, 0)
-            msg += ("\n")
-            msg += ("What would you like to craft? (q to quit)\n")
-            select = input(msg, 1)
-            if select == 's':
-                scroll = True
-                check = True
-            elif select == 'q':
-                k = 3
-                scroll = False
-            else:
-                try:
-                    select = int(select)
-                    select = available[(select -1)][0]
-                    k = 2
-                    scroll = False
-                except:
-                    input("(Invalid)", 0)
-                    check = False
-        #except(TypeError, ValueError, IndexError):
-            #k = 3
-            #msg = ''
-            #msg += ("Invalid selection\n")
-            #input(msg, 0)
-
+    
+    try:
+        select = select_list(available, "What would you like to craft?\n")[0]
+        k = 2
+    except:
+        pass
 
     if k == 2:
         z = 0
@@ -2025,6 +2267,7 @@ def craft():
                 # Where the crafting actually happens
                 
         if done2 == False:
+            msg2 = ''
             for e in crafting:
                 if e[0] == select:
 
@@ -2149,6 +2392,7 @@ def eat():
                             if quantity >= 1:
                                 have_food = True
                     if quantity and have_food:
+                        msg = ''
                         msg += health_bar()
                         msg += (f"{quantity} left, eat another? (y/n)\n")
                         select2 = input(str(msg), 1)
@@ -2271,6 +2515,9 @@ def dig_down(height):
 
 
     global health
+    global current_pickaxe
+    global current_shovel
+
     block = 0
     select = 0
     z = 0
@@ -2289,7 +2536,23 @@ def dig_down(height):
     msg += str(f"  {x}-water buckets\n")
     tick(1)
     msg += ("You mine the block below you")
-    input(msg, [3, float(.5/current_pickaxe[4])])
+    if block == 'dirt' or block == 'gravel':
+        input(msg, [3, float(.5/current_shovel[4])])
+        if current_shovel[1] > 0 and current_shovel[0] != 'fist':
+                current_shovel[1] -= 1
+
+        if current_shovel[1] == 0:
+            input("Your shovel has broken...\n", 0)
+            current_shovel = ['fist', -1, 0, -1, .5]
+
+    else:
+        input(msg, [3, float(.5/current_pickaxe[4])])
+        if current_pickaxe[1] > 0 and current_pickaxe[0] != 'fist':
+                current_pickaxe[1] -= 1
+
+        if current_pickaxe[1] == 0:
+            input("Your pickaxe has broken...\n", 0)
+            current_pickaxe = ['fist', -1, 0, -1, .5]
     
     if block != 'bedrock' and block != 'lava':
         
@@ -2397,17 +2660,12 @@ def pickaxe(block):
     can_mine = False
     for i in ores:
         if i[0] == block and i[2] <= current_pickaxe[2]:
-            broken = True
-            if current_pickaxe[1] > 0:
-                current_pickaxe[1] -= 1
+            can_mine = True
 
-            if current_pickaxe[1] == 0:
-                input("Your pickaxe has broken...\n", 0)
-                current_pickaxe = ['fist', -1, 0, -1, 1]
-
-            return True
     if can_mine == False:
         return False
+    else:
+        return True
 
 
 def a4():
@@ -2438,10 +2696,10 @@ def view_inventory():
             inventory.remove(i)
     
     for i in inventory:
-        #MAX len 21
-        text = (f"  {i[1]}-{i[0]}")
-        var1 = 20 - len(text)
-        msg += str(text + ' ' * var1)
+        #MAX len 17
+        text = (f" {i[1]}-{i[0]}")
+        var1 = 17 - len(text)
+        msg += str(text + ' ' * var1 + '|')
         
         k += 1
         m += 1
@@ -2454,19 +2712,20 @@ def view_inventory():
     msg += number_list(equipment, 0)
 
 
-    msg += ("Throw out an item or equipment? (i/e)\n")
+    msg += ("\nThrow out an item or equipment? (i/e)\n")
     select = input(str(msg), 1)
 
     if select == 'i':
-        msg += number_list(inventory, 0)
+        msg = ' '
 
         msg += ("Select an item to destroy\n")
         try:
-            select = int(input(str(msg), 1))
-            msg += ("Are you sure? (y/n)\n")
+            select = select_list(inventory, msg)
+            msg = ''
+            msg += str(f"Are you sure you want to destroy {select[0]}? (y/n)\n")
             is_sure = input(str(msg), 1)
             if is_sure:
-                store(inventory[(select-1)][0], -(inventory[(select-1)][1]))
+                store(select[0], -(select[1]))
 
 
         except(ValueError, TypeError, IndexError):
@@ -2474,16 +2733,15 @@ def view_inventory():
 
 
     elif select == 'e':
-        msg += number_list(equipment, 0)
+        msg = ''
 
         msg += ("Select an item to destroy\n")
         try:
-            select = int(input(str(msg), 1))
-            select_item = equipment[(select-1)][0]
+            select_item = (select_list(equipment, msg))[0]
             msg += ("Are you sure? (y/n)\n")
             is_sure = input(str(msg), 1)
             if is_sure:
-                store(select, -(inventory[(select-1)]))
+                store(select_item, -1)
 
         except(ValueError, TypeError, IndexError):
             input("Invalid", 0)
@@ -2497,7 +2755,21 @@ def view_inventory():
 def view_equipment():
 
     global picks
+    global shovels
+    global axes
+    global swords
+    global helmets
+    global chestplates
+    global leggings
+    global boots
     global current_pickaxe
+    global current_shovel
+    global current_axe
+    global current_sword
+    global current_helmet
+    global current_chestplate
+    global current_leggings
+    global current_boots
     global equipment
     x = 0
     z = 0
@@ -2505,23 +2777,51 @@ def view_equipment():
     a = 0
     old_pick = 0
     percentage1 = 0
-    ready = False
-    msg = ''
+    msg = 'Equipped\n'
+    
+    if len(current_helmet) > 1 and current_helmet[0] != 'skin':
+        percentage2 = math.ceil( 100* (current_helmet[1]) / current_helmet[3])
+        msg += (f" {current_helmet[0]} {percentage2}%\n")
 
-    if len(current_pickaxe) > 1:
+    if len(current_chestplate) > 1 and current_chestplate[0] != 'skin':
+        percentage2 = math.ceil( 100* (current_chestplate[1]) / current_chestplate[3])
+        msg += (f" {current_chestplate[0]} {percentage2}%\n")
+
+    if len(current_leggings) > 1 and current_leggings[0] != 'skin':
+        percentage2 = math.ceil( 100* (current_leggings[1]) / current_leggings[3])
+        msg += (f" {current_leggings[0]} {percentage2}%\n")
+
+    if len(current_boots) > 1 and current_boots[0] != 'skin':
+        percentage2 = math.ceil( 100* (current_boots[1]) / current_boots[3])
+        msg += (f" {current_boots[0]} {percentage2}%\n")
+
+    if len(current_pickaxe) > 1 and current_pickaxe[0] != 'fist':
         percentage2 = math.ceil( 100* (current_pickaxe[1]) / current_pickaxe[3])
-        msg += (f"Current - {current_pickaxe[0]} {percentage2}%\n")
+        msg += (f" {current_pickaxe[0]} {percentage2}%\n")
+    
+    if len(current_shovel) > 1 and current_shovel[0] != 'fist':
+        percentage2 = math.ceil( 100* (current_shovel[1]) / current_shovel[3])
+        msg += (f" {current_shovel[0]} {percentage2}%\n")
+
+    if len(current_axe) > 1 and current_axe[0] != 'fist':
+        percentage2 = math.ceil( 100* (current_axe[1]) / current_axe[3])
+        msg += (f" {current_axe[0]} {percentage2}%\n")
+
+    if len(current_sword) > 1 and current_sword[0] != 'fist':
+        percentage2 = math.ceil( 100* (current_sword[1]) / current_sword[3])
+        msg += (f" {current_sword[0]} {percentage2}%\n")
+    
 
     
     #[['wooden_pickaxe', 4, 1, 59], []]
 
     if len(equipment) > 0:
-        
+        msg += '\nUnequipped\n'
         for i in equipment:
             if i != None and len(equipment[0]) > 0:
                 if i[1] != 0:
                     percentage1 = math.ceil( 100* (i[1]) / i[3])
-                    msg += str(f"#{y} {i[0]} {percentage1}% ")
+                    msg += str(f" |{i[0]} {percentage1}% ")
                     z += 1
                     if z == 2:
                         msg += ("\n")
@@ -2529,24 +2829,121 @@ def view_equipment():
                     y += 1
 
         msg += ("\n")
-        msg += ("Equip a #?\n")
-        try:
-            select = input(str(msg), 1)
-            a = int(select) - 1
-            select = equipment[a]
-            for x in equipment:
-                if select[0] == x[0]:
-                    ready = True
+        msg += ("Equip something? (e) or Equip best (b)\n")
+        select = input(msg, 1)
+        if select == 'e':
+            try:
 
-            for i in picks:
-                if equipment[a][0] == i and ready == True:
-                    store(equipment[a][0], -1)                    
+                msg = 'Equip a #\n'
+                select = select_list(equipment, msg)
+
+                if 'pickaxe' in select[0]:
+                    store(select[0], -1)                    
                     old_equipment(current_pickaxe)                    
-                    current_pickaxe = x
-                    input(f"{x[0]} equipped!\n", 0)
+                    current_pickaxe = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
 
-        except (TypeError, ValueError, IndexError):
-            input("(Exit)\n", 0)
+                elif 'axe' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_axe)                    
+                    current_axe = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'shovel' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_shovel)                    
+                    current_shovel = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'sword' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_sword)                    
+                    current_sword = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'helmet' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_helmet)                    
+                    current_helmet = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'chestplate' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_chestplate)                    
+                    current_chestplate = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'leggings' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_leggings)                    
+                    current_leggings = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+                elif 'boots' in select[0]:
+                    store(select[0], -1)                    
+                    old_equipment(current_boots)                    
+                    current_boots = select
+                    input(str(f"{select[0]} equipped!\n"), 0)
+
+            except (TypeError, ValueError, IndexError):
+                input("(Exit)\n", 0)
+
+        elif select == 'b':
+            x = 0
+            while x != 50:
+                x += 1
+                for i in equipment:
+
+                    if 'pickaxe' in i[0]:
+                        if i[4] > current_pickaxe[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_pickaxe)                    
+                            current_pickaxe = i
+
+                    elif 'axe' in i[0]:
+                        if i[4] > current_axe[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_axe)                    
+                            current_axe = i
+
+                    elif 'shovel' in i[0]:
+                        if i[4] > current_shovel[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_shovel)                    
+                            current_shovel = i
+
+                    elif 'sword' in i[0]:
+                        if i[4] > current_sword[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_sword)                    
+                            current_sword = i
+
+                    elif 'helmet' in i[0]:
+                        if i[4] > current_helmet[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_helmet)                    
+                            current_helmet = i
+
+                    elif 'chestplate' in i[0]:
+                        if i[4] > current_chestplate[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_chestplate)                    
+                            current_chestplate = i
+
+                    elif 'leggings' in select[0]:
+                        if i[4] > current_leggings[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_leggings)                    
+                            current_leggings = i
+
+                    elif 'boots' in i[0]:
+                        if i[4] > current_boots[4]:
+                            store(i[0], -1)                    
+                            old_equipment(current_boots)                    
+                            current_boots = i
+
+            input("Best equipment on!", 0)
+
 
         
 
@@ -2559,11 +2956,18 @@ def view_equipment():
 def health_bar():
 
     global health
-    return ('  Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')\n')
+    msg = ''
+    msg += ('  Health('+ (int(health/10)*2)*'@'+ ((-(int(health/10)-10))*2)*'-' + ')\n')
+    if defense(0) > 0:
+        msg += str("  Armor (" + ("%" * int(defense(0))) + ')\n')
+    return msg
 
 def old_equipment(x):
-    if x[0] != 'fist':
+    if x[0] == 'fist' or x[0] == 'skin':
+        pass
+    else:
         equipment.append(x)
+
 
 
 
@@ -2629,11 +3033,7 @@ def furnace():
                 k = 1
                 msg = ''
                 msg += ("What would you like to cook?\n")
-                msg += number_list(cook_list, -1)
-
-                msg += ("\n")
-                select_unit = int(input(str(msg), 1))
-                select_unit = cook_list[(select_unit - 1)]
+                select_unit = select_list(cook_list, msg)
             except(ValueError, IndexError, TypeError):
                 pass
             if select_unit in cook_list:
@@ -2641,11 +3041,7 @@ def furnace():
                     k = 1
                     msg = ''
                     msg += (f"What fuel would you like to use to cook your {select_unit}?\n")
-                    msg += number_list(fuel_list, -1)
-
-                    msg += ("\n")
-                    select_fuel = int(input(str(msg), 1))
-                    select_fuel = fuel_list[(select_fuel - 1)]
+                    select_unit = select_list(fuel_list, msg)
                 except(ValueError, IndexError, TypeError):
                     pass
 
@@ -2723,10 +3119,13 @@ def furnace():
 def tick(x):
 
     global clock
+    global night
     if x == 0:
         if clock < 100:
+            night = False
             return ("  Birds are singing in the sunlight...\n")
         else:
+            night = True
             return ("  Crickets are chirping in the moonlight...\n")
 
     # For sleeping
@@ -2763,6 +3162,111 @@ def tick(x):
             clock = 0
             return msg
 
+def select_list(available, message):
+    try:
+        test = available[0][0][1]
+        scroll = True
+        check = True
+        select = 0
+        k = 1
+        x = 1
+        
+        while k == 1:
+            available2 = available
+            while scroll:
+                msg = ''
+                var = len(available2)
+                if len(available2) > 9 and check:
+                    if select == 's':
+                        x = 0
+                        available2 = [x for x in available2 if x not in available]
+                        var -= 8
+
+                    x = 0
+                    available = []
+                    for i in available2:
+                        available.append(available2[x])
+                        x += 1
+                        if x == 9: break
+
+                if var > 9:
+                    msg += ("Press (s) to scroll!\n")
+                    msg += ("====================\n")
+
+                msg += number_list(available, 0)
+                msg += ("\n")
+                msg += message
+                msg += ("(q to quit)\n")
+                select = input(msg, 1)
+                if select == 's':
+                    scroll = True
+                    check = True
+                elif select == 'q':
+                    k = 3
+                    scroll = False
+                    
+                else:
+                    try:
+                        select = int(select)
+                        return available[(select - 1)]
+                        scroll = False
+                    except:
+                        input("(Invalid)", 0)
+                        check = False
+    except:
+
+        scroll = True
+        check = True
+        select = 0
+        k = 1
+        x = 1
+        
+        while k == 1:
+            available2 = available
+            
+            while scroll:
+                msg = ''
+                var = len(available2)
+                if len(available2) > 9 and check:
+                    if select == 's':
+                        x = 0
+                        available2 = [x for x in available2 if x not in available]
+
+                    x = 0
+                    available = []
+                    for i in available2:
+                        available.append(available2)
+                        x += 1
+                        if x == 9: break
+
+                if var > 9:
+                    msg += ("Press (s) to scroll!\n")
+                    msg += ("====================\n")
+                
+                msg += number_list(available, -1)
+                msg += ("\n")
+                msg += message
+                msg += ("(q to quit)\n")
+                select = input(msg, 1)
+                if select == 's':
+                    scroll = True
+                    check = True
+                elif select == 'q':
+                    k = 3
+                    scroll = False
+                    
+                else:
+                    try:
+                        select = int(select)
+                        return available[(select - 1)]
+                        scroll = False
+                    except:
+                        input("(Invalid)", 0)
+                        check = False
+
+    
+
+
 # x is the list to print. y is the list indice(-1 for no indice) diamond_pickaxe
 def number_list(x,y):
     m = 1
@@ -2770,33 +3274,32 @@ def number_list(x,y):
     var1 = 0
     text = 0
     done = False
-    msg = ''
+    msg = ' '
     if y != -1:
-
         for i in x:
             
-            #MAX len 21
-            text = (f"  #{m} {i[y]}")
-            var1 = 21 - len(text)
+            #MAX len 19 lol
+            text = (f"|#{m}-{i[y]}")
+            var1 = 19 - len(text)
             msg += (text + ' ' * var1)
             k += 1
             m += 1
             if k == 3:
-                msg += ("\n")
+                msg += ("\n ")
                 k = 0
         return msg
     else:
 
         for i in x:
             
-            #MAX len 20
-            text = (f" #{m} {i}")
-            var1 = 20 - len(text)
+            #MAX len 16
+            text = (f"|#{m}-{i}")
+            var1 = 18 - len(text)
             msg += str(text + ' ' * var1)
             k += 1
             m += 1
             if k == 3:
-                msg += ("\n")
+                msg += ("\n ")
                 k = 0
         return msg
 
@@ -2892,7 +3395,7 @@ def version(x):
 
 
 
-#version('test')
+version('test')
 version("Alpha 1.0 / known bug, can't select more than 9 of something")
 
 if user_id != 'user_id':
@@ -2926,6 +3429,5 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
 
 
