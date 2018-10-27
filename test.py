@@ -2,6 +2,7 @@ import random
 import time
 import os
 import math
+import sys
 
 
 farm_materials = [
@@ -400,6 +401,7 @@ except:
             while iterations != 0:
                 msg1 += '.'
                 stdscr = unicurses.initscr()        
+                
                 iterations -= 1
                 
                 unicurses.addstr(msg1, 0)
@@ -2040,16 +2042,8 @@ class adventure():
             file.write("achievements_list = []\n")
             
 
-        msg += ("Play again (y/n)\n")
-        
-        while True:
-            select = input(msg)
-            if select == 'n':
-                exit(0)
-            elif select == 'y':
-                deaths += 1
-            else:
-                pass
+        input(msg, 0)
+        sys.exit()
 
 
     def lapis_armor():
@@ -2163,7 +2157,7 @@ def menu():
                 file.write("base = ")
                 file.write(str(base))
             input("BYEEEE\n", 0)
-            exit(0)
+            sys.exit()
     else:
         start()
 
@@ -2906,7 +2900,7 @@ def view_equipment():
                     input(str(f"{select[0]} equipped!\n"), 0)
 
             except (TypeError, ValueError, IndexError):
-                input("(Exit)\n", 0)
+                input("", 0)
 
         elif select == 'b':
             x = 0
