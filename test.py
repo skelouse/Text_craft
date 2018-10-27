@@ -1303,7 +1303,7 @@ class adventure():
 
 
     def cave():
-
+        global current_pickaxe
         tick(1)
         global height
         z = 0
@@ -1353,6 +1353,7 @@ class adventure():
 
         global height
         global health
+        global current_pickaxe
         cls()
         health_bar()
         tick(1)
@@ -1415,7 +1416,7 @@ class adventure():
 
 
     def break_tree():
-
+        global current_axe
         z = 0
         amount = 0
         amount2 = 0
@@ -3055,10 +3056,11 @@ def furnace():
                     k = 1
                     msg = ''
                     msg += (f"What fuel would you like to use to cook your {select_unit}?\n")
-                    select_unit = select_list(fuel_list, msg)
+                    select_fuel = select_list(fuel_list, msg)
                 except(ValueError, IndexError, TypeError):
                     pass
-
+                input(str(fuel_list), 0)
+                input(str(select_fuel), 0)
                 # This is where the actual cooking happens
                 if select_fuel in fuel_list:
                     # discovering the quantities in inventory and how many the fuel can burn
@@ -3068,7 +3070,7 @@ def furnace():
                     for i in fuel:
                         if select_fuel == i[0]:
                             quantity_fuel = i[1]
-                        
+                    
                     while ape != 'q':
                         msg = ''
                         msg += (f"How many {select_unit} would you like to cook? You have {quantity_unit}\n")
@@ -3082,23 +3084,21 @@ def furnace():
                                     total_cooked = int(quantity_fuel)
                                 else:
                                     total_cooked = int(quantity_unit)
-                                print("Cooking")
-                                while p != 3:
-                                    print(".\n")
-                                    time.sleep(1 * total_cooked)
-                                    p += 1
 
                                 for i in cook_output:
                                     if select_unit == i[0]:
                                         select_unit2 = i[1]
-                                msg = ''
-                                msg += (f"You cook {total_cooked} {select_unit} with your {select_fuel}\n")
-                                msg += (f"Giving you {total_cooked} {select_unit2}\n")
+                                msg2 = ''
+                                msg2 += (f"You cook {total_cooked} {select_unit} with your {select_fuel}\n")
+                                msg2 += (f"Giving you {total_cooked} {select_unit2}\n")
                                 store(select_unit2, total_cooked)
                                 store(select_fuel, -1)
                                 store(select_unit, -total_cooked)
-                                input(msg, 0)
-
+                                msg = str(f"Cooking {select_unit}")
+                                tick(1)
+                                input(msg, [3, int(1*total_cooked)])
+                                input(msg2, 0)
+                                
 
                                 ape = 'q'
 
@@ -3443,4 +3443,3 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
