@@ -400,7 +400,6 @@ except:
             while iterations != 0:
                 msg1 += '.'
                 stdscr = unicurses.initscr()        
-                unicurses.clear()
                 iterations -= 1
                 
                 unicurses.addstr(msg1, 0)
