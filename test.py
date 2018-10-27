@@ -353,45 +353,66 @@ except:
     #--------------------------------------
     def input_char(message,y):
         #try:
-        stdscr = unicurses.initscr()
-        
-        unicurses.clear()
         msg1 = None
         if y == 1:
+            stdscr = unicurses.initscr()
+            unicurses.clear()
             msg1 = ''
             for i in message:
                 msg1 += str(i)
-        elif y == 0:
-            msg1 = message
-            msg1 += ("\n\n(press any key)\n")
-            win.addstr(0, 0, msg1)
+            unicurses.addstr(msg1, 0)
             while True: 
-                ch = win.getch()
+                ch = unicurses.getch()
                 if ch in range(32, 127): break
                 if ch == 10: break
                 time.sleep(0.05)
-                unicurses.endwin()
-
+            unicurses.endwin()
+            return chr(ch)
+        elif y == 0:
+            stdscr = unicurses.initscr()
+            unicurses.clear()
+            msg1 = message
+            msg1 += ("\n\n(press any key)\n")
+            unicurses.addstr(msg1, 0)
+            while True: 
+                ch = unicurses.getch()
+                if ch in range(32, 127): break
+                if ch == 10: break
+                time.sleep(0.05)
+            unicurses.endwin()
+            return chr(ch)
         else:
+            stdscr = unicurses.initscr()        
+            unicurses.clear()
             x = 0
             iterations = y[0]# number of iterations
-            z = y[1]
+            z = y[1]# sleep time
             
             msg1 = message
 
-            msg1 += '.'
-            win.addstr(0, 0, msg1)
-            try:
-                time.sleep(y[2])
-            except:
-                pass
-                
+            unicurses.addstr(msg1, 0)
+            while True:
+                unicurses.refresh()
+                time.sleep(z)
+                break
             unicurses.endwin()
-            iterations -= 1
-            if iterations != -1:
-                input(msg1, [iterations, z, z])
-            else:
-                pass
+            
+            while iterations != 0:
+                msg1 += '.'
+                stdscr = unicurses.initscr()        
+                unicurses.clear()
+                iterations -= 1
+                
+                unicurses.addstr(msg1, 0)
+                while True:
+                    unicurses.refresh()
+                    time.sleep(z)
+                    break
+                unicurses.endwin()
+                
+                
+            
+
 
     #--------------------------------------
 def input(x,y):
@@ -3429,5 +3450,4 @@ while True:
                 start()
         except Exception:
             input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
 
