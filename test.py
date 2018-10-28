@@ -182,7 +182,7 @@ def version(x):
 
 
 #version('test')
-version("Alpha 1.1")
+version("Alpha 1.2")
 
 
 
