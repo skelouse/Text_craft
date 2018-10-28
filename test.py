@@ -17,6 +17,10 @@ if True:
 
     def a2():
         return ("@@@@@      Skelouse      @@@@@\n")
+# Bugs
+
+    # future error, lol  burning enchanted wooden tools, won't be able to select which wood tool to burn
+
 
 # Defines cls() to clear the screen of prints
 def cls():
@@ -1300,6 +1304,7 @@ if True:
     ['log', 50000],
     ['stone', 20000],
     ['iron_block', 5000],
+    ['gold_block', 3500],
     ['diamond_block', 2000],
     ['obsidian', 10],
     ['bedrock', 3]
@@ -1526,7 +1531,7 @@ class farm():
             #['wheat', 1, 500, 0, 0, 0, 0, 3600, 1, 50000]
         #['bedrock', .0001]
             for i in all_farms:
-                if i[5] >= 1800:
+                if i[5] >= 1800 and i[3] == 1:
                     i[3] = 0
                     i[6] += 1800
 
@@ -1882,7 +1887,7 @@ class farm():
                                 store(choice_material[0], -100)
                                 store('stone', -100)
                                 store('dirt', -40)
-                                money_add(-100)
+                                money_add(-(select[2]))
                                 select = 'q'
                                 farming()                                               
 
@@ -2169,7 +2174,19 @@ def craft():
     ['wooden_sword', 'stick', 1, 'wood_plank', 2, 1],
     ['stone_sword', 'stick', 1, 'cobblestone', 2, 1],
     ['iron_sword', 'stick', 1, 'iron', 2, 1],
-    ['diamond_sword', 'stick', 1, 'diamond', 2, 1]
+    ['diamond_sword', 'stick', 1, 'diamond', 2, 1],
+    ['coal_block', 'coal', 9, 1],
+    ['iron_block', 'iron', 9, 1],
+    ['gold_block', 'gold', 9, 1],
+    ['diamond_block', 'diamond', 9, 1],
+    ['redstone_block', 'redstone', 9, 1],
+    ['coal', 'coal_block', 1, 9],
+    ['iron', 'iron_block', 1, 9],
+    ['gold', 'gold_block', 1, 9],
+    ['diamond', 'diamond_block', 1, 9],
+    ['redstone', 'redstone_block', 1, 9],
+    ['bedrock', 'diamond_block', 1, 'obsidian', 8, 1]
+
 
     ]
     crafting.sort()
@@ -3077,7 +3094,7 @@ def furnace():
     fuel_quantity = [
     ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1], ['wooden_pickaxe', 3], ['wooden_shovel', 2],
     ['wooden_axe', 3], ['wooden_sword', 3], ['log_helmet', 10], ['log_chestplate', 16],
-    ['log_leggings', 14], ['log_boots', 8]
+    ['log_leggings', 14], ['log_boots', 8], ['coal_block', 72]
     ]
 
     cook_output = [
@@ -3630,10 +3647,4 @@ if True:
 
 # end
 
-# Bugs
 
-# able to harvest twice for some reason after a certain amount of time…. Glitch with outsourcing the current time
-
-# future error, lol  burning enchanted wooden tools, won't be able to select which wood tool to burn
-
-# Building farm only subtracted 100 from bank
