@@ -121,6 +121,11 @@ try:
 except IndexError:
     current_time = math.floor(time.time())
 
+try:
+    furnace_level = base[16]
+except IndexError:
+    furnace_level = 1
+
 
 
 def cls():
@@ -263,6 +268,8 @@ animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
 
 animal_night = [
     'wolf', 'chicken', 'pig', 'cow','sheep',
+    'zombie', 'zombie', 'skeleton', 'skeleton',
+    'witch', 'slime', 'creeper', 'spider',
     'zombie', 'zombie', 'skeleton', 'skeleton',
     'witch', 'slime', 'creeper', 'spider'
 ]
@@ -1411,14 +1418,25 @@ class adventure():
 
     def break_tree():
         global current_axe
+        msg = ''
         z = 0
-        amount = 0
-        amount2 = 0
+        amount = 0 # logs
+        amount2 = 0 # apples
+        amount3 = 0
         achievements_list[2][0] += 1
 
-        if random.randint(0,100) < 90:
-            msg = ("breaking tree")
-            input(msg, [3, float(2/current_axe[4])])
+        amount = random.randint(4, 10)
+        amount2 = random.randint(1, 4)
+        if random.randint(0,100) > 90 and current_axe[0] != 'fist':
+            msg += '    BIG TREE!!!!\n'
+            amount = random.randint(12, 24)
+            amount2 = random.randint(2, 9)
+        amount3 = amount
+        while amount3 > 0:
+            msg += ("breaking log")
+            input(msg, [3, float(.5/current_axe[4])])
+            amount3 -= 1
+            msg = ''
 
             if current_axe[1] > 0 and current_axe[0] != 'fist':
                 current_axe[1] -= 1
@@ -1427,42 +1445,19 @@ class adventure():
                 input("Your axe has broken...\n", 0)
                 current_axe = ['fist', -1, 0, -1, .5]
 
-            amount = random.randint(4,8)
-            store('log', amount)
-            msg = ''
-            msg += (f"You got {amount} logs!\n")
+        store('log', amount)
+        msg = ''
+        msg += (f"You got {amount} logs!\n")
 
-            if random.randint(0,100) < 10:
-                amount2 = random.randint(1,4)
-                msg += (f"You got {amount2} apples!\n")
-                store('apple', amount2)
-            else:
-                msg += ("Guess you're going to the doctor today!\n")
-            input(msg, 0)
-
-        
+        if random.randint(0,100) < 10:
+            amount2 = random.randint(1,4)
+            msg += (f"You got {amount2} apples!\n")
+            store('apple', amount2)
         else:
-            msg = ("breaking big tree")
-            input(msg, [6, float(2/current_axe[4])])
+            msg += ("Guess you're going to the doctor today!\n")
 
-            if current_axe[1] > 0 and current_axe[0] != 'fist':
-                current_axe[1] -= 1
+        input(msg, 0)
 
-            if current_axe[1] == 0:
-                input("Your axe has broken...\n", 0)
-                current_axe = ['fist', -1, 0, -1, .5]
-
-            amount = random.randint(10,18)
-            store('log', amount)
-            msg = ''
-            msg += (f"You got {amount} logs!\n")
-            if random.randint(0,100) < 10:
-                amount2 = random.randint(1,9)
-                msg += (f"You got {amount2} apples!\n")
-                store('apple', amount2)
-            else:
-                msg += ("Guess you're going to the doctor today!\n")
-            input(msg, 0)
 
     #Defines what mob you will find on an adventure
     def mob():
@@ -2150,6 +2145,7 @@ def menu():
                 base.append(current_boots)
                 base.append(current_sword)
                 base.append(current_time)
+                base.append(furnace_level)
                 file.write("base = ")
                 file.write(str(base))
             input("BYEEEE\n", 0)
@@ -2160,6 +2156,7 @@ def menu():
 
 def craft():
     global crafting
+    crafting.sort()
     global inventory
     available = []
     item1 = False
@@ -2331,6 +2328,7 @@ def eat():
                 for x in edible:
                     if x[0] == i[0] and i[1] >= 1:
                         food_list.append(x[0])
+            food_list.sort()
             while query != 'q':
                 msg = ''
                 msg += health_bar()
@@ -2704,7 +2702,7 @@ def view_inventory():
     for i in inventory:
         if i[1] == 0:
             inventory.remove(i)
-    
+    inventory.sort()
     for i in inventory:
         #MAX len 17
         text = (f" {i[1]}-{i[0]}")
@@ -2781,6 +2779,7 @@ def view_equipment():
     global current_leggings
     global current_boots
     global equipment
+    equipment.sort()
     x = 0
     z = 0
     y = 1
@@ -2900,7 +2899,7 @@ def view_equipment():
 
         elif select == 'b':
             x = 0
-            while x != 50:
+            while x != 200:
                 x += 1
                 for i in equipment:
 
@@ -3000,16 +2999,45 @@ def bed_sleep():
     else:
         tick(100)
 
-
+#costs 23 cobblestone * current_level
+# add furnace_level to same
 def upgrade_furnace():
-    pass
+    
+    global furnace_level
+    have_enough = False
+    total_cobble = 0
+    select = 0
+    cost = (23 * furnace_level)
+    for i in inventory:
+        if i[0] == 'cobblestone':
+            if i[1] > cost:
+                total_cobble = i[1]
+                have_enough = True
+
+    if have_enough:
+        msg = ''
+        msg += str(f" Upgrading your lvl-{furnace_level}|furnace\n")
+        msg += str(f" costs {cost} cobblestone, continue? (y/n)")
+        select = input(msg, 1)
+        if select == 'y':
+            store('cobblestone', -(cost))
+            furnace_level += 1
+            msg = str(f" You upgrade your furnace to level {furnace_level}")
+            input(msg, 0)
+    else:
+        msg = str(f"You have {total_cobble}/{cost} needed cobblestone")
+        input(msg, 0)
 
 
 
 def furnace():
 
+    global furnace_level
+
     fuel_quantity = [
-    ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1]
+    ['coal', 8], ['log', 4], ['wood_plank', 2], ['stick', 1], ['wooden_pickaxe', 3], ['wooden_shovel', 2],
+    ['wooden_axe', 3], ['wooden_sword', 3], ['log_helmet', 10], ['log_chestplate', 16],
+    ['log_leggings', 14], ['log_boots', 8]
     ]
 
     cook_output = [
@@ -3019,6 +3047,9 @@ def furnace():
     ]
 
     gained = []
+    in_gained = False
+    used_fuel = []
+    in_used_fuel = False
     #left_over_fuel = 0
     #left_over_material = 0
 
@@ -3026,10 +3057,12 @@ def furnace():
     have_fuel = False
     furnace_have = False
     done = False
-    in_gained = False
+    have_fuel = False
     fuel = ''
     material = ''
     fuel_value = 0
+    select = 0
+    double = 1
     
 
     for i in inventory:
@@ -3046,21 +3079,26 @@ def furnace():
             if x[0] == i[0] and i[1] >= 1:
                 have_fuel = True
 
+    for i in equipment:
+        for x in fuel_quantity:
+            if x[0] == i[0] and i[1] >= 1:
+                have_fuel = True
+
     if furnace_have == False:
         input("Try crafting a furnace first", 0)
 
     else:
-        #   Upgrade furnacedef... (do you want to upgrade your furnace, (y)es)
-        #   else all
+        select = input("(u)pgrade your furnace?", 1)
+        if select == 'u':
+            upgrade_furnace()
+
         if can_cook == True and have_fuel == True:
             while done == False:
 
                 
-                input_fuel_count = 0
                 input_material_count = 0
                 selected_fuel = 0
                 selected_material = 0
-                available_fuel = 0
                 available_material = 0
                 cook_list = []
                 fuel_list = []
@@ -3075,6 +3113,14 @@ def furnace():
                         if x[0] == i[0] and i[1] >= 1:
                             fuel_list.append(x[0])
 
+                for i in equipment:
+                    for x in fuel_quantity:
+                        if x[0] == i[0]:
+                            fuel_list.append(x[0])
+
+                cook_list.sort()
+                fuel_list.sort()
+
 
                 msg = ''
 
@@ -3088,34 +3134,16 @@ def furnace():
                     selected_fuel = select_list(fuel_list, msg)
                     for i in inventory:
                         if selected_fuel == i[0] and i[1] > 0:
-                            available_fuel = i[1]
+                            fuel_count = i[1]
+                            have_fuel = True
+                            
+                    for i in equipment:
+                        if selected_fuel == i[0]:
+                            fuel_count = 1
+                            have_fuel = True
 
-                    msg += "Press (q) to quit cooking\n"
-                    msg += str(f"How many would you like to add (0 - {available_fuel})?\n")
-                    msg += "Simply press a number to add that many, press(d) when done -\n"
-                    while done2 == False:
-                        if input_fuel_count > 0:
-                            msg += str(input_fuel_count)
-                            msg += ' + '
-                        select = input(msg, 1)
-                        if select == 'd':
-                            if input_fuel_count > 0:
-                                fuel_count = input_fuel_count
-                                fuel = selected_fuel
-                            done2 = True
-                        elif select == 'q':
-                            done2 = True
-                            done = True
-                            fuel_count = 0
-                        else:
-                            try:
-                                if int(select) <= available_fuel:
-                                    input_fuel_count += select
-                                    available_fuel -= select
-                                else:
-                                    input("You don't have that many!", 0)
-                            except:
-                                input('(Invalid)', 0)
+                    fuel = selected_fuel
+                    
 
 
                 elif select == 'm':
@@ -3123,38 +3151,39 @@ def furnace():
                     done2 = False
                     msg = 'what material would you like to add?\n'
                     selected_material = select_list(cook_list, msg)
-                    for i in inventory:
-                        if selected_material == i[0] and i[1] > 0:
-                            available_material = i[1]
-                    msg += "Press (q) to quit cooking\n"
-                    msg += str(f"How many would you like to add (0 - {available_material})?\n")
-                    msg += "Simply press a number to add that many, press(d) when done -\n"
-                    
-                    while done2 == False:
-                        if input_material_count > 0:
-                            msg += str(input_material_count)
-                            msg += ' + '
-                        select = input(msg, 1)
-                        if select == 'd':
+                    if selected_material:
+                        for i in inventory:
+                            if selected_material == i[0] and i[1] > 0:
+                                available_material = i[1]
+                        msg += "Press (q) to quit cooking\n"
+                        msg += str(f"How many would you like to add (0 - {available_material})?\n")
+                        msg += "Simply press a number to add that many, press(d) when done -\n"
+                        
+                        while done2 == False:
                             if input_material_count > 0:
-                                material_count = input_material_count
-                                material = selected_material
-                            done2 = True
+                                msg += str(input_material_count)
+                                msg += ' + '
+                            select = input(msg, 1)
+                            if select == 'd':
+                                if input_material_count > 0:
+                                    material_count = input_material_count
+                                    material = selected_material
+                                done2 = True
 
-                        elif select == 'q':
-                            done2 = True
-                            done = True
-                            material_count = 0
+                            elif select == 'q':
+                                done2 = True
+                                done = True
+                                material_count = 0
 
-                        else:
-                            try:
-                                if int(select) <= available_material:
-                                    input_material_count += select
-                                    available_material -= select
-                                else:
-                                    input("You don't have that many!", 0)
-                            except:
-                                input('(Invalid)', 0)
+                            else:
+                                try:
+                                    if int(select) <= available_material:
+                                        input_material_count += select
+                                        available_material -= select
+                                    else:
+                                        input("You don't have that many!", 0)
+                                except:
+                                    input('(Invalid)', 0)
 
 
                 elif select == 'q':
@@ -3163,46 +3192,64 @@ def furnace():
                 else:
                     input('(Invalid)', 0)
 
-                for i in fuel_quantity:
-                    if fuel == fuel_quantity[0]:
-                        fuel_count *= fuel_quantity[1]
-
+                
                 try:
-
-                    while fuel_count > 0 and material_count > 0:
+                    msg = ''
+                    while have_fuel == True and material_count > 0:
                         cls()
-                        msg = ''
-                        if fuel_value == 0:
+                        
+                        if fuel_value == 0 and fuel_count > 0:
                             for i in fuel_quantity:
                                 if fuel == i[0]:
                                     fuel_value = i[1]
+                                    msg = ''
                                     msg += str(f"{fuel} added to flame...\n")
+                                    have_fuel = True
                                     store(fuel, -1)
                                     fuel_count -= 1
-                        
-                        material_count -= 1
-                        fuel_value -= 1
-                        msg += str(f"Cooking {material} with {fuel}")
-                        input(msg, [3, 1])# speed up with furnace level
-                        tick(1)
-                        in_gained = False
-                        for i in cook_output:
-                            if i[0] == material:
-                                z = 0
-                                for x in gained:
-                                    try:
-                                        if i[1] == x[0]:
-                                            x[1] += 1
-                                            in_gained = True
-                                    except TypeError:
-                                        pass
-                                    z += 1
-                                if in_gained == False:
-                                    gained.append([i[1], 1])
+                                    for x in used_fuel:
+                                        try:
+                                            if fuel == x[0]:
+                                                x[1] += 1
+                                                in_used_fuel = True
+                                                
+                                        except TypeError:
+                                            pass
+                                    if in_used_fuel == False:
+                                        used_fuel.append([fuel, 1])
+                                            
+                                            
+                                        
 
-
-                                store(i[1], 1)# chance of doubling with furnace level
-                                store(material, -1)
+                        elif fuel_value > 0:
+                            material_count -= 1
+                            fuel_value -= 1
+                            if random.randint(0,100) < (furnace_level * 2)
+                                double = 2
+                                msg += ("--Double bonus--")
+                            else:
+                                double = 1
+                            msg += str(f"Cooking {material} with {fuel}")
+                            input(msg, [3, float(1/furnace_level)])# speed up with furnace level
+                            msg = ''
+                            tick(1)
+                            in_gained = False
+                            for i in cook_output:
+                                if i[0] == material:
+                                    for x in gained:
+                                        try:
+                                            if i[1] == x[0]:
+                                                x[1] += double
+                                                in_gained = True
+                                        except TypeError:
+                                            pass
+                                    if in_gained == False:
+                                        gained.append([i[1], double])
+                                        
+                                    store(i[1], double)# chance of doubling with furnace level
+                                    store(material, -1)
+                        else:
+                            have_fuel = False
                 except UnboundLocalError:
                     pass
 
@@ -3212,8 +3259,13 @@ def furnace():
                     msg = ''
                     msg += 'You gained...\n'
                     for i in gained:
-                        msg += f" {i[1]} | {i[0]}"
+                        msg += f" {i[1]} | {i[0]}\n"
+                if used_fuel[0][1] > 0:
+                    msg += 'Fuel used...\n'
+                    for i in used_fuel:
+                        msg += f" {i[1]} | {i[0]}\n"
                     input(msg, 0)
+                
             except:
                 pass
 
@@ -3280,7 +3332,6 @@ def tick(x):
 
 def select_list(available, message):
     try:
-        test = available[0][0][1]
         scroll = True
         check = True
         select = 0
