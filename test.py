@@ -3224,7 +3224,7 @@ def furnace():
                         elif fuel_value > 0:
                             material_count -= 1
                             fuel_value -= 1
-                            if random.randint(0,100) < (furnace_level * 2)
+                            if random.randint(0,100) < (furnace_level * 2):
                                 double = 2
                                 msg += ("--Double bonus--")
                             else:
