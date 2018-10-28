@@ -4,410 +4,276 @@ import os
 import math
 import sys
 
-
-farm_materials = [
-    ['log', 50000],
-    ['stone', 20000],
-    ['iron_block', 5000],
-    ['diamond_block', 2000],
-    ['obsidian', 10],
-    ['bedrock', 3]
-]
-
-
-
-# [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
-try:
-    import textcraft123
-except ModuleNotFoundError:
-    achievements_list = [
-    # 0
-    [0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
-    # 1
-    [0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
-    # 2
-    [0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
-    # 3
-    [0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
-    # 4
-    [0, 0, 'Sorry, Mom',1 , 'killing a cow'],
-    # 5
-    [0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
-    # 6
-    [0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
-    # 7
-    [0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
-    # 8
-    [0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
-    # 9
-    [0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
-    # 10
-    [0, 0, 'Oink, Oink',100 , 'eat 100 items']
-    # 11 millionaire
-    ]
-
-
-    with open('textcraft123.py', 'w') as file:
-        file.write("inventory = []\n")
-        file.write("all_farms = []\n")
-        file.write("base = [0, 0, 100, 0, 0, 0, ['fist', -1, 0, -1, .5], 'user_id']\n")
-        file.write("equipment = []\n")
-        file.write("achievements_list =  ")
-        file.write(str(achievements_list))
-        print("Please hold...")
-        time.sleep(2)
-
-import textcraft123
-global inventory
-global all_farms
-global base
-global equipment
-
-inventory = textcraft123.inventory
-all_farms = textcraft123.all_farms
-base = textcraft123.base
-equipment = textcraft123.equipment
-achievements_list = textcraft123.achievements_list
-
-test = False
-
-night = base[0]
-furnace_have = base[1]
-health = base[2]
-wolves = base[3]
-clock = base[4]
-money = base[5]
-current_pickaxe = base[6]
-user_id = base[7]
-
-try:
-    current_shovel = base[8]
-except IndexError:
-    current_shovel = ['fist', -1, 0, -1, .5]
-
-try:
-    current_axe = base[9]
-except IndexError:
-    current_axe = ['fist', -1, 0, -1, .5]
-
-try:
-    current_helmet = base[10]
-except IndexError:
-    current_helmet = ['skin', -1, 0, -1, 1]
-
-try:
-    current_chestplate = base[11]
-except IndexError:
-    current_chestplate = ['skin', -1, 0, -1, 1]
-
-try:
-    current_leggings = base[12]
-except IndexError:
-    current_leggings = ['skin', -1, 0, -1, 1]
-
-try:
-    current_boots = base[13]
-except IndexError:
-    current_boots = ['skin', -1, 0, -1, 1]
-
-try:
-    current_sword = base[14]
-except IndexError:
-    current_sword = ['fist', -1, 0, -1, .5]
-
-height = 64
-try:
-    current_time = base[15]
-except IndexError:
-    current_time = math.floor(time.time())
-
-try:
-    furnace_level = base[16]
-except IndexError:
-    furnace_level = 1
-
-
+select = 0
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 cls()
-# for 1 material [item to craft, material, quantity of material, quantity received]
-# for 2 material [item to creaft, material, quantity of material, material2, quantity of material2, quantity received]
-crafting = [
-    ['furnace', 'cobblestone', 8, 1],
-    ['bed', 'wool', 3, 'wood_plank', 3, 1],
-    ['wood_plank', 'log', 1, 4],
-    ['stick', 'wood_plank', 2, 4],
-    ['fishing_rod', 'stick', 3, 'string', 2, 1],
-    ['bucket', 'iron', 3, 1],
-    ['torch', 'coal', 1,'stick', 1, 4],
-    ['crafting_table', 'wood_plank', 4, 1],
-    ['gold_pickaxe', 'stick', 2, 'gold', 3, 1],
-    ['wooden_pickaxe', 'stick', 2, 'wood_plank', 3, 1],
-    ['stone_pickaxe', 'stick', 2, 'cobblestone', 3, 1],
-    ['iron_pickaxe', 'stick', 2, 'iron', 3, 1],
-    ['diamond_pickaxe', 'stick', 2, 'diamond', 3, 1],
-    ['bread', 'wheat', 3, 1],
-    ['paper', 'sugar_cane', 3, 1],
-    ['book', 'leather', 1, 'paper', 3],
-    ['book_shelf', 'wood_plank', 6, 'book', 3],
-    ['log_helmet', 'log', 5, 1],
-    ['log_chestplate', 'log', 8, 1],
-    ['log_leggings', 'log', 7, 1],
-    ['log_boots', 'log', 4, 1],
-    ['iron_helmet', 'iron', 5, 1],
-    ['iron_chestplate', 'iron', 8, 1],
-    ['iron_leggings', 'iron', 7, 1],
-    ['iron_boots', 'iron', 4, 1],
-    ['gold_helmet', 'gold', 5, 1],
-    ['gold_chestplate', 'gold', 8, 1],
-    ['gold_leggings', 'gold', 7, 1],
-    ['gold_boots', 'gold', 4, 1],
-    ['diamond_helmet', 'diamond', 5, 1],
-    ['diamond_chestplate', 'diamond', 8, 1],
-    ['diamond_leggings', 'diamond', 7, 1],
-    ['diamond_boots', 'diamond', 4, 1],
-    ['bedrock_helmet', 'bedrock', 5, 1],
-    ['bedrock_chestplate', 'bedrock', 8, 1],
-    ['bedrock_leggings', 'bedrock', 7, 1],
-    ['bedrock_boots', 'bedrock', 4, 1],
-    ['lapis_helmet', 'lapis', 5, 1],
-    ['lapis_chestplate', 'lapis', 8, 1],
-    ['lapis_leggings', 'lapis', 7, 1],
-    ['lapis_boots', 'lapis', 4, 1],
-    ['gold_axe', 'stick', 2, 'gold', 3, 1],
-    ['wooden_axe', 'stick', 2, 'wood_plank', 3, 1],
-    ['stone_axe', 'stick', 2, 'cobblestone', 3, 1],
-    ['iron_axe', 'stick', 2, 'iron', 3, 1],
-    ['diamond_axe', 'stick', 2, 'diamond', 3, 1],
-    ['gold_shovel', 'stick', 2, 'gold', 1, 1],
-    ['wooden_shovel', 'stick', 2, 'wood_plank', 1, 1],
-    ['stone_shovel', 'stick', 2, 'cobblestone', 1, 1],
-    ['iron_shovel', 'stick', 2, 'iron', 1, 1],
-    ['diamond_shovel', 'stick', 2, 'diamond', 1, 1],
-    ['gold_sword', 'stick', 1, 'gold', 2, 1],
-    ['wooden_sword', 'stick', 1, 'wood_plank', 2, 1],
-    ['stone_sword', 'stick', 1, 'cobblestone', 2, 1],
-    ['iron_sword', 'stick', 1, 'iron', 2, 1],
-    ['diamond_sword', 'stick', 1, 'diamond', 2, 1]
-
-    
-]
 
 
+# Importing save file 'textcraft123'
+if True:
+    try:
+        import textcraft123
+    except ModuleNotFoundError:
+        achievements_list = [
+        # [variable ,Don't have have 0 or 1 ,goal , "achievement",reason for achievement]
+        # 0
+        [0, 0, 'Dirt Miner',100 , 'mining 100 dirt'],
+        # 1
+        [0, 0, 'Dirty Diamonds',2 , 'mining 2 diamonds'],
+        # 2
+        [0, 0, 'Tree Hugger(not)',50 , 'killing 50 trees'],
+        # 3
+        [0, 0, 'Cover Me Feet',1 , 'pouring water on lava (not dying)'],
+        # 4
+        [0, 0, 'Sorry, Mom',1 , 'killing a cow'],
+        # 5
+        [0, 0, 'Jill' ,20 , 'filling your bucket 20 times'],
+        # 6
+        [0, 0, 'Good morning, ladies',10 , 'catching 10 fish'],
+        # 7
+        [0, 0, 'Bitch Tamer',5 , 'taming 5 wolves'],
+        # 8
+        [0, 0, 'Dar3 D3vil',10 , 'killing 10 creepers'],
+        # 9
+        [0, 0, 'Worrisome',100 , 'opening inventory 100 times'],
+        # 10
+        [0, 0, 'Oink, Oink',100 , 'eat 100 items']
+        # 11 millionaire
+        ]
 
 
+        with open('textcraft123.py', 'w') as file:
+            file.write("inventory = []\n")
+            file.write("all_farms = []\n")
+            file.write("base = [0, 0, 100, 0, 0, 0, ['fist', -1, 0, -1, .5], 'user_id']\n")
+            file.write("equipment = []\n")
+            file.write("achievements_list =  ")
+            file.write(str(achievements_list))
+            print("Please hold...")
+            time.sleep(2)
+
+    import textcraft123
+    global inventory
+    global all_farms
+    global base
+    global equipment
+
+    inventory = textcraft123.inventory
+    all_farms = textcraft123.all_farms
+    base = textcraft123.base
+    equipment = textcraft123.equipment
+    achievements_list = textcraft123.achievements_list
+
+    test = False
+
+    night = base[0]
+    furnace_have = base[1]
+    health = base[2]
+    wolves = base[3]
+    clock = base[4]
+    money = base[5]
+    current_pickaxe = base[6]
+    user_id = base[7]
 
 
-# type, current durability
+    try:
+        current_shovel = base[8]
+    except IndexError:
+        current_shovel = ['fist', -1, 0, -1, .5]
+
+    try:
+        current_axe = base[9]
+    except IndexError:
+        current_axe = ['fist', -1, 0, -1, .5]
+
+    try:
+        current_helmet = base[10]
+    except IndexError:
+        current_helmet = ['skin', -1, 0, -1, 1]
+
+    try:
+        current_chestplate = base[11]
+    except IndexError:
+        current_chestplate = ['skin', -1, 0, -1, 1]
+
+    try:
+        current_leggings = base[12]
+    except IndexError:
+        current_leggings = ['skin', -1, 0, -1, 1]
+
+    try:
+        current_boots = base[13]
+    except IndexError:
+        current_boots = ['skin', -1, 0, -1, 1]
+
+    try:
+        current_sword = base[14]
+    except IndexError:
+        current_sword = ['fist', -1, 0, -1, .5]
+
+    height = 64
+    try:
+        current_time = base[15]
+    except IndexError:
+        current_time = math.floor(time.time())
+
+    try:
+        furnace_level = base[16]
+    except IndexError:
+        furnace_level = 1
 
 
-#type, current durability, power, total durability
-tools = [
-    ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2],
-    ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 4, 1561, 4],
-    ['gold_axe', 32, 2, 32, 4], ['wooden_axe', 59, 1, 59, 1], ['stone_axe', 131, 2, 131, 2],
-    ['iron_axe', 250, 3, 250, 3], ['diamond_axe', 1561, 4, 1561, 4],
-    ['gold_shovel', 32, 2, 32, 4], ['wooden_shovel', 59, 1, 59, 1], ['stone_shovel', 131, 2, 131, 2],
-    ['iron_shovel', 250, 3, 250, 3], ['diamond_shovel', 1561, 4, 1561, 4],
-    ['gold_sword', 32, 2, 32, 3], ['wooden_sword', 59, 1, 59, 1], ['stone_sword', 131, 2, 131, 2],
-    ['iron_sword', 250, 3, 250, 3], ['diamond_sword', 1561, 4, 1561, 4],
-    ['log_helmet', 56, 2, 56, 2], ['log_chestplate', 81, 1, 81, 2],
-    ['log_leggings', 76, 2, 76, 2],['log_boots', 66, 4, 66, 2],
-    ['iron_helmet', 166, 2, 166, 3], ['iron_chestplate', 241, 1, 241, 3],
-    ['iron_leggings', 226, 2, 226, 3],['iron_boots', 196, 4, 196, 3],
-    ['gold_helmet', 78, 2, 78, 3], ['gold_chestplate', 113, 1, 113, 3],
-    ['gold_leggings', 106, 2, 106, 3],['gold_boots', 92, 4, 92, 3],
-    ['diamond_helmet', 364, 2, 364, 4], ['diamond_chestplate', 529, 1, 529, 4],
-    ['diamond_leggings', 496, 2, 496, 4],['diamond_boots', 430, 4, 430, 4],
-    ['bedrock_helmet', 921, 2, 921, 5], ['bedrock_chestplate', 1338, 1, 1338, 5],
-    ['bedrock_leggings', 1254, 2, 1254, 5],['bedrock_boots', 1087, 4, 1087, 5],
-    ['lapis_helmet', 56, 2, 56, 1], ['lapis_chestplate', 81, 1, 81, 1],
-    ['lapis_leggings', 76, 2, 76, 1],['lapis_boots', 66, 4, 66, 1]
-]
+# TOOLS LISTS
+if True:
+    #type, current durability, power, total durability
+    # type, current durability, defense, total durability
+    tools = [
+        ['gold_pickaxe', 32, 2, 32, 4], ['wooden_pickaxe', 59, 1, 59, 1], ['stone_pickaxe', 131, 2, 131, 2],
+        ['iron_pickaxe', 250, 3, 250, 3], ['diamond_pickaxe', 1561, 4, 1561, 4],
+        ['gold_axe', 32, 2, 32, 4], ['wooden_axe', 59, 1, 59, 1], ['stone_axe', 131, 2, 131, 2],
+        ['iron_axe', 250, 3, 250, 3], ['diamond_axe', 1561, 4, 1561, 4],
+        ['gold_shovel', 32, 2, 32, 4], ['wooden_shovel', 59, 1, 59, 1], ['stone_shovel', 131, 2, 131, 2],
+        ['iron_shovel', 250, 3, 250, 3], ['diamond_shovel', 1561, 4, 1561, 4],
+        ['gold_sword', 32, 2, 32, 3], ['wooden_sword', 59, 1, 59, 1], ['stone_sword', 131, 2, 131, 2],
+        ['iron_sword', 250, 3, 250, 3], ['diamond_sword', 1561, 4, 1561, 4],
+        ['log_helmet', 56, 2, 56, 2], ['log_chestplate', 81, 1, 81, 2],
+        ['log_leggings', 76, 2, 76, 2],['log_boots', 66, 4, 66, 2],
+        ['iron_helmet', 166, 2, 166, 3], ['iron_chestplate', 241, 1, 241, 3],
+        ['iron_leggings', 226, 2, 226, 3],['iron_boots', 196, 4, 196, 3],
+        ['gold_helmet', 78, 2, 78, 3], ['gold_chestplate', 113, 1, 113, 3],
+        ['gold_leggings', 106, 2, 106, 3],['gold_boots', 92, 4, 92, 3],
+        ['diamond_helmet', 364, 2, 364, 4], ['diamond_chestplate', 529, 1, 529, 4],
+        ['diamond_leggings', 496, 2, 496, 4],['diamond_boots', 430, 4, 430, 4],
+        ['bedrock_helmet', 921, 2, 921, 5], ['bedrock_chestplate', 1338, 1, 1338, 5],
+        ['bedrock_leggings', 1254, 2, 1254, 5],['bedrock_boots', 1087, 4, 1087, 5],
+        ['lapis_helmet', 56, 2, 56, 1], ['lapis_chestplate', 81, 1, 81, 1],
+        ['lapis_leggings', 76, 2, 76, 1],['lapis_boots', 66, 4, 66, 1]
+    ]
 
-# type, current durability, defense, total durability
-armor = [
-    ['log_helmet', ]
-]
+    picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
 
-picks = ['gold_pickaxe', 'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'diamond_pickaxe']
+    shovels = ['gold_shovel', 'wooden_shovel', 'stone_shovel', 'iron_shovel', 'diamond_shovel']
 
-shovels = ['gold_shovel', 'wooden_shovel', 'stone_shovel', 'iron_shovel', 'diamond_shovel']
+    axes = ['gold_axe', 'wooden_axe', 'stone_axe', 'iron_axe', 'diamond_axe']
 
-axes = ['gold_axe', 'wooden_axe', 'stone_axe', 'iron_axe', 'diamond_axe']
+    swords = ['gold_sword', 'wooden_sword', 'stone_sword', 'iron_sword', 'diamond_sword']
 
-swords = ['gold_sword', 'wooden_sword', 'stone_sword', 'iron_sword', 'diamond_sword']
+    helmets = ['log_helmet', 'iron_helmet', 'gold_helmet', 'diamond_helmet',
+    'bedrock_helmet', 'lapis_helmet']
 
-helmets = ['log_helmet', 'iron_helmet', 'gold_helmet', 'diamond_helmet',
-'bedrock_helmet', 'lapis_helmet']
+    chestplates = ['log_chestplate', 'iron_chestplate', 'gold_chestplate', 'diamond_chestplate',
+    'bedrock_chestplate', 'lapis_chestplate']
 
-chestplates = ['log_chestplate', 'iron_chestplate', 'gold_chestplate', 'diamond_chestplate',
-'bedrock_chestplate', 'lapis_chestplate']
+    leggings = ['log_leggings', 'iron_leggings', 'gold_leggings', 'diamond_leggings',
+    'bedrock_leggings', 'lapis_leggings']
 
-leggings = ['log_leggings', 'iron_leggings', 'gold_leggings', 'diamond_leggings',
-'bedrock_leggings', 'lapis_leggings']
-
-boots = ['log_boots', 'iron_boots', 'gold_boots', 'diamond_boots',
-'bedrock_boots', 'lapis_boots']
+    boots = ['log_boots', 'iron_boots', 'gold_boots', 'diamond_boots',
+    'bedrock_boots', 'lapis_boots']
 
 
+#IMPORTING CURSES OR UNICURSES
+if True:
+    try:
 
-edible = [
-    ['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
-    ['apple', 8], ['rotten_flesh', 3], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
-    ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['bread', 20]
-]
-semi_edible = [
-    'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
-    'raw_lambchop', 'rotten_flesh'
-]
+        import curses
+        #--------------------------------------
+        def input_char(message,y):
+            win = curses.initscr()
+            win.clear()
+            msg1 = None
+            if y == 1:
+                msg1 = ''
+                for i in message:
+                    msg1 += str(i)
+                win.addstr(0, 0, msg1)
+                while True: 
+                    ch = win.getch()
+                    if ch in range(32, 127): break
+                    if ch == 10: break
+                    time.sleep(0.05)
+                curses.endwin()
+                return chr(ch)
+            elif y == 0:
+                msg1 = message
+                cls()
+                msg1 += ("\n\n(press any key)\n")
+                win.addstr(0, 0, msg1)
+                while True: 
+                    ch = win.getch()
+                    if ch in range(32, 127): break
+                    if ch == 10: break
+                    time.sleep(0.05)
+                curses.endwin()
+                return chr(ch)
 
-animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
-    'cow', 'cow', 'sheep', 'sheep', 'sheep']
-
-animal_night = [
-    'wolf', 'chicken', 'pig', 'cow','sheep',
-    'zombie', 'zombie', 'skeleton', 'skeleton',
-    'witch', 'slime', 'creeper', 'spider',
-    'zombie', 'zombie', 'skeleton', 'skeleton',
-    'witch', 'slime', 'creeper', 'spider'
-]
-
-friend = ['chicken', 'pig', 'cow', 'sheep']
-foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
-
-
-#['', ##, (0 for none, 1 for wood pick, 2 for stone pick, 3 for iron pick, 4 for unbreakable)]
-ores = [
-    ['bedrock', 5, 5], ['diamond', 14, 3], ['redstone', 14, 3],
-    ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 1], ['gravel', 61, 0],
-    ['cobblestone', 61, 1], ['dirt', 0, 0], ['obsidian', 0, 4]
-]
-
-cave_ores = [
-    ['diamond', 14, 3], ['redstone', 14, 3],
-    ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 1]
-]
-
-
-prices = [
-    ['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10],
-    ['iron', 5], ['leather', 5], ['redstone', 5], ['obsidian', 20], ['stone', 3],
-    ['bedrock', 340]
-]
-try:
-
-    import curses
-    #--------------------------------------
-    def input_char(message,y):
-        win = curses.initscr()
-        win.clear()
-        msg1 = None
-        if y == 1:
-            msg1 = ''
-            for i in message:
-                msg1 += str(i)
-            win.addstr(0, 0, msg1)
-            while True: 
-                ch = win.getch()
-                if ch in range(32, 127): break
-                if ch == 10: break
-                time.sleep(0.05)
-            curses.endwin()
-            return chr(ch)
-        elif y == 0:
-            msg1 = message
-            cls()
-            msg1 += ("\n\n(press any key)\n")
-            win.addstr(0, 0, msg1)
-            while True: 
-                ch = win.getch()
-                if ch in range(32, 127): break
-                if ch == 10: break
-                time.sleep(0.05)
-            curses.endwin()
-            return chr(ch)
-
-        else:
-            x = 0
-            iterations = y[0]# number of iterations
-            z = y[1]
-            
-            msg1 = message
-
-            msg1 += '.'
-            win.addstr(0, 0, msg1)
-            try:
-                time.sleep(y[2])
-            except:
-                pass
-                
-            curses.endwin()
-            iterations -= 1
-            if iterations != -1:
-                input(msg1, [iterations, z, z])
             else:
-                pass
-
-                    
+                x = 0
+                iterations = y[0]# number of iterations
+                z = y[1]
                 
+                msg1 = message
 
-except:
-    import unicurses
-    #--------------------------------------
-    def input_char(message,y):
-        #try:
-        msg1 = None
-        if y == 1:
-            stdscr = unicurses.initscr()
-            unicurses.clear()
-            msg1 = ''
-            for i in message:
-                msg1 += str(i)
-            unicurses.addstr(msg1, 0)
-            while True: 
-                ch = unicurses.getch()
-                if ch in range(32, 127): break
-                if ch == 10: break
-                time.sleep(0.05)
-            unicurses.endwin()
-            return chr(ch)
-        elif y == 0:
-            stdscr = unicurses.initscr()
-            unicurses.clear()
-            msg1 = message
-            msg1 += ("\n\n(press any key)\n")
-            unicurses.addstr(msg1, 0)
-            while True: 
-                ch = unicurses.getch()
-                if ch in range(32, 127): break
-                if ch == 10: break
-                time.sleep(0.05)
-            unicurses.endwin()
-            return chr(ch)
-        else:
-            stdscr = unicurses.initscr()        
-            unicurses.clear()
-            x = 0
-            iterations = y[0]# number of iterations
-            z = y[1]# sleep time
-            
-            msg1 = message
-
-            unicurses.addstr(msg1, 0)
-            while True:
-                unicurses.refresh()
-                time.sleep(z)
-                break
-            unicurses.endwin()
-            
-            while iterations != 0:
                 msg1 += '.'
-                stdscr = unicurses.initscr()        
-                
+                win.addstr(0, 0, msg1)
+                try:
+                    time.sleep(y[2])
+                except:
+                    pass
+                    
+                curses.endwin()
                 iterations -= 1
+                if iterations != -1:
+                    input(msg1, [iterations, z, z])
+                else:
+                    pass
+
+                        
+                    
+
+    except:
+        import unicurses
+        #--------------------------------------
+        def input_char(message,y):
+            #try:
+            msg1 = None
+            if y == 1:
+                stdscr = unicurses.initscr()
+                unicurses.clear()
+                msg1 = ''
+                for i in message:
+                    msg1 += str(i)
+                unicurses.addstr(msg1, 0)
+                while True: 
+                    ch = unicurses.getch()
+                    if ch in range(32, 127): break
+                    if ch == 10: break
+                    time.sleep(0.05)
+                unicurses.endwin()
+                return chr(ch)
+            elif y == 0:
+                stdscr = unicurses.initscr()
+                unicurses.clear()
+                msg1 = message
+                msg1 += ("\n\n(press any key)\n")
+                unicurses.addstr(msg1, 0)
+                while True: 
+                    ch = unicurses.getch()
+                    if ch in range(32, 127): break
+                    if ch == 10: break
+                    time.sleep(0.05)
+                unicurses.endwin()
+                return chr(ch)
+            else:
+                stdscr = unicurses.initscr()        
+                unicurses.clear()
+                x = 0
+                iterations = y[0]# number of iterations
+                z = y[1]# sleep time
                 
+                msg1 = message
+
                 unicurses.addstr(msg1, 0)
                 while True:
                     unicurses.refresh()
@@ -415,11 +281,26 @@ except:
                     break
                 unicurses.endwin()
                 
+                while iterations != 0:
+                    msg1 += '.'
+                    stdscr = unicurses.initscr()        
+                    
+                    iterations -= 1
+                    
+                    unicurses.addstr(msg1, 0)
+                    while True:
+                        unicurses.refresh()
+                        time.sleep(z)
+                        break
+                    unicurses.endwin()
+                    
+                    
                 
-            
 
 
-    #--------------------------------------
+        #--------------------------------------
+
+
 def input(x,y):
     c = input_char(x,y)
     try:
@@ -427,14 +308,22 @@ def input(x,y):
     except:
         return c
 
+
 def money_add(x):
+
     global money
     money = money + x
 
 
-
 class farm():
-        
+    farm_materials = [
+    ['log', 50000],
+    ['stone', 20000],
+    ['iron_block', 5000],
+    ['diamond_block', 2000],
+    ['obsidian', 10],
+    ['bedrock', 3]
+    ]
     def farming():
 
         global money
@@ -1047,7 +936,6 @@ class farm():
             else:
                 pass
 
-# END OF FARM
 
 def defense(x):
     
@@ -1089,8 +977,7 @@ def defense(x):
             return round((defense_average)*3)
         else:
             return 0
-
-    
+ 
 
 def damage():
 
@@ -1119,8 +1006,52 @@ def damage():
                 current_sword = ['fist', -1, 0, -1, .5]
         return pain
 
+
 class adventure():
 
+    edible = [
+        ['raw_porkchop', 5], ['raw_beef', 5], ['cooked_porkchop', 20], ['cooked_beef', 20],
+        ['apple', 8], ['rotten_flesh', 3], ['raw_fish', 5], ['cooked_fish', 15], ['cooked_chicken', 20],
+        ['cooked_lambchop', 20], ['raw_chicken', 5], ['raw_lambchop', 5], ['bread', 20]
+    ]
+    semi_edible = [
+        'raw_porkchop', 'raw_beef', 'raw_fish', 'raw_chicken',
+        'raw_lambchop', 'rotten_flesh'
+    ]
+
+    animal = ['wolf', 'chicken', 'chicken', 'chicken', 'pig', 'pig', 'pig', 'cow',
+        'cow', 'cow', 'sheep', 'sheep', 'sheep']
+
+    animal_night = [
+        'wolf', 'chicken', 'pig', 'cow','sheep',
+        'zombie', 'zombie', 'skeleton', 'skeleton',
+        'witch', 'slime', 'creeper', 'spider',
+        'zombie', 'zombie', 'skeleton', 'skeleton',
+        'witch', 'slime', 'creeper', 'spider'
+    ]
+
+    friend = ['chicken', 'pig', 'cow', 'sheep']
+    foe = ['zombie', 'skeleton', 'witch', 'spider', 'slime', 'creeper']
+
+
+    #['', ##, (0 for none, 1 for wood pick, 2 for stone pick, 3 for iron pick, 4 for unbreakable)]
+    ores = [
+        ['bedrock', 5, 5], ['diamond', 14, 3], ['redstone', 14, 3],
+        ['gold_ore', 30, 3], ['lapis', 30, 3], ['lava', 30], ['iron_ore', 61, 2], ['coal', 61, 1], ['gravel', 61, 0],
+        ['cobblestone', 61, 1], ['dirt', 0, 0], ['obsidian', 0, 4]
+    ]
+
+    cave_ores = [
+        ['diamond', 14, 3], ['redstone', 14, 3],
+        ['gold_ore', 30, 3], ['lapis', 30, 3], ['iron_ore', 61, 2], ['coal', 61, 1]
+    ]
+
+
+    prices = [
+        ['log', 1], ['cobble', 2], ['gravel', 2], ['diamond', 20], ['apple', 10],
+        ['iron', 5], ['leather', 5], ['redstone', 5], ['obsidian', 20], ['stone', 3],
+        ['bedrock', 340]
+    ]
     # Defines what you find on an adventure
     def adv():
 
@@ -1128,10 +1059,10 @@ class adventure():
         search = ['tree','tree', 'tree', 'tree',
                   'tree', 'tree', 'river', 'animal', 'animal', 'cave']
         if adventure.lapis_armor():
-            if random.randint(0,100) < 60:
+            if random.randint(0,100) < 80:
                 search.append('villager')
         else:
-            if random.randint(0,100) < 10:
+            if random.randint(0,100) < 25:
                 search.append('villager')
 
         end = search[random.randint(0, (len(search)-1))]
@@ -1533,9 +1464,10 @@ class adventure():
 
             if select == 's' and have_item_sell:
                 msg = ''
-                msg += (f"How many {item_for_sale[0]} ${item_for_sale[1]} would you like to sell? (0-{quantity_sell})\n")
+                msg += (f"How many {item_for_sale[0]} ${item_for_sale[1]} would you like to sell?\n")
+
+                select = two_digit_select(msg, quantity_sell)
                 try:
-                    select = int(input(str(msg), 1))
                     if 1 <= select <= quantity_sell:
                         msg = ''
                         msg += (f"Selling {select} {item_for_sale[0]} to Villager\n")
@@ -1545,35 +1477,27 @@ class adventure():
                         msg += (f"You get ${money_added}\n")
                         money_add(money_added)
                         input(msg, 0)
+                except TypeError:
+                    pass
 
-                    elif select > quantity_sell:
-                        input("You don't have that many!\n", 0)
-
-                    else:
-                        input("Invalid", 0)
-                except(ValueError, IndexError, TypeError):
-                    input("Invalid", 0)
 
             elif select == 'b' and have_item_buy:
                 msg = ''
-                msg += (f"How many {item_for_buy[0]} would you like to buy? (0-{quantity_buy})\n")
+                msg += (f"How many {item_for_buy[0]} would you like to buy?\n")
+
                 try:
-                    select = int(input(str(msg), 1))
+                    select = two_digit_select(msg, quantity_buy)
                     if 1 <= select <= quantity_buy:
                         msg = ''
-                        msg += (f"Buying {select} {item_for_buy[0]} to Villager\n")   
+                        msg += str(f"Buying {select} {item_for_buy[0]} from Villager for ${(item_for_buy[1] * (select))}\n")   
                         store((item_for_buy[0]), select)
                         money_added = item_for_buy[1] * -(select)
                         msg += (f"You get {select} {item_for_buy[0]}!\n")
                         money_add(money_added)
                         input(msg, 0)
 
-                    elif select > quantity_buy:
-                        input("You don't have enough money!\n", 0)
-                    else:
-                        input("Invalid", 0)
-                except(ValueError, IndexError,TypeError):
-                    input("Invalid", 0)
+                except TypeError:
+                    pass
 
             elif select == 's':
                 input(f"You dont have any {item_for_sale[0]}.\n", 0)
@@ -1642,7 +1566,9 @@ class adventure():
                     msg += health_bar()
                     msg += str(f"You run away and the {mob} hits you for 5 hp\n")
                     input(msg, 0)
-                    cls()
+                    # DEATH                    
+                    if health <= 0:
+                        adventure.dead()
 
     # function for killing['chicken', 'pig', 'cow', 'sheep]
     def kill(mob):
@@ -1686,6 +1612,8 @@ class adventure():
     def fight(mob):
 
         global health
+        msg = ''
+        msg += health_bar()
         
         #    print("What weapon")
 
@@ -1695,33 +1623,31 @@ class adventure():
             while mob_health > 0:
                 cls()
                 health_bar()
-
+                
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
                     hurt = defense(hurt)
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += str(f"The zombie bites you taking {hurt} hp\n")
-                    input(msg, 0)
+                    msg += str(f"The zombie bites you!\n")
 
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
+                    
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1741,8 +1667,6 @@ class adventure():
             mob_health = 20
 
             while mob_health > 0:
-                cls()
-                health_bar()
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
@@ -1750,26 +1674,23 @@ class adventure():
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += (f"The skeleton shoots you taking {hurt} hp\n")
-                    input(msg, 0)
+                    msg += (f"The skeleton shoots you!\n")
 
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1797,35 +1718,30 @@ class adventure():
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += (f"The witch throws a damage potion at you taking {hurt} hp\n")
-                    input(msg, 0)
+                    msg += (f"The witch throws a damage potion at you!\n")
 
 
-                if random.randint(0,100) < 10:
-                    msg = ''
-                    msg += health_bar()
+                elif random.randint(0,100) < 10:
                     msg += ("The witch heals itself with a potion")
-                    input(msg, 0)
                     mob_health += 10
                     if mob_health > 26:
                         mob_health = 26
+
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1845,8 +1761,6 @@ class adventure():
             mob_health = 16
 
             while mob_health > 0:
-                cls()
-                health_bar()
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
@@ -1854,26 +1768,23 @@ class adventure():
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += (f"The slime stomps on you taking {hurt} hp\n")
-                    input(msg, 0)
+                    msg += (f"The slime stomps on you!\n")
 
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1903,27 +1814,26 @@ class adventure():
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += (f"The creeper blows up hurting you {hurt} hp\n")
+                    msg += (f"The creeper blows up!\n")
                     input(msg, 0)
                     mob_health = 0
                     blow_up = True
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
+
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
                 # DEATH                    
                 if health <= 0:
                     adventure.dead()
@@ -1943,8 +1853,6 @@ class adventure():
             mob_health = 16
 
             while mob_health > 0:
-                cls()
-                health_bar()
 
                 if random.randint(0,100) < 25:
                     hurt = random.randint(3,10)
@@ -1952,26 +1860,23 @@ class adventure():
                     health -= hurt
                     msg = ''
                     msg += health_bar()
-                    msg += (f"The spider bites you taking {hurt} hp\n")
-                    input(msg, 0)
+                    msg += (f"The spider bites you!\n")
 
                 else:
-                    msg = ''
-                    msg += health_bar()
-                    msg += str("Attack mob!\n")
-                    input(msg, 0)
                     if random.randint(0,100) < 90:
                         damage2 = damage()
                         mob_health -= damage2
-                        msg = ''
-                        msg += health_bar()
                         msg += (f"You hit the {mob} for {damage2} hp\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
-                    else:
                         msg = ''
                         msg += health_bar()
-                        msg += ("You miss")
+                    else:
+                        msg += ("You miss\n")
+                        msg += str("Attack mob!\n")
                         input(msg, 0)
+                        msg = ''
+                        msg += health_bar()
               
                 if health <= 0:
                     adventure.dead()
@@ -2047,12 +1952,10 @@ class adventure():
             and 'lapis' in current_leggings[0] and 'lapis' in current_boots[0]):
             return True
 
-# END OF ADVENTURE
 
-
-
-# x is whether to show all achievements or check for gained and notify(0 or 1)
 def achievements(x):
+
+    # x is whether to show all achievements or check for gained and notify(0 or 1)
     has = False
     msg = ''
     if x == 0:
@@ -2080,8 +1983,8 @@ def achievements(x):
         return msg
 
 
-
 def menu():
+
     msg = ''
     msg += ("What would you like to do?\n")
     msg += ("""    (f)arm
@@ -2155,7 +2058,68 @@ def menu():
 
 
 def craft():
-    global crafting
+
+    # for 1 material [item to craft, material, quantity of material, quantity received]
+    # for 2 material [item to creaft, material, quantity of material, material2, quantity of material2, quantity received]
+    crafting = [
+    ['furnace', 'cobblestone', 8, 1],
+    ['bed', 'wool', 3, 'wood_plank', 3, 1],
+    ['wood_plank', 'log', 1, 4],
+    ['stick', 'wood_plank', 2, 4],
+    ['fishing_rod', 'stick', 3, 'string', 2, 1],
+    ['bucket', 'iron', 3, 1],
+    ['torch', 'coal', 1,'stick', 1, 4],
+    ['crafting_table', 'wood_plank', 4, 1],
+    ['gold_pickaxe', 'stick', 2, 'gold', 3, 1],
+    ['wooden_pickaxe', 'stick', 2, 'wood_plank', 3, 1],
+    ['stone_pickaxe', 'stick', 2, 'cobblestone', 3, 1],
+    ['iron_pickaxe', 'stick', 2, 'iron', 3, 1],
+    ['diamond_pickaxe', 'stick', 2, 'diamond', 3, 1],
+    ['bread', 'wheat', 3, 1],
+    ['paper', 'sugar_cane', 3, 1],
+    ['book', 'leather', 1, 'paper', 3],
+    ['book_shelf', 'wood_plank', 6, 'book', 3],
+    ['log_helmet', 'log', 5, 1],
+    ['log_chestplate', 'log', 8, 1],
+    ['log_leggings', 'log', 7, 1],
+    ['log_boots', 'log', 4, 1],
+    ['iron_helmet', 'iron', 5, 1],
+    ['iron_chestplate', 'iron', 8, 1],
+    ['iron_leggings', 'iron', 7, 1],
+    ['iron_boots', 'iron', 4, 1],
+    ['gold_helmet', 'gold', 5, 1],
+    ['gold_chestplate', 'gold', 8, 1],
+    ['gold_leggings', 'gold', 7, 1],
+    ['gold_boots', 'gold', 4, 1],
+    ['diamond_helmet', 'diamond', 5, 1],
+    ['diamond_chestplate', 'diamond', 8, 1],
+    ['diamond_leggings', 'diamond', 7, 1],
+    ['diamond_boots', 'diamond', 4, 1],
+    ['bedrock_helmet', 'bedrock', 5, 1],
+    ['bedrock_chestplate', 'bedrock', 8, 1],
+    ['bedrock_leggings', 'bedrock', 7, 1],
+    ['bedrock_boots', 'bedrock', 4, 1],
+    ['lapis_helmet', 'lapis', 5, 1],
+    ['lapis_chestplate', 'lapis', 8, 1],
+    ['lapis_leggings', 'lapis', 7, 1],
+    ['lapis_boots', 'lapis', 4, 1],
+    ['gold_axe', 'stick', 2, 'gold', 3, 1],
+    ['wooden_axe', 'stick', 2, 'wood_plank', 3, 1],
+    ['stone_axe', 'stick', 2, 'cobblestone', 3, 1],
+    ['iron_axe', 'stick', 2, 'iron', 3, 1],
+    ['diamond_axe', 'stick', 2, 'diamond', 3, 1],
+    ['gold_shovel', 'stick', 2, 'gold', 1, 1],
+    ['wooden_shovel', 'stick', 2, 'wood_plank', 1, 1],
+    ['stone_shovel', 'stick', 2, 'cobblestone', 1, 1],
+    ['iron_shovel', 'stick', 2, 'iron', 1, 1],
+    ['diamond_shovel', 'stick', 2, 'diamond', 1, 1],
+    ['gold_sword', 'stick', 1, 'gold', 2, 1],
+    ['wooden_sword', 'stick', 1, 'wood_plank', 2, 1],
+    ['stone_sword', 'stick', 1, 'cobblestone', 2, 1],
+    ['iron_sword', 'stick', 1, 'iron', 2, 1],
+    ['diamond_sword', 'stick', 1, 'diamond', 2, 1]
+
+    ]
     crafting.sort()
     global inventory
     available = []
@@ -2246,29 +2210,15 @@ def craft():
                                 possible = var1
 
 
-                while done == False:
-                    msg = ''
-                    msg += (f"Make {select} how many times? 0-{possible}(enter 0 to cancel)\n")
+                msg = ''
+                msg += (f"Make {select} how many times?\n")
+                select2 = two_digit_select(msg, possible)
+                try:
+                    quantity2 = int(select2)
+                    done = True
+                except (TypeError, ValueError):
+                    done2 = True
 
-                    try:
-                        select2 = int(input(str(msg), 1))
-                        quantity2 = select2
-
-                        if quantity2 < 0:
-                            input("Must be greater than zero\n", 0)
-
-                        elif quantity2 == 0:
-                            done = True
-                            done2 = True
-
-                        elif quantity2 <= possible:
-                            done = True
-
-                        else:
-                            input("You don't have that many!\n", 0)
-
-                    except (TypeError, ValueError) as e:
-                        input("Numbers only please", 0)
 
 
                 # Where the crafting actually happens
@@ -2295,9 +2245,11 @@ def craft():
             input(msg, [3, .5])
             input(msg2, 0)
 
-    
+
 def a2():
     return ("@@@@@      Skelouse      @@@@@\n")
+
+
 def eat():
     global health
     health_added = 0
@@ -2460,14 +2412,13 @@ def eat():
                         have_food = False
 
 
+def store(x,y):
 
-# ['stick', 'wood_plank', 2, 4]
+    # ['stick', 'wood_plank', 2, 4]
     # ['fishing_rod', 'stick', 3, 'string', 2, 1]]
     # x is the item to add
     # y is the quanity
     # This is how all items are stored into the inventory
-def store(x,y):
-
     added = False
     in_tools = False
     z = 0
@@ -2500,9 +2451,9 @@ def store(x,y):
             inventory.append([x, y])
 
 
-# Takes current height and returns the available ores
 def ore(height):
 
+    # Takes current height and returns the available ores
     global ores
     mineable = []
 
@@ -2516,7 +2467,6 @@ def ore(height):
         if achievements_list[0][1] == 0:
             achievements_list[0][0] += 1             
         return 'dirt'
-
 
 
 def dig_down(height):
@@ -2660,10 +2610,11 @@ def dig_down(height):
             msg += ("You can't mine through bedrock silly!\n")
             msg += ("Returning to surface")
             input(msg, 0)
-    
-    
-# current_pickaxe = ['wooden_pickaxe', 33, 1, 59]
+
+
 def pickaxe(block):
+
+    # current_pickaxe = ['wooden_pickaxe', 33, 1, 59]
     global current_pickaxe
     can_mine = False
     for i in ores:
@@ -2971,13 +2922,12 @@ def health_bar():
         msg += str("  Armor (" + ("%" * int(defense(0))) + ')\n')
     return msg
 
+
 def old_equipment(x):
     if x[0] == 'fist' or x[0] == 'skin':
         pass
     else:
         equipment.append(x)
-
-
 
 
 def bed_sleep():
@@ -2999,10 +2949,11 @@ def bed_sleep():
     else:
         tick(100)
 
-#costs 23 cobblestone * current_level
-# add furnace_level to same
+
 def upgrade_furnace():
-    
+
+    # costs 23 cobblestone * current_level
+    # add furnace_level to same
     global furnace_level
     have_enough = False
     total_cobble = 0
@@ -3028,6 +2979,46 @@ def upgrade_furnace():
         msg = str(f"You have {total_cobble}/{cost} needed cobblestone")
         input(msg, 0)
 
+
+def two_digit_select(message, x):
+
+    # x is the available_material(max)
+    done2 = False
+    input_material_count = 0
+    material_count = 0
+    material = 0
+    available_material = x
+    msg = ''
+    msg += "Press (q) to quit.\n"
+    msg += message
+    msg += str(f"(0 - {available_material})?\n")
+    msg += "Simply press a number to add that many, press(d) when done -\n"
+    
+    while done2 == False:
+        if input_material_count > 0:
+            msg += str(input_material_count)
+            msg += ' + '
+        select = input(msg, 1)
+        if select == 'd':
+            if input_material_count > 0:
+                material_count = input_material_count
+            done2 = True
+
+        elif select == 'q':
+            done2 = True
+            material_count = 'q'
+
+        else:
+            try:
+                if int(select) <= available_material:
+                    input_material_count += select
+                    available_material -= select
+                else:
+                    input("You don't have that many!", 0)
+            except:
+                input('(Invalid)', 0)
+
+    return material_count
 
 
 def furnace():
@@ -3282,9 +3273,10 @@ def furnace():
                 input(msg, 0)
 
 
-# tick(0) checks the clock
-# tick(x) checks clock and moves time forward by x
 def tick(x):
+
+    # tick(0) checks the clock
+    # tick(x) checks clock and moves time forward by x
 
     global clock
     global night
@@ -3330,7 +3322,9 @@ def tick(x):
             clock = 0
             return msg
 
+
 def select_list(available, message):
+
     try:
         scroll = True
         check = True
@@ -3431,11 +3425,10 @@ def select_list(available, message):
                         input("(Invalid)", 0)
                         check = False
 
-    
 
-
-# x is the list to print. y is the list indice(-1 for no indice) diamond_pickaxe
 def number_list(x,y):
+
+    # x is the list to print. y is the list indice(-1 for no indice) diamond_pickaxe
     m = 1
     k = 0
     var1 = 0
@@ -3471,7 +3464,6 @@ def number_list(x,y):
         return msg
 
 
-select = 0
 def start():
 
     # variables
@@ -3543,8 +3535,6 @@ def start():
     elif select == 'm':# menu
         cls()
         menu()
-    
-
 
 
 def version(x):
@@ -3559,38 +3549,40 @@ def version(x):
         pass
 
 
-
 #version('test')
 version("Alpha 1.1")
 
-if user_id != 'user_id':
-    msg = (f"Welcome back, {user_id}!")
-    input(msg, 0)
-    start()
 
-while True:
-    if test:
+# Program runs
+if True:
+    if user_id != 'user_id':
+        msg = (f"Welcome back, {user_id}!")
+        input(msg, 0)
         start()
-    else:
-        try:
-            cls()
-            if user_id == 'user_id':
 
-                select = 0
-                id = ''
-                msg = ("Pick a user id (Press (.)PERIOD when done)\n > ")
-                while select != '.':
-                    select = input(msg, 1)
-                    id += select
-                    msg += select
-                
-                user_id = id[0:(len(id)-1)]
-                msg = (f"Welcome {user_id}!")
-                input(msg, 0)
-                start()
-
-            else:
+    while True:
+        if test:
+            start()
+        else:
+            try:
                 cls()
-                start()
-        except Exception:
-            input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
+                if user_id == 'user_id':
+
+                    select = 0
+                    id = ''
+                    msg = ("Pick a user id (Press (.)PERIOD when done)\n > ")
+                    while select != '.':
+                        select = input(msg, 1)
+                        id += select
+                        msg += select
+                    
+                    user_id = id[0:(len(id)-1)]
+                    msg = (f"Welcome {user_id}!")
+                    input(msg, 0)
+                    start()
+
+                else:
+                    cls()
+                    start()
+            except Exception:
+                input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
