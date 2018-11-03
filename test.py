@@ -3,6 +3,8 @@ import time
 import os
 import math
 import sys
+
+
 if True:
 
     def a4():
@@ -21,6 +23,7 @@ if True:
 
     # future error, lol  burning enchanted wooden tools, won't be able to select which wood tool to burn
 
+    # dying breaks achievement list
 
 # Defines cls() to clear the screen of prints
 def cls():
@@ -168,6 +171,7 @@ def input(x,y):
 
 
 # Checks if testing or not, prints on start screen
+test = False
 def version(x):
     global test
     msg = ''
@@ -178,12 +182,6 @@ def version(x):
         test = True
     else:
         pass
-
-
-
-#version('test')
-version("Alpha 1.2")
-
 
 
 # Importing save file 'textcraft123'
@@ -216,7 +214,7 @@ if True:
         # 10
         [0, 0, 'Oink, Oink',100 , 'eat 100 items']
         # 11 millionaire
-        ]
+        ]        
 
 
         with open('textcraft123.py', 'w') as file:
@@ -1436,7 +1434,7 @@ class farm():
                     select = input(str(msg), 1)
 
                     if select == 'y':
-                        build_farm()
+                        farm.build_farm()
                         select = 'q'
                     else:
                         select = 'q'
@@ -3404,6 +3402,7 @@ def select_list(available, message):
             available2 = available
             while scroll:
                 msg = ''
+                
                 var = len(available2)
                 if len(available2) > 9 and check:
                     if select == 's':
@@ -3421,7 +3420,7 @@ def select_list(available, message):
                 if var > 9:
                     msg += ("Press (s) to scroll!\n")
                     msg += ("====================\n")
-
+                msg += available
                 msg += number_list(available, 0)
                 msg += ("\n")
                 msg += message
@@ -3606,45 +3605,43 @@ def start():
         cls()
         menu()
 
-
-# Program runs
-if True:
-
     cls()
     select = 0
 
-    if user_id != 'user_id':
-        msg = (f"Welcome back, {user_id}!")
-        input(msg, 0)
+    
+
+
+version('test')
+version('pre-alpha 3.0')
+
+# App runs
+while True:
+    if test:
         start()
+    else:
+        try:
+            if user_id == 'user_id':
 
-    while True:
-        if test:
-            start()
-        else:
-            try:
-                cls()
-                if user_id == 'user_id':
+                select = 0
+                id = ''
+                msg = ("Pick a user id (Press (.)PERIOD when done)\n > ")
+                while select != '.':
+                    select = input(msg, 1)
+                    id += select
+                    msg += select
+                for x in id:
+                    x.replace(".", "")
+                user_id = id
+                msg = (f"Welcome {user_id}!")
+                input(msg, 0)
+                start()
 
-                    select = 0
-                    id = ''
-                    msg = ("Pick a user id (Press (.)PERIOD when done)\n > ")
-                    while select != '.':
-                        select = input(msg, 1)
-                        id += select
-                        msg += select
-                    
-                    user_id = id[0:(len(id)-1)]
-                    msg = (f"Welcome {user_id}!")
-                    input(msg, 0)
-                    start()
-
-                else:
-                    cls()
-                    start()
-            except Exception:
-                input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
-
+            else:
+                msg = (f"Welcome back, {user_id}")
+                input(msg, 0)
+                start()
+        except Exception:
+            input("This is broken lol Error### bleehgfajfasaofowaowo.   wkkd        .\n", 0)
 # end
 
 
