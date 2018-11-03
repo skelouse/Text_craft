@@ -3611,7 +3611,7 @@ def start():
     
 
 
-version('test')
+#version('test')
 version('pre-alpha 3.0')
 
 # App runs
